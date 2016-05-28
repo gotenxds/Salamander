@@ -1,0 +1,52 @@
+{"frames": {
+
+"fire_spark_1.png":
+{
+	"frame": {"x":86,"y":1,"w":37,"h":56},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":37,"h":56},
+	"sourceSize": {"w":37,"h":56}
+},
+"fire_spark_2.png":
+{
+	"frame": {"x":1,"y":39,"w":43,"h":52},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":52},
+	"sourceSize": {"w":43,"h":52}
+},
+"fire_spark_3.png":
+{
+	"frame": {"x":51,"y":59,"w":41,"h":39},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":41,"h":39},
+	"sourceSize": {"w":41,"h":39}
+},
+"fire_spark_4.png":
+{
+	"frame": {"x":1,"y":93,"w":48,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":25},
+	"sourceSize": {"w":48,"h":25}
+},
+"simpleBullet.png":
+{
+	"frame": {"x":1,"y":1,"w":83,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":36},
+	"sourceSize": {"w":83,"h":36}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "ship.weapons.png",
+	"format": "RGBA8888",
+	"size": {"w":124,"h":119},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1a72681a6d94c2f4c111d0a6a319d71f:1ac1d029eacd8a85c2c365f49a7a50f0:2300d1600b6766db8d0b3f941d126d0e$"
+}
+}
