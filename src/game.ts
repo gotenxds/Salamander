@@ -13,8 +13,16 @@ export default class GameLoop extends Phaser.State {
     public create() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        for(var i = 1; i< 5 ; i++){
-            new Dayanguai(this.game, i*100 + 700, this.game.world.centerY);
+        var y = 700;
+        for (let yy = 0; yy < 3; yy++, y -=300){
+            var pathPoints = Dayanguai.generatePathPoints(700, y);
+            for(var i = 1; i< 5 ; i++){
+                var x = i*100 + 700;
+                pathPoints.x.unshift(x);
+                pathPoints.y.unshift(y);
+
+                new Dayanguai(this.game, x, y, pathPoints);
+            }
         }
 
         this.weapons = [new Weapon(this.game, 'simpleBullet', 'simpleBullet'), new DoubleBullet(this.game)];
@@ -23,6 +31,8 @@ export default class GameLoop extends Phaser.State {
     };
 
     public update() {
+        this.game.debug.pointer(this.game.input.activePointer);
+
         if (this.game.input.keyboard.isDown(Keyboard.ENTER)){
             this.ship.setWeapon(this.weapons[1]);
         }

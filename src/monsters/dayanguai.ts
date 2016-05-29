@@ -3,38 +3,57 @@ import Sprite = Phaser.Sprite;
 import Image = Phaser.Image;
 import Sprite = Phaser.Sprite;
 import GreenExplotion from "./death/greenExplostion";
+import Math = Phaser.Math;
 export default class Dayanguai extends Sprite {
+    static movementStatesX:number[] = [-230, 150];
+    static movementStatesY:number[] = [0, -150];
+
     topShell:Image;
     bottomShell:Image;
-    movementStates:{x:number,y:number}[] = [{x: -2.5, y: 0}, {x: 1.7, y: -1.7}];
-    stateIndex:number = 0;
-    indexSinceLastStateChange:number = 0;
-    indexToChangeState:number = 100;
+    path:{x:number,y:number}[] = [];
+    pathIndex:number = 0;
     death:GreenExplotion;
 
-    constructor(game:Game, x:number, y:number, color:string = 'red') {
+    constructor(game:Game, x:number, y:number, pathPoints:{x:number[],y:number[]}, color:string = 'red') {
         super(game, x, y, 'monsters.dayanguai', `${color}Eye.png`);
         this.health = 1;
         this.maxHealth = 1;
         this.death = new GreenExplotion(game);
         this.initializeSprites(game, color);
+
+        let  w = 1 / game.width;
+        for (let i = 0; i <= 1; i += w)
+        {
+            let px = Math.linearInterpolation(pathPoints.x, i);
+            let py = Math.linearInterpolation(pathPoints.y, i);
+
+            this.path.push({ x: px, y: py });
+        }
     }
 
     update():void {
         if (!this.alive) {
             this.death.play(this, () => this.destroy());
         } else {
-            if (this.indexSinceLastStateChange >= this.indexToChangeState) {
-                this.changeState();
-                this.indexSinceLastStateChange = -1;
-            }
+            this.x = this.path[this.pathIndex].x;
+            this.y = this.path[this.pathIndex].y;
 
-            var state = this.movementStates[this.stateIndex];
-            this.x += state.x;
-            this.y += state.y;
-
-            this.indexSinceLastStateChange++;
+            this.pathIndex++;
         }
+    }
+
+    static generatePathPoints(x:number, y:number): {x:number[],y:number[]}{
+        let points = {x:[], y:[]};
+
+        for(let i = 0; i < 10; i++){
+            points.x.push(x);
+            points.y.push(y);
+
+            x += this.movementStatesX[i % this.movementStatesX.length];
+            y += this.movementStatesY[i % this.movementStatesY.length];
+        }
+
+        return points;
     }
 
     private initializeSprites(game:Game, color:string):void {
