@@ -10,6 +10,7 @@ import Game = Phaser.Game;
 import Tween = Phaser.Tween;
 import Weapon from "../weapon/Weapon";
 import DoubleBullet from "../weapon/DoubleBullet";
+import Dayanguai from "../monsters/dayanguai";
 
 export default class Ship extends Group {
     keys:Key[] = [];
@@ -52,7 +53,7 @@ export default class Ship extends Group {
     public directionKeyReleased(args):void {
         var currentAnim = this.getCurrentAnimation();
 
-        if (currentAnim.name === 'moveUp' && args.keyCode === Keyboard.UP || currentAnim.name === 'moveDown' && args.keyCode === Keyboard.DOWN) {
+        if (currentAnim.name === 'moveUp' && args.keyCode === Keyboard.W || currentAnim.name === 'moveDown' && args.keyCode === Keyboard.S) {
             currentAnim.reverseOnce();
 
             if (!currentAnim.isPlaying) {
@@ -113,6 +114,12 @@ export default class Ship extends Group {
     update():void {
         this.game.debug.spriteInfo(this.sprite, 20, 30);
 
+        this.game.world.forEachAlive((child) => {
+            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
+                this.sprite.kill();
+            }
+        }, this);
+
         for (let pair of this.keyToMovement) {
             if (this.game.input.keyboard.isDown(pair.key)) {
                 pair.func();
@@ -168,20 +175,20 @@ export default class Ship extends Group {
     };
 
     private initializeKeyToMovement():void {
-        this.keyToMovement.push({key: Keyboard.UP, func: () => this.moveUp()});
-        this.keyToMovement.push({key: Keyboard.DOWN, func: () => this.moveDown()});
-        this.keyToMovement.push({key: Keyboard.RIGHT, func: () => this.moveRight()});
-        this.keyToMovement.push({key: Keyboard.LEFT, func: () => this.moveLeft()});
+        this.keyToMovement.push({key: Keyboard.W, func: () => this.moveUp()});
+        this.keyToMovement.push({key: Keyboard.S, func: () => this.moveDown()});
+        this.keyToMovement.push({key: Keyboard.D, func: () => this.moveRight()});
+        this.keyToMovement.push({key: Keyboard.A, func: () => this.moveLeft()});
         this.keyToMovement.push({key: Keyboard.SPACEBAR, func: () => this.fire()});
     }
 
     private initializeKeyEvents():void {
-        this.keys[Keyboard.UP] = this.game.input.keyboard.addKey(Keyboard.UP);
-        this.keys[Keyboard.DOWN] = this.game.input.keyboard.addKey(Keyboard.DOWN);
+        this.keys[Keyboard.W] = this.game.input.keyboard.addKey(Keyboard.W);
+        this.keys[Keyboard.S] = this.game.input.keyboard.addKey(Keyboard.S);
 
-        this.keys[Keyboard.UP].onDown.add(() => this.upPressed());
-        this.keys[Keyboard.UP].onUp.add(args => this.directionKeyReleased(args));
-        this.keys[Keyboard.DOWN].onUp.add(args => this.directionKeyReleased(args));
-        this.keys[Keyboard.DOWN].onDown.add(() => this.downPressed());
+        this.keys[Keyboard.W].onDown.add(() => this.upPressed());
+        this.keys[Keyboard.W].onUp.add(args => this.directionKeyReleased(args));
+        this.keys[Keyboard.S].onUp.add(args => this.directionKeyReleased(args));
+        this.keys[Keyboard.S].onDown.add(() => this.downPressed());
     };
 }

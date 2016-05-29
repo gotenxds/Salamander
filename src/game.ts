@@ -4,13 +4,18 @@ import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
 import Weapon from "./weapon/Weapon";
 import DoubleBullet from "./weapon/DoubleBullet";
+import Dayanguai from "./monsters/dayanguai";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
     weapons: Weapon[];
-
+    dayanguai:Dayanguai;
     public create() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        for(var i = 1; i< 5 ; i++){
+            new Dayanguai(this.game, i*100 + 700, this.game.world.centerY);
+        }
 
         this.weapons = [new Weapon(this.game, 'simpleBullet', 'simpleBullet'), new DoubleBullet(this.game)];
         this.ship = new Ship(this.game);
@@ -18,8 +23,6 @@ export default class GameLoop extends Phaser.State {
     };
 
     public update() {
-        this.ship.update();
-
         if (this.game.input.keyboard.isDown(Keyboard.ENTER)){
             this.ship.setWeapon(this.weapons[1]);
         }

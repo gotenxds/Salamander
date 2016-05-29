@@ -1,5 +1,6 @@
 import Game = Phaser.Game;
 import Sprite = Phaser.Sprite;
+import Dayanguai from "../monsters/dayanguai";
 export default class Projectile extends Sprite {
 
     game:Game;
@@ -14,7 +15,6 @@ export default class Projectile extends Sprite {
     }
 
     fire(x, y, angle, speed, gx, gy) {
-
         var body = (<Phaser.Physics.Arcade.Body>this.body);
 
         gx = gx || 0;
@@ -28,6 +28,14 @@ export default class Projectile extends Sprite {
         this.angle = angle;
 
         body.gravity.set(gx, gy);
-
     };
+
+    update(){
+        this.game.world.forEachAlive((child) => {
+            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
+                (<Dayanguai>child).damage(1);
+                this.kill();
+            }
+        }, this);
+    }
 }

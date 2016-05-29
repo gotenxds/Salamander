@@ -1,0 +1,52 @@
+{"frames": {
+
+"blueEye.png":
+{
+	"frame": {"x":1,"y":1,"w":54,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":67},
+	"sourceSize": {"w":54,"h":67}
+},
+"blueShell.png":
+{
+	"frame": {"x":1,"y":70,"w":80,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":40},
+	"sourceSize": {"w":80,"h":40}
+},
+"purpuleBlub.png":
+{
+	"frame": {"x":113,"y":1,"w":59,"h":65},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":65},
+	"sourceSize": {"w":59,"h":65}
+},
+"redEye.png":
+{
+	"frame": {"x":57,"y":1,"w":54,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":67},
+	"sourceSize": {"w":54,"h":67}
+},
+"redShell.png":
+{
+	"frame": {"x":83,"y":70,"w":80,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":40},
+	"sourceSize": {"w":80,"h":40}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "monser_dayanguai.png",
+	"format": "RGBA8888",
+	"size": {"w":173,"h":111},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:76243d00ff5ae79cac2a559ecb818fcc:1e3d6ca6f452a022d5953916f9d238e8:67e46504bbb1de5b391e862a52b851cc$"
+}
+}
