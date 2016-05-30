@@ -41,8 +41,4 @@ export default class GameLoop extends Phaser.State {
             this.ship.setWeapon(this.weapons[1]);
         }
     };
-
-    public onInputDown() {
-
-    };
 }

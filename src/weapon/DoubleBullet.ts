@@ -5,10 +5,6 @@ import Sprite = Phaser.Sprite;
 import Weapon from "./Weapon";
 
 export default class DoubleBullet extends Weapon{
-    nextFire:number = 0;
-    projectileSpeed:number = 800;
-    fireRate:number = 100;
-
     constructor(game:Phaser.Game) {
         super(game, 'doubleBullet', 'simpleBullet', 30);
     }
@@ -21,6 +17,7 @@ export default class DoubleBullet extends Weapon{
         var x = source.body.x + 140;
         var y = source.body.y + 35;
 
+        this.sound.play();
         this.getFirstExists(false).fire(x, y, 0, this.projectileSpeed, 0, 0);
         this.getFirstExists(false).fire(x, y-15, 0, this.projectileSpeed, 0, 0);
 
