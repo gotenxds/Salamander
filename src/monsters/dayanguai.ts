@@ -1,10 +1,10 @@
 import Game = Phaser.Game;
-import Sprite = Phaser.Sprite;
 import Image = Phaser.Image;
-import Sprite = Phaser.Sprite;
 import GreenExplotion from "./death/greenExplostion";
 import Math = Phaser.Math;
-export default class Dayanguai extends Sprite {
+import Monster from "./monster";
+
+export default class Dayanguai extends Monster {
     static movementStatesX:number[] = [-230, 150];
     static movementStatesY:number[] = [0, -150];
 
@@ -16,30 +16,9 @@ export default class Dayanguai extends Sprite {
 
     constructor(game:Game, x:number, y:number, pathPoints:{x:number[],y:number[]}, color:string = 'red') {
         super(game, x, y, 'monsters.dayanguai', `${color}Eye.png`);
-        this.health = 1;
-        this.maxHealth = 1;
-        this.death = new GreenExplotion(game);
+
         this.initializeSprites(game, color);
-
-        let  w = 1 / game.width;
-        for (let i = 0; i <= 1; i += w)
-        {
-            let px = Math.linearInterpolation(pathPoints.x, i);
-            let py = Math.linearInterpolation(pathPoints.y, i);
-
-            this.path.push({ x: px, y: py });
-        }
-    }
-
-    update():void {
-        if (!this.alive) {
-            this.death.play(this, () => this.destroy());
-        } else {
-            this.x = this.path[this.pathIndex].x;
-            this.y = this.path[this.pathIndex].y;
-
-            this.pathIndex++;
-        }
+        this.initializePath(game, pathPoints);
     }
 
     static generatePathPoints(x:number, y:number): {x:number[],y:number[]}{
@@ -75,8 +54,13 @@ export default class Dayanguai extends Sprite {
         game.add.tween(this.bottomShell).to({y: 64}, 500, Phaser.Easing.Bounce.InOut, true, 0, Infinity, true);
     }
 
-    private changeState() {
-        this.stateIndex++;
-        this.stateIndex %= this.movementStates.length;
-    }
+    private initializePath(game, pathPoints) {
+        let w = 1 / game.width;
+        for (let i = 0; i <= 1; i += w) {
+            let px = Math.linearInterpolation(pathPoints.x, i);
+            let py = Math.linearInterpolation(pathPoints.y, i);
+
+            this.path.push({x: px, y: py});
+        }
+    };
 }

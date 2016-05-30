@@ -5,6 +5,7 @@ import Key = Phaser.Key;
 import Weapon from "./weapon/Weapon";
 import DoubleBullet from "./weapon/DoubleBullet";
 import Dayanguai from "./monsters/dayanguai";
+import Haimian from "./monsters/haimian";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
@@ -12,7 +13,6 @@ export default class GameLoop extends Phaser.State {
     dayanguai:Dayanguai;
     public create() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
         var y = 700;
         for (let yy = 0; yy < 3; yy++, y -=300){
             var pathPoints = Dayanguai.generatePathPoints(700, y);
@@ -22,8 +22,12 @@ export default class GameLoop extends Phaser.State {
                 pathPoints.y.unshift(y);
 
                 new Dayanguai(this.game, x, y, pathPoints);
+
             }
+
+            new Haimian(this.game, y);
         }
+
 
         this.weapons = [new Weapon(this.game, 'simpleBullet', 'simpleBullet'), new DoubleBullet(this.game)];
         this.ship = new Ship(this.game);
