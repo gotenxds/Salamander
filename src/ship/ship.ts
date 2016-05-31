@@ -13,6 +13,7 @@ import DoubleBullet from "../weapon/DoubleBullet";
 import Dayanguai from "../monsters/dayanguai";
 import BlueExplosion from "../monsters/death/blueExplosion";
 import {createBlue} from "../monsters/death/explostions";
+import Timer = Phaser.Timer;
 
 export default class Ship extends Group {
     keys:Key[] = [];
@@ -25,10 +26,19 @@ export default class Ship extends Group {
     explosion:BlueExplosion;
     spawnEndPoint:{x:number,y:number};
     isSpawning:boolean = false;
+    invisibilityTimer:Timer;
+    invisibilityTween:Tween;
 
     constructor(game:Game) {
         super(game);
 
+        this.invisibilityTimer = game.time.create(false);
+        this.invisibilityTimer.loop(3500, () => {
+            this.invisibilityTween.pause();
+            this.alpha = 1;
+            this.invisibilityTimer.stop(false);
+            console.log('stop');
+        });
         this.spawnEndPoint = {x: game.width / 3, y: game.world.centerY};
         this.explosion = createBlue(game);
         this.initializeSprites();
@@ -127,6 +137,10 @@ export default class Ship extends Group {
     spawn():void {
         this.resetToMiddleLeft();
         this.isSpawning = true;
+        this.invisibilityTimer.start();
+        this.invisibilityTween.start();
+        this.invisibilityTween.resume();
+        console.log('start');
         this.sprite.revive(1);
     }
 
@@ -146,8 +160,6 @@ export default class Ship extends Group {
             } else {
                 this.isSpawning = false;
             }
-
-            this.checkCollisions();
         }
         else if (this.sprite.alive) {
             this.checkCollisions();
@@ -174,9 +186,7 @@ export default class Ship extends Group {
     private checkCollisions() {
         this.game.world.forEachAlive((child) => {
             if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)) {
-                if(this.isSpawning){
-                    child.kill();
-                }else{
+                if(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning){
                     this.sprite.kill();
                 }
             }
@@ -210,6 +220,8 @@ export default class Ship extends Group {
         this.sparkSprite.anchor.set(.5, .5);
         this.sparkSprite.scale.set(.95);
         this.sparkSprite.visible = false;
+
+        this.invisibilityTween = this.game.add.tween(this).to({alpha: .3}, 200, Phaser.Easing.Linear.None, false, 0, Infinity, true);
     };
 
     private initializeTrail() {
