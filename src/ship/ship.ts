@@ -23,10 +23,13 @@ export default class Ship extends Group {
     speed:number = 4;
     weapon:Weapon;
     explosion:BlueExplosion;
+    spawnEndPoint:{x:number,y:number};
+    isSpawning:boolean = false;
 
     constructor(game:Game) {
         super(game);
 
+        this.spawnEndPoint = {x: game.width / 3, y: game.world.centerY};
         this.explosion = createBlue(game);
         this.initializeSprites();
         this.initializeKeyEvents();
@@ -35,15 +38,21 @@ export default class Ship extends Group {
     }
 
     private spin() {
-        this.sprite.animations.play('moveUp', this.frameRate, false).onComplete.addOnce(() => {
-            this.sprite.scale.setTo(1, -1);
-            this.sprite.animations.play('moveUpReverse', this.frameRate, false).onComplete.addOnce(() => {
-                this.sprite.animations.play('moveDown', this.frameRate, false).onComplete.addOnce(() => {
-                    this.sprite.scale.setTo(1, 1);
-                    this.sprite.animations.play('moveDownReverse', this.frameRate, false);
+        if (!this.sprite.animations.currentAnim.isPlaying) {
+            let moveUp = this.sprite.animations.getAnimation('moveUpFull');
+            let moveDown = this.sprite.animations.getAnimation('moveDownFull');
+            var spinFrameRate = this.frameRate * 3;
+
+            moveUp.play(spinFrameRate, false).onComplete.addOnce(() => {
+                this.sprite.scale.setTo(1, -1);
+                moveUp.reverseOnce().play(spinFrameRate, false).onComplete.addOnce(() => {
+                    moveDown.play(spinFrameRate, false).onComplete.addOnce(() => {
+                        this.sprite.scale.setTo(1, 1);
+                        moveDown.reverseOnce().play(spinFrameRate, false);
+                    });
                 });
-            });
-        })
+            })
+        }
     };
 
     public upPressed():void {
@@ -84,7 +93,7 @@ export default class Ship extends Group {
     }
 
     private animateSpark() {
-        if (!this.sparkSprite.animations.currentAnim.isPlaying){
+        if (!this.sparkSprite.animations.currentAnim.isPlaying) {
             this.sparkSprite.visible = true;
             this.sparkSprite.animations.play('fire').onComplete.addOnce(() => this.sparkSprite.visible = false);
         }
@@ -115,27 +124,68 @@ export default class Ship extends Group {
         this.weapon.fire(this.sprite);
     };
 
+    spawn():void {
+        this.resetToMiddleLeft();
+        this.isSpawning = true;
+        this.sprite.revive(1);
+    }
+
+    private resetToMiddleLeft(){
+        this.position.set(0, this.game.world.centerY);
+    }
+
     update():void {
         this.game.debug.spriteInfo(this.sprite, 20, 30);
 
-        if(this.sprite.alive){
-            this.game.world.forEachAlive((child) => {
-                if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
-                    this.sprite.kill();
+        if (this.isSpawning) {
+            if (this.yetToReachSpawnPoint()) {
+                if (!this.getCurrentAnimation().isPlaying) {
+                    this.spin();
                 }
-            }, this);
-
-            for (let pair of this.keyToMovement) {
-                if (this.game.input.keyboard.isDown(pair.key)) {
-                    pair.func();
-                }
+                this.x += this.speed * 3;
+            } else {
+                this.isSpawning = false;
             }
-        }else{
-            this.explosion.play(this.sprite.body, () =>{
-                this.sprite.revive(1);
-            })
+
+            this.checkCollisions();
+        }
+        else if (this.sprite.alive) {
+            this.checkCollisions();
+
+            this.checkForMovement();
+        } else {
+            this.respawn();
         }
     }
+
+    private respawn() {
+        this.explosion.play(this.sprite.body);
+        this.spawn();
+    };
+
+    private checkForMovement() {
+        for (let pair of this.keyToMovement) {
+            if (this.game.input.keyboard.isDown(pair.key)) {
+                pair.func();
+            }
+        }
+    };
+
+    private checkCollisions() {
+        this.game.world.forEachAlive((child) => {
+            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)) {
+                if(this.isSpawning){
+                    child.kill();
+                }else{
+                    this.sprite.kill();
+                }
+            }
+        }, this);
+    };
+
+    private yetToReachSpawnPoint() {
+        return this.x <= this.spawnEndPoint.x && this.y <= this.spawnEndPoint.y;
+    };
 
     private getCurrentAnimation():Animation {
         return this.sprite.animations.currentAnim;
@@ -148,7 +198,7 @@ export default class Ship extends Group {
     };
 
     private initializeShipSprite() {
-        this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'ship', 'start.png', this);
+        this.sprite = this.game.add.sprite(0, 0, 'ship', 'start.png', this);
         this.game.physics.arcade.enable(this.sprite);
         this.sprite.anchor.setTo(.5);
         (<Phaser.Physics.Arcade.Body> this.sprite.body).collideWorldBounds = true;
@@ -175,11 +225,13 @@ export default class Ship extends Group {
     private initializeAnimations() {
         var upFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 7, ".png", 2));
         var downFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 7, ".png", 2));
+        var upFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 14, ".png", 2));
+        var downFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 16, ".png", 2));
 
         this.sprite.animations.add('moveUp', upFrames, this.frameRate, true);
-        this.sprite.animations.add('moveUpReverse', upFrames.reverse(), this.frameRate, true);
+        this.sprite.animations.add('moveUpFull', upFramesFull, this.frameRate, true);
         this.sprite.animations.add('moveDown', downFrames, this.frameRate, true);
-        this.sprite.animations.add('moveDownReverse', downFrames.reverse(), this.frameRate, true);
+        this.sprite.animations.add('moveDownFull', downFramesFull, this.frameRate, true);
 
         this.sparkSprite.animations.add('fire', Phaser.Animation.generateFrameNames('fire_spark_', 1, 4, '.png'), 20);
     };

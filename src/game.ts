@@ -34,6 +34,8 @@ export default class GameLoop extends Phaser.State {
         this.game.add.sound('mission_1_intro').play().onStop.addOnce(() =>{
            loop.loopFull();
         });
+
+        this.ship.spawn();
     };
 
     public update() {
