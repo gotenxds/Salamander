@@ -1,6 +1,5 @@
 import Game = Phaser.Game;
 import Image = Phaser.Image;
-import GreenExplotion from "./death/greenExplostion";
 import Math = Phaser.Math;
 import Monster from "./monster";
 
@@ -12,7 +11,6 @@ export default class Dayanguai extends Monster {
     bottomShell:Image;
     path:{x:number,y:number}[] = [];
     pathIndex:number = 0;
-    death:GreenExplotion;
 
     constructor(game:Game, x:number, y:number, pathPoints:{x:number[],y:number[]}, color:string = 'red') {
         super(game, x, y, 'monsters.dayanguai', `${color}Eye.png`);

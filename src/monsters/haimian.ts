@@ -1,20 +1,18 @@
 import Game = Phaser.Game;
 import Sprite = Phaser.Sprite;
 import Image = Phaser.Image;
-import GreenExplotion from "./death/greenExplostion";
 import Math = Phaser.Math;
 import Monster from "./monster";
+import Explosion from "./death/explostion";
 
 export default class Haimian extends Monster {
     path:{x:number,y:number}[] = [];
     pathIndex:number = 0;
-    death:GreenExplotion;
 
     constructor(game:Game, y:number) {
         super(game, 9999, y, 'monsters.haimian');
         this.health = 1;
         this.maxHealth = 1;
-        this.death = new GreenExplotion(game);
 
         let sine = Phaser.Math.sinCosGenerator(this.game.width, 30, 1, 15).cos;
         for (let i = 0;  i < this.game.width; i++) {

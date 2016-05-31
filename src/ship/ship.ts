@@ -11,6 +11,8 @@ import Tween = Phaser.Tween;
 import Weapon from "../weapon/Weapon";
 import DoubleBullet from "../weapon/DoubleBullet";
 import Dayanguai from "../monsters/dayanguai";
+import BlueExplosion from "../monsters/death/blueExplosion";
+import {createBlue} from "../monsters/death/explostions";
 
 export default class Ship extends Group {
     keys:Key[] = [];
@@ -20,10 +22,12 @@ export default class Ship extends Group {
     sparkSprite:Sprite;
     speed:number = 4;
     weapon:Weapon;
+    explosion:BlueExplosion;
 
     constructor(game:Game) {
         super(game);
 
+        this.explosion = createBlue(game);
         this.initializeSprites();
         this.initializeKeyEvents();
         this.initializeKeyToMovement();
@@ -114,16 +118,22 @@ export default class Ship extends Group {
     update():void {
         this.game.debug.spriteInfo(this.sprite, 20, 30);
 
-        this.game.world.forEachAlive((child) => {
-            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
-                this.sprite.kill();
-            }
-        }, this);
+        if(this.sprite.alive){
+            this.game.world.forEachAlive((child) => {
+                if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
+                    this.sprite.kill();
+                }
+            }, this);
 
-        for (let pair of this.keyToMovement) {
-            if (this.game.input.keyboard.isDown(pair.key)) {
-                pair.func();
+            for (let pair of this.keyToMovement) {
+                if (this.game.input.keyboard.isDown(pair.key)) {
+                    pair.func();
+                }
             }
+        }else{
+            this.explosion.play(this.sprite.body, () =>{
+                this.sprite.revive(1);
+            })
         }
     }
 
