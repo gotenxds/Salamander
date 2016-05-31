@@ -22,7 +22,6 @@ export default class GameLoop extends Phaser.State {
                 pathPoints.y.unshift(y);
 
                 new Dayanguai(this.game, x, y, pathPoints);
-
             }
 
             new Haimian(this.game, y);

@@ -14,8 +14,9 @@ export default class Haimian extends Monster {
         this.health = 1;
         this.maxHealth = 1;
 
-        let sine = Phaser.Math.sinCosGenerator(this.game.width, 30, 1, 15).cos;
-        for (let i = 0;  i < this.game.width; i++) {
+        var width = this.game.width + 100;
+        let sine = Phaser.Math.sinCosGenerator(width, 30, 1, 15).cos;
+        for (let i = 0;  i < width; i++) {
             this.path.push({x: i, y: y + sine[i]});
         }
 

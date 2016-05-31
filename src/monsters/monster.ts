@@ -13,6 +13,12 @@ export default class Monster extends Sprite{
         this.health = 1;
         this.maxHealth = 1;
         this.death = createGreen(game);
+
+        this.checkWorldBounds = true;
+
+        this.events.onOutOfBounds.add(() => {
+            this.destroy();
+        });
     }
 
     update():void {

@@ -22,7 +22,7 @@ export default class Dayanguai extends Monster {
     static generatePathPoints(x:number, y:number): {x:number[],y:number[]}{
         let points = {x:[], y:[]};
 
-        for(let i = 0; i < 10; i++){
+        for(let i = 0; i < 15; i++){
             points.x.push(x);
             points.y.push(y);
 
