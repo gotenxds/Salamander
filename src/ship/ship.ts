@@ -14,14 +14,13 @@ import Dayanguai from "../monsters/dayanguai";
 import BlueExplosion from "../monsters/death/blueExplosion";
 import {createBlue} from "../monsters/death/explostions";
 import Timer = Phaser.Timer;
+import MovementSystem from "./systems/movementSystems";
 
 export default class Ship extends Group {
-    keys:Key[] = [];
+    movementSystem: MovementSystem;
     keyToMovement:{key: number, func: Function}[] = [];
-    frameRate:number = 50;
     sprite:Sprite;
     sparkSprite:Sprite;
-    speed:number = 4;
     weapon:Weapon;
     explosion:BlueExplosion;
     spawnEndPoint:{x:number,y:number};
@@ -42,65 +41,12 @@ export default class Ship extends Group {
         this.spawnEndPoint = {x: game.width / 3, y: game.world.centerY};
         this.explosion = createBlue(game);
         this.initializeSprites();
-        this.initializeKeyEvents();
         this.initializeKeyToMovement();
         this.initializeAnimations();
+
+        this.movementSystem = new MovementSystem(game, this, this.sprite, {up:Keyboard.W,down:Keyboard.S,right:Keyboard.D,left:Keyboard.A});
     }
 
-    private spin() {
-        if (!this.sprite.animations.currentAnim.isPlaying) {
-            let moveUp = this.sprite.animations.getAnimation('moveUpFull');
-            let moveDown = this.sprite.animations.getAnimation('moveDownFull');
-            var spinFrameRate = this.frameRate * 3;
-
-            moveUp.play(spinFrameRate, false).onComplete.addOnce(() => {
-                this.sprite.scale.setTo(1, -1);
-                moveUp.reverseOnce().play(spinFrameRate, false).onComplete.addOnce(() => {
-                    moveDown.play(spinFrameRate, false).onComplete.addOnce(() => {
-                        this.sprite.scale.setTo(1, 1);
-                        moveDown.reverseOnce().play(spinFrameRate, false);
-                    });
-                });
-            })
-        }
-    };
-
-    public upPressed():void {
-        this.animateMovement('moveUp', () => this.upPressed());
-    }
-
-    public downPressed():void {
-        this.animateMovement('moveDown', () => this.downPressed());
-    }
-
-    public directionKeyReleased(args):void {
-        var currentAnim = this.getCurrentAnimation();
-
-        if (currentAnim.name === 'moveUp' && args.keyCode === Keyboard.W || currentAnim.name === 'moveDown' && args.keyCode === Keyboard.S) {
-            currentAnim.reverseOnce();
-
-            if (!currentAnim.isPlaying) {
-                currentAnim.play(this.frameRate, false);
-            }
-        } else {
-            currentAnim.onComplete.addOnce(args => {
-                this.getCurrentAnimation().stop();
-            });
-        }
-    }
-
-    private animateMovement(animationName:string, func:Function) {
-        var currentAnimation = this.getCurrentAnimation();
-
-        if (currentAnimation.isPlaying && currentAnimation.name === animationName) {
-            currentAnimation.reverseOnce();
-        }
-        else if (currentAnimation.isPlaying) {
-            currentAnimation.onComplete.addOnce(() => func())
-        } else {
-            this.sprite.animations.play(animationName, this.frameRate, false);
-        }
-    }
 
     private animateSpark() {
         if (!this.sparkSprite.animations.currentAnim.isPlaying) {
@@ -111,22 +57,6 @@ export default class Ship extends Group {
 
     setWeapon(weapon:Weapon):void {
         this.weapon = weapon;
-    }
-
-    moveUp():void {
-        this.y -= this.speed;
-    }
-
-    moveDown():void {
-        this.y += this.speed;
-    }
-
-    moveRight():void {
-        this.x += this.speed;
-    }
-
-    moveLeft():void {
-        this.x -= this.speed;
     }
 
     private fire() {
@@ -153,10 +83,8 @@ export default class Ship extends Group {
 
         if (this.isSpawning) {
             if (this.yetToReachSpawnPoint()) {
-                if (!this.getCurrentAnimation().isPlaying) {
-                    this.spin();
-                }
-                this.x += this.speed * 3;
+                this.movementSystem.moveWithSpin();
+
             } else {
                 this.isSpawning = false;
             }
@@ -164,7 +92,7 @@ export default class Ship extends Group {
         else if (this.sprite.alive) {
             this.checkCollisions();
 
-            this.checkForMovement();
+            this.movementSystem.updateMovement();
         } else {
             this.respawn();
         }
@@ -173,14 +101,6 @@ export default class Ship extends Group {
     private respawn() {
         this.explosion.play(this.sprite.body);
         this.spawn();
-    };
-
-    private checkForMovement() {
-        for (let pair of this.keyToMovement) {
-            if (this.game.input.keyboard.isDown(pair.key)) {
-                pair.func();
-            }
-        }
     };
 
     private checkCollisions() {
@@ -196,10 +116,6 @@ export default class Ship extends Group {
     private yetToReachSpawnPoint() {
         return this.x <= this.spawnEndPoint.x && this.y <= this.spawnEndPoint.y;
     };
-
-    private getCurrentAnimation():Animation {
-        return this.sprite.animations.currentAnim;
-    }
 
     private initializeSprites() {
         this.initializeShipSprite();
@@ -235,34 +151,10 @@ export default class Ship extends Group {
     };
 
     private initializeAnimations() {
-        var upFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 7, ".png", 2));
-        var downFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 7, ".png", 2));
-        var upFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 14, ".png", 2));
-        var downFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 16, ".png", 2));
-
-        this.sprite.animations.add('moveUp', upFrames, this.frameRate, true);
-        this.sprite.animations.add('moveUpFull', upFramesFull, this.frameRate, true);
-        this.sprite.animations.add('moveDown', downFrames, this.frameRate, true);
-        this.sprite.animations.add('moveDownFull', downFramesFull, this.frameRate, true);
-
         this.sparkSprite.animations.add('fire', Phaser.Animation.generateFrameNames('fire_spark_', 1, 4, '.png'), 20);
     };
 
     private initializeKeyToMovement():void {
-        this.keyToMovement.push({key: Keyboard.W, func: () => this.moveUp()});
-        this.keyToMovement.push({key: Keyboard.S, func: () => this.moveDown()});
-        this.keyToMovement.push({key: Keyboard.D, func: () => this.moveRight()});
-        this.keyToMovement.push({key: Keyboard.A, func: () => this.moveLeft()});
         this.keyToMovement.push({key: Keyboard.SPACEBAR, func: () => this.fire()});
     }
-
-    private initializeKeyEvents():void {
-        this.keys[Keyboard.W] = this.game.input.keyboard.addKey(Keyboard.W);
-        this.keys[Keyboard.S] = this.game.input.keyboard.addKey(Keyboard.S);
-
-        this.keys[Keyboard.W].onDown.add(() => this.upPressed());
-        this.keys[Keyboard.W].onUp.add(args => this.directionKeyReleased(args));
-        this.keys[Keyboard.S].onUp.add(args => this.directionKeyReleased(args));
-        this.keys[Keyboard.S].onDown.add(() => this.downPressed());
-    };
 }
