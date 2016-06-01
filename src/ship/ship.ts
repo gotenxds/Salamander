@@ -18,15 +18,15 @@ import MovementSystem from "./systems/movementSystems";
 import WeaponsSystem from "./systems/weaponsSystem";
 
 export default class Ship extends Group {
-    movementSystem: MovementSystem;
-    weaponsSystem:WeaponsSystem;
-    sprite:Sprite;
-    sparkSprite:Sprite;
-    explosion:BlueExplosion;
-    spawnEndPoint:{x:number,y:number};
-    isSpawning:boolean = false;
-    invisibilityTimer:Timer;
-    invisibilityTween:Tween;
+    private movementSystem: MovementSystem;
+    private weaponsSystem:WeaponsSystem;
+    private sprite:Sprite;
+    private sparkSprite:Sprite;
+    private explosion:BlueExplosion;
+    private spawnEndPoint:{x:number,y:number};
+    private isSpawning:boolean = false;
+    private invisibilityTimer:Timer;
+    private invisibilityTween:Tween;
 
     constructor(game:Game) {
         super(game);
@@ -56,10 +56,6 @@ export default class Ship extends Group {
         this.sprite.revive(1);
     }
 
-    private resetToMiddleLeft(){
-        this.position.set(0, this.game.world.centerY);
-    }
-
     update():void {
         this.game.debug.spriteInfo(this.sprite, 20, 30);
 
@@ -78,6 +74,10 @@ export default class Ship extends Group {
         } else {
             this.respawn();
         }
+    }
+
+    private resetToMiddleLeft(){
+        this.position.set(0, this.game.world.centerY);
     }
 
     private respawn() :void{
