@@ -56,8 +56,6 @@ export default class Ship extends Group {
     }
 
     update():void {
-        this.game.debug.spriteInfo(this.sprite, 20, 30);
-
         if (this.isSpawning) {
             if (this.yetToReachSpawnPoint()) {
                 this.movementSystem.moveWithSpin();
