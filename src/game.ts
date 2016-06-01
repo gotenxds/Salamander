@@ -7,14 +7,18 @@ import DoubleBullet from "./weapon/DoubleBullet";
 import Dayanguai from "./monsters/dayanguai";
 import Haimian from "./monsters/haimian";
 import NineImage from "./utils/NineImage";
+import SinglePLayerGUI from "./gui/singlePLayerGUI";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
+    gui:SinglePLayerGUI;
     weapons:Weapon[];
     dayanguai:Dayanguai;
 
     public create() {
         this.game.add.group(this.game.world, 'monsters');
+
+        this.gui = new SinglePLayerGUI(this.game);
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
