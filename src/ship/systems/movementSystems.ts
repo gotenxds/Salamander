@@ -3,6 +3,7 @@ import Key = Phaser.Key;
 import Keyboard = Phaser.Keyboard;
 import Sprite = Phaser.Sprite;
 import Game = Phaser.Game;
+import Animation = Phaser.Animation;
 export default class MovementSystem {
     private game:Game;
     private speed:number = 4;
@@ -13,7 +14,7 @@ export default class MovementSystem {
     private ship:Ship;
     private shipSprite:Sprite;
 
-    constructor(game:Game, ship:Ship, shipSprite:Sprite, keySchema:{up:number,down:number,right:number,left:number}){
+    constructor(game:Game, ship:Ship, shipSprite:Sprite, keySchema:{up:number,down:number,right:number,left:number}) {
         this.game = game;
         this.ship = ship;
         this.shipSprite = shipSprite;
@@ -24,7 +25,7 @@ export default class MovementSystem {
         this.initializeAnimations();
     }
 
-    updateMovement() {
+    updateMovement():void {
         for (let pair of this.keyToMovement) {
             if (this.game.input.keyboard.isDown(pair.key)) {
                 pair.func();
@@ -32,14 +33,14 @@ export default class MovementSystem {
         }
     };
 
-    moveWithSpin():void{
+    moveWithSpin():void {
         if (!this.getCurrentAnimation().isPlaying) {
             this.spin();
         }
         this.ship.x += this.speed * 3;
     }
 
-    spin() {
+    spin():void {
         if (!this.shipSprite.animations.currentAnim.isPlaying) {
             let moveUp = this.shipSprite.animations.getAnimation('moveUpFull');
             let moveDown = this.shipSprite.animations.getAnimation('moveDownFull');
@@ -81,7 +82,7 @@ export default class MovementSystem {
         }
     }
 
-    private animateMovement(animationName:string, func:Function) {
+    private animateMovement(animationName:string, func:Function):void {
         var currentAnimation = this.getCurrentAnimation();
 
         if (currentAnimation.isPlaying && currentAnimation.name === animationName) {
@@ -94,7 +95,7 @@ export default class MovementSystem {
         }
     }
 
-    private getCurrentAnimation() {
+    private getCurrentAnimation():Animation {
         return this.shipSprite.animations.currentAnim;
     };
 
@@ -122,7 +123,7 @@ export default class MovementSystem {
         this.keyToMovement.push({key: keySchema.left, func: () => this.moveLeft()});
     }
 
-    private initializeAnimations() {
+    private initializeAnimations():void {
         var upFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 7, ".png", 2));
         var downFrames = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 7, ".png", 2));
         var upFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 14, ".png", 2));
