@@ -14,6 +14,7 @@ export default class Preloader extends Phaser.State {
         this.game.load.atlasJSONHash('monsters.dayanguai', '/assets/monster_dayanguai.png', "/assets/monster_dayanguai.json");
         this.game.load.atlasJSONHash('monsters.haimian', '/assets/monster_haimian.png', "/assets/monster_haimian.json");
         this.game.load.image('ship.trail', '/assets/ship.trail.png');
+        this.game.load.image('playerPanel', '/assets/player_panel.png');
 
         this.game.load.audio('ship.blueExplosion', '/assets/audio/ship.blueExplosion.mp3');
         this.game.load.audio('ship.zidan', '/assets/audio/ship_zidan_sound.mp3');

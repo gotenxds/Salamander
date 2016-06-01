@@ -33,7 +33,7 @@ export default class Projectile extends Sprite {
 
     update(){
         this.game.world.forEachAlive((child) => {
-            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
+            if (child.key && child.key.startsWith && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)){
                 (<Monster>child).damage(1);
                 this.kill();
             }

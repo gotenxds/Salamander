@@ -6,31 +6,38 @@ import Weapon from "./weapon/Weapon";
 import DoubleBullet from "./weapon/DoubleBullet";
 import Dayanguai from "./monsters/dayanguai";
 import Haimian from "./monsters/haimian";
+import NineImage from "./utils/NineImage";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
-    weapons: Weapon[];
+    weapons:Weapon[];
     dayanguai:Dayanguai;
+
     public create() {
+        this.game.add.group(this.game.world, 'monsters');
+
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        let monsters = this.game.world.getByName('monsters');
         var y = 700;
-        for (let yy = 0; yy < 3; yy++, y -=300){
+        for (let yy = 0; yy < 3; yy++, y -= 300) {
             var pathPoints = Dayanguai.generatePathPoints(700, y);
-            for(var i = 1; i< 5 ; i++){
-                var x = i*100 + 700;
+            for (var i = 1; i < 5; i++) {
+                var x = i * 100 + 700;
                 pathPoints.x.unshift(x);
                 pathPoints.y.unshift(y);
 
-                new Dayanguai(this.game, x, y, pathPoints);
+
+                monsters.add(new Dayanguai(this.game, x, y, pathPoints), false);
             }
 
-            new Haimian(this.game, y);
+            monsters.add(new Haimian(this.game, y), false);
         }
 
         this.ship = new Ship(this.game);
         let loop = this.game.add.sound('mission_1_loop', .5);
-        this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() =>{
-           loop.loopFull();
+        this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
+            loop.loopFull();
         });
 
         this.ship.spawn();

@@ -32,7 +32,7 @@ export default class Ship extends Group {
         super(game);
 
         this.invisibilityTimer = game.time.create(false);
-        this.invisibilityTimer.loop(3500, () => this.invisivilityPeriodOver());
+        this.invisibilityTimer.loop(3500, () => this.invisibilityPeriodOver());
         this.spawnEndPoint = {x: game.width / 3, y: game.world.centerY};
         this.explosion = createBlue(game);
         this.initializeSprites();
@@ -52,7 +52,6 @@ export default class Ship extends Group {
         this.invisibilityTimer.start();
         this.invisibilityTween.start();
         this.invisibilityTween.resume();
-        console.log('start');
         this.sprite.revive(1);
     }
 
@@ -80,11 +79,10 @@ export default class Ship extends Group {
         this.position.set(0, this.game.world.centerY);
     }
 
-    private invisivilityPeriodOver():void {
+    private invisibilityPeriodOver():void {
         this.invisibilityTween.pause();
         this.alpha = 1;
         this.invisibilityTimer.stop(false);
-        console.log('stop');
     }
 
     private respawn():void {
@@ -93,8 +91,8 @@ export default class Ship extends Group {
     };
 
     private checkCollisions():void {
-        this.game.world.forEachAlive((child) => {
-            if (child.key && child.key.startsWith('monsters') && this.game.physics.arcade.collide(this, child)) {
+        this.game.world.getByName('monsters').forEachAlive((monster) => {
+            if (this.game.physics.arcade.collide(this, monster)) {
                 if (this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning) {
                     this.sprite.kill();
                 }
