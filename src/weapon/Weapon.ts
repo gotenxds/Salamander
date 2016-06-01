@@ -6,7 +6,7 @@ import Sound = Phaser.Sound;
 
 export default class Weapon extends Group {
     nextFire:number = 0;
-    projectileSpeed:number = 800;
+    projectileSpeed:number = 1200;
     fireRate:number = 300;
     sound:Sound;
 
