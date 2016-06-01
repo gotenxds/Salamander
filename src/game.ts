@@ -27,9 +27,7 @@ export default class GameLoop extends Phaser.State {
             new Haimian(this.game, y);
         }
 
-        this.weapons = [new Weapon(this.game, 'simpleBullet', 'simpleBullet'), new DoubleBullet(this.game)];
         this.ship = new Ship(this.game);
-        this.ship.setWeapon(this.weapons[0]);
         let loop = this.game.add.sound('mission_1_loop', .5);
         this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() =>{
            loop.loopFull();
@@ -40,9 +38,5 @@ export default class GameLoop extends Phaser.State {
 
     public update() {
         this.game.debug.pointer(this.game.input.activePointer);
-
-        if (this.game.input.keyboard.isDown(Keyboard.ENTER)){
-            this.ship.setWeapon(this.weapons[1]);
-        }
     };
 }

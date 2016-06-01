@@ -20,15 +20,15 @@ export default class Weapon extends Group {
         }
     }
 
-    fire(source:Sprite){
+    fire(source:{x:number, y:number}){
 
         if (this.game.time.time < this.nextFire) {
             return;
         }
 
         this.sound.play();
-        var x = source.body.x + 140;
-        var y = source.body.y + 35;
+        var x = source.x;
+        var y = source.y;
 
         this.getFirstExists(false).fire(x, y, 0, this.projectileSpeed, 0, 0);
 
