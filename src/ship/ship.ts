@@ -28,6 +28,7 @@ export default class Ship extends Group {
     private invisibilityTimer:Timer;
     private invisibilityTween:Tween;
     onEnemyKilled:Signal;
+    onDeath:Signal;
 
     constructor(game:Game) {
         super(game);
@@ -46,6 +47,7 @@ export default class Ship extends Group {
             left: Keyboard.A
         });
         this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
+        this.onDeath = this.sprite.events.onKilled;
     }
 
     spawn():void {

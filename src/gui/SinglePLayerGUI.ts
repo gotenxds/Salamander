@@ -72,7 +72,11 @@ export default class SinglePLayerGUI extends Sprite {
 
     addToLives(addition:number):void {
         this.lives += addition;
-        this.scoreText.setText(this.lives.toString());
+        this.livesText.setText(this.lives.toString());
+
+        if (this.lives < 0){
+            alert("Dead bitch !");
+        }
     }
 
     private buildFormattedScore() {
