@@ -10,7 +10,7 @@ export default class Monster extends Sprite {
     private death:Explosion;
     private pointsDisplay:TextAsImage;
     private pointsTween:Tween;
-
+    private points:number;
 
     constructor(game:Game, x:number, y:number, key:string, points:number = 90, frame:string = undefined) {
         super(game, x, y, key, frame);
@@ -20,6 +20,7 @@ export default class Monster extends Sprite {
         this.pointsDisplay = new TextAsImage(game, 'points_numbers', 0, 0, points.toString());
         this.pointsDisplay.alpha = 0;
         this.pointsTween = this.game.add.tween(this.pointsDisplay).to({}, 1000, Phaser.Easing.Linear.None, false, 0, 0);
+        this.points = points;
 
         this.checkWorldBounds = true;
         this.outOfBoundsKill = true;
@@ -34,6 +35,11 @@ export default class Monster extends Sprite {
 
             this.pathIndex++;
         }
+    }
+
+
+    getPoints():number {
+        return this.points;
     }
 
     private playPoints() {

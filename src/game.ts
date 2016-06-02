@@ -39,13 +39,13 @@ export default class GameLoop extends Phaser.State {
         }
 
 
-        // let loop = this.game.add.sound('mission_1_loop', .5);
-        // this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
-        //     loop.loopFull();
-        // });
+        let loop = this.game.add.sound('mission_1_loop', .5);
+        this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
+            loop.loopFull();
+        });
 
         this.ship = new Ship(this.game);
-        this.ship.onEnemyKilled.add(args => this.gui.addToScore(90));
+        this.ship.onEnemyKilled.add(args => this.gui.addToScore(args.monster.getPoints()));
         this.ship.onDeath.add(() => this.gui.addToLives(-1));
         this.ship.spawn();
     };
