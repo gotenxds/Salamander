@@ -1,0 +1,92 @@
+{"frames": {
+
+"0.png":
+{
+	"frame": {"x":16,"y":1,"w":12,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":20},
+	"sourceSize": {"w":12,"h":20}
+},
+"1.png":
+{
+	"frame": {"x":16,"y":89,"w":4,"h":19},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":19},
+	"sourceSize": {"w":4,"h":19}
+},
+"2.png":
+{
+	"frame": {"x":1,"y":1,"w":13,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":20},
+	"sourceSize": {"w":13,"h":20}
+},
+"3.png":
+{
+	"frame": {"x":16,"y":23,"w":12,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":20},
+	"sourceSize": {"w":12,"h":20}
+},
+"4.png":
+{
+	"frame": {"x":1,"y":23,"w":13,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":20},
+	"sourceSize": {"w":13,"h":20}
+},
+"5.png":
+{
+	"frame": {"x":16,"y":45,"w":12,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":20},
+	"sourceSize": {"w":12,"h":20}
+},
+"6.png":
+{
+	"frame": {"x":1,"y":45,"w":13,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":20},
+	"sourceSize": {"w":13,"h":20}
+},
+"7.png":
+{
+	"frame": {"x":1,"y":67,"w":13,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":20},
+	"sourceSize": {"w":13,"h":20}
+},
+"8.png":
+{
+	"frame": {"x":1,"y":89,"w":13,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":20},
+	"sourceSize": {"w":13,"h":20}
+},
+"9.png":
+{
+	"frame": {"x":16,"y":67,"w":12,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":20},
+	"sourceSize": {"w":12,"h":20}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "score_numbers.png",
+	"format": "RGBA8888",
+	"size": {"w":29,"h":110},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:688038a6377a014f953b2810f81a6b5f:56bad2d67ea6d1c18b42eb558ddeed4f:9f6a664f96c69c6a0752517bdd1d46e7$"
+}
+}
