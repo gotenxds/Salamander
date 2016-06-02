@@ -16,10 +16,12 @@ import {createBlue} from "../monsters/death/explostions";
 import Timer = Phaser.Timer;
 import MovementSystem from "./systems/movementSystems";
 import WeaponsSystem from "./systems/weaponsSystem";
+import CollisionDetectionSystem from "./systems/collisionDetectionSystem";
 
 export default class Ship extends Group {
     private movementSystem:MovementSystem;
     private weaponsSystem:WeaponsSystem;
+    private collisionSystem:CollisionDetectionSystem;
     private sprite:Sprite;
     private sparkSprite:Sprite;
     private explosion:BlueExplosion;
@@ -40,6 +42,7 @@ export default class Ship extends Group {
         this.initializeSprites();
 
         this.weaponsSystem = new WeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
+        this.collisionSystem = new CollisionDetectionSystem(game, this);
         this.movementSystem = new MovementSystem(game, this, this.sprite, {
             up: Keyboard.W,
             down: Keyboard.S,
@@ -59,6 +62,10 @@ export default class Ship extends Group {
         this.sprite.revive(1);
     }
 
+    kill() {
+        this.sprite.kill();
+    }
+
     update():void {
         if (this.isSpawning) {
             if (this.yetToReachSpawnPoint()) {
@@ -68,13 +75,17 @@ export default class Ship extends Group {
             }
         }
         else if (this.sprite.alive) {
-            this.checkCollisions();
+            this.collisionSystem.checkCollisions();
 
             this.weaponsSystem.updateFire();
             this.movementSystem.updateMovement();
         } else {
             this.respawn();
         }
+    }
+    
+    get isInvincible():boolean{
+        return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);
     }
 
     private resetToMiddleLeft() :void{
@@ -90,16 +101,6 @@ export default class Ship extends Group {
     private respawn():void {
         this.explosion.play(this.sprite.body);
         this.spawn();
-    };
-
-    private checkCollisions():void {
-        this.game.world.getByName('monsters').forEachAlive((monster) => {
-            if (this.game.physics.arcade.collide(this, monster)) {
-                if (this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning) {
-                    this.sprite.kill();
-                }
-            }
-        }, this);
     };
 
     private yetToReachSpawnPoint():boolean {
