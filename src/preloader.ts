@@ -15,6 +15,7 @@ export default class Preloader extends Phaser.State {
         this.game.load.atlasJSONHash('monsters.haimian', '/assets/monster_haimian.png', "/assets/monster_haimian.json");
         this.game.load.atlasJSONHash('score_numbers', '/assets/score_numbers.png','/assets/score_numbers.json');
         this.game.load.atlasJSONHash('points_numbers', '/assets/points_numbers.png','/assets/points_numbers.json');
+        this.game.load.atlasJSONHash('upgrades', '/assets/upgrades.png','/assets/upgrades.json');
         this.game.load.image('ship.trail', '/assets/ship.trail.png');
         this.game.load.image('playerPanel', '/assets/player_panel.png');
         this.game.load.image('playerIconBackground', '/assets/player_icon_background.png');

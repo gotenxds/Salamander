@@ -6,7 +6,7 @@
     "start": "budo src/main.js:bundle.js --live",
     "prebuild": "mkdir -p build",
     "build": "npm run build:js && npm run build:css && npm run build:html && npm run copy:all",
-    "build:js": "browserify src/main.ts [ tsify --noImplicitAny ] | uglifyjs -cm > build/bundle.min.js",
+    "build:js": "tsc || browserify src/main.js | uglifyjs -cm > build/bundle.min.js",
     "build:css": "cleancss css/main.css -o build/main.min.css",
     "build:html": "htmlprocessor index.html -o build/index.html",
     "copy:all": "npm run copy:assets && npm run copy:phaser",
@@ -24,6 +24,7 @@
     "budo": "^8.0.4",
     "clean-css": "^3.4.9",
     "htmlprocessor": "^0.2.3",
+    "http-server": "^0.9.0",
     "tsify": "^0.16.0",
     "uglify-js": "^2.6.2"
   }
