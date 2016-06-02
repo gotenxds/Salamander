@@ -32,7 +32,7 @@ export default class Explosion{
             this.aperture.animations.play('boom').onComplete.addOnce(() => this.aperture.visible = false);
             this.smoke.animations.play('boom').onComplete.addOnce(() => {
                 callback();
-                this.destroy();
+                this.kill();
             });
         }
     }
@@ -45,5 +45,15 @@ export default class Explosion{
     destroy():void{
         this.aperture.destroy();
         this.smoke.destroy();
+    }
+
+    private kill() {
+        this.aperture.kill();
+        this.smoke.kill();
+    }
+    
+    revive() {
+        this.aperture.revive();
+        this.smoke.revive();
     }
 }

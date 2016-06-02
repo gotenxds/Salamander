@@ -1,9 +1,8 @@
-
 import Sprite = Phaser.Sprite;
 import Game = Phaser.Game;
 import Explosion from "./death/explostion";
 import {createGreen} from "./death/explostions";
-export default class Monster extends Sprite{
+export default class Monster extends Sprite {
     path:{x:number,y:number}[] = [];
     pathIndex:number = 0;
     death:Explosion;
@@ -15,15 +14,12 @@ export default class Monster extends Sprite{
         this.death = createGreen(game);
 
         this.checkWorldBounds = true;
-
-        this.events.onOutOfBounds.add(() => {
-            this.destroy();
-        });
+        this.outOfBoundsKill = true;
     }
 
     update():void {
-        if (!this.alive) {
-            this.death.play(this, () => this.destroy());
+        if (!this.alive && this.inWorld) {
+            this.death.play(this);
         } else {
             this.x = this.path[this.pathIndex].x;
             this.y = this.path[this.pathIndex].y;
