@@ -18,7 +18,10 @@ export default class GameLoop extends Phaser.State {
     public create() {
         this.game.add.group(this.game.world, 'monsters');
 
+        this.ship = new Ship(this.game);
         this.gui = new SinglePLayerGUI(this.game);
+
+        this.ship.onEnemyKilled.add(args => this.gui.addToScore(90));
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -38,11 +41,11 @@ export default class GameLoop extends Phaser.State {
             monsters.add(new Haimian(this.game, y), false);
         }
 
-        this.ship = new Ship(this.game);
-        let loop = this.game.add.sound('mission_1_loop', .5);
+
+  /*      let loop = this.game.add.sound('mission_1_loop', .5);
         this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
             loop.loopFull();
-        });
+        });*/
 
         this.ship.spawn();
     };

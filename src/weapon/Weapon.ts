@@ -3,20 +3,26 @@ import projectile from "./projectile";
 import Projectile from "./projectile";
 import Sprite = Phaser.Sprite;
 import Sound = Phaser.Sound;
+import Signal = Phaser.Signal;
 
 export default class Weapon extends Group {
-    nextFire:number = 0;
-    projectileSpeed:number = 1200;
-    fireRate:number = 300;
-    sound:Sound;
+    private nextFire:number = 0;
+    private projectileSpeed:number = 1200;
+    private fireRate:number = 300;
+    private sound:Sound;
+    onEnemyKilled:Signal;
 
-    constructor(game:Phaser.Game, name:string, projectile:string, maxBullets: number = 30) {
+    constructor(game:Phaser.Game, name:string, key:string, maxBullets: number = 30) {
         super(game, game.world, name, false, true, Phaser.Physics.ARCADE);
+        this.onEnemyKilled = new Signal();
 
         this.sound = game.add.sound('ship.zidan');
 
         for (var i = 0; i < maxBullets; i++) {
-            this.add(new Projectile(game, projectile), true);
+            let projectile = new Projectile(game, key);
+
+            projectile.onEnemyKilled.add((args) => this.onEnemyKilled.dispatch(args));
+            this.add(projectile, true);
         }
     }
 

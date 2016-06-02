@@ -27,6 +27,7 @@ export default class Ship extends Group {
     private isSpawning:boolean = false;
     private invisibilityTimer:Timer;
     private invisibilityTween:Tween;
+    onEnemyKilled:Signal;
 
     constructor(game:Game) {
         super(game);
@@ -44,6 +45,7 @@ export default class Ship extends Group {
             right: Keyboard.D,
             left: Keyboard.A
         });
+        this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
     }
 
     spawn():void {
