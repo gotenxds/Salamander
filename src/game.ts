@@ -18,12 +18,8 @@ export default class GameLoop extends Phaser.State {
     public create() {
         this.game.add.group(this.game.world, 'monsters');
 
-        this.ship = new Ship(this.game);
         this.gui = new SinglePLayerGUI(this.game);
-
-        this.ship.onEnemyKilled.add(args => this.gui.addToScore(90));
-        this.ship.onDeath.add(() => this.gui.addToLives(-1));
-
+        
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
         let monsters = this.game.world.getByName('monsters');
@@ -48,6 +44,9 @@ export default class GameLoop extends Phaser.State {
             loop.loopFull();
         });
 
+        this.ship = new Ship(this.game);
+        this.ship.onEnemyKilled.add(args => this.gui.addToScore(90));
+        this.ship.onDeath.add(() => this.gui.addToLives(-1));
         this.ship.spawn();
     };
 
