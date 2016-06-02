@@ -1,11 +1,10 @@
 import Game = Phaser.Game;
 import Sprite = Phaser.Sprite;
-import Dayanguai from "../monsters/dayanguai";
 import Monster from "../monsters/monster";
 import Signal = Phaser.Signal;
 export default class Projectile extends Sprite {
 
-    private game:Game;
+    game:Game;
     onEnemyKilled:Signal;
 
     constructor(game:Game, uri:string) {

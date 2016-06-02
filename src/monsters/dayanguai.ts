@@ -7,13 +7,11 @@ export default class Dayanguai extends Monster {
     static movementStatesX:number[] = [-230, 150];
     static movementStatesY:number[] = [0, -150];
 
-    topShell:Image;
-    bottomShell:Image;
-    path:{x:number,y:number}[] = [];
-    pathIndex:number = 0;
+    private topShell:Image;
+    private bottomShell:Image;
 
     constructor(game:Game, x:number, y:number, pathPoints:{x:number[],y:number[]}, color:string = 'red') {
-        super(game, x, y, 'monsters.dayanguai', `${color}Eye.png`);
+        super(game, x, y, 'monsters.dayanguai', 90, `${color}Eye.png`);
 
         this.initializeSprites(game, color);
         this.initializePath(game, pathPoints);

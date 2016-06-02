@@ -1,15 +1,14 @@
 import Group = Phaser.Group;
-import projectile from "./projectile";
 import Projectile from "./projectile";
 import Sprite = Phaser.Sprite;
 import Sound = Phaser.Sound;
 import Signal = Phaser.Signal;
 
 export default class Weapon extends Group {
-    private nextFire:number = 0;
-    private projectileSpeed:number = 1200;
-    private fireRate:number = 300;
-    private sound:Sound;
+    protected nextFire:number = 0;
+    protected projectileSpeed:number = 1200;
+    protected fireRate:number = 300;
+    protected sound:Sound;
     onEnemyKilled:Signal;
 
     constructor(game:Phaser.Game, name:string, key:string, maxBullets: number = 30) {

@@ -6,11 +6,9 @@ import Monster from "./monster";
 import Explosion from "./death/explostion";
 
 export default class Haimian extends Monster {
-    path:{x:number,y:number}[] = [];
-    pathIndex:number = 0;
-
+    
     constructor(game:Game, y:number) {
-        super(game, 9999, y, 'monsters.haimian');
+        super(game, 9999, y, 'monsters.haimian', 120);
         this.health = 1;
         this.maxHealth = 1;
 
