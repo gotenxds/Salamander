@@ -29,6 +29,7 @@ export default class Ship extends Group {
     private isSpawning:boolean = false;
     private invisibilityTimer:Timer;
     private invisibilityTween:Tween;
+    onUpgradePickup:Signal;
     onEnemyKilled:Signal;
     onDeath:Signal;
 
@@ -49,6 +50,8 @@ export default class Ship extends Group {
             right: Keyboard.D,
             left: Keyboard.A
         });
+        
+        this.onUpgradePickup = this.collisionSystem.onUpgradePickup;
         this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
         this.onDeath = this.sprite.events.onKilled;
     }

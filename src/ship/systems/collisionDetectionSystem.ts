@@ -5,10 +5,13 @@ import Signal = Phaser.Signal;
 export default class CollisionDetectionSystem {
     private game:Game;
     private ship:Ship;
+    onUpgradePickup:Signal;
 
     constructor(game:Game, ship:Ship) {
         this.game = game;
         this.ship = ship;
+        
+        this.onUpgradePickup = new Signal();
     }
 
 
@@ -28,6 +31,8 @@ export default class CollisionDetectionSystem {
     private checkUpgrade(upgrade) {
         if (this.game.physics.arcade.collide(this.ship, upgrade)) {
             upgrade.kill();
+            
+            this.onUpgradePickup.dispatch(this.ship);
         }
     }
 }
