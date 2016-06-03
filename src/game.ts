@@ -1,13 +1,12 @@
 import Sprite = Phaser.Sprite;
 import Ship from "./ship/ship";
+import Weapon from "./weapon/Weapon";
+import Dayanguai from "./monsters/dayanguai";
+import SinglePLayerGUI from "./gui/singlePLayerGUI";
+import Upgrade from "./upgrades/upgrade";
 import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
-import Weapon from "./weapon/Weapon";
-import DoubleBullet from "./weapon/DoubleBullet";
-import Dayanguai from "./monsters/dayanguai";
 import Haimian from "./monsters/haimian";
-import NineImage from "./utils/NineImage";
-import SinglePLayerGUI from "./gui/singlePLayerGUI";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
@@ -17,6 +16,9 @@ export default class GameLoop extends Phaser.State {
 
     public create() {
         this.game.add.group(this.game.world, 'monsters');
+        var upgrades = this.game.add.group(this.game.world, 'upgrades');
+        upgrades.classType = Upgrade;
+        upgrades.createMultiple(5, '');
 
         this.gui = new SinglePLayerGUI(this.game);
         
@@ -30,11 +32,10 @@ export default class GameLoop extends Phaser.State {
                 var x = i * 100 + 700;
                 pathPoints.x.unshift(x);
                 pathPoints.y.unshift(y);
-
-
+        
                 monsters.add(new Dayanguai(this.game, x, y, pathPoints), false);
             }
-
+        
             monsters.add(new Haimian(this.game, y), false);
         }
 
@@ -47,6 +48,7 @@ export default class GameLoop extends Phaser.State {
         this.ship = new Ship(this.game);
         this.ship.onEnemyKilled.add(args => this.gui.addToScore(args.monster.getPoints()));
         this.ship.onDeath.add(() => this.gui.addToLives(-1));
+        this.ship.onUpgradePickup.add(ship => console.log("Picked up upgrade."));
         this.ship.spawn();
     };
 
