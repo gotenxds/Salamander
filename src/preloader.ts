@@ -16,12 +16,17 @@ export default class Preloader extends Phaser.State {
         this.game.load.atlasJSONHash('score_numbers', '/assets/score_numbers.png','/assets/score_numbers.json');
         this.game.load.atlasJSONHash('points_numbers', '/assets/points_numbers.png','/assets/points_numbers.json');
         this.game.load.atlasJSONHash('upgrades', '/assets/upgrades.png','/assets/upgrades.json');
+
         this.game.load.image('ship.trail', '/assets/ship.trail.png');
         this.game.load.image('playerPanel', '/assets/player_panel.png');
         this.game.load.image('playerIconBackground', '/assets/player_icon_background.png');
         this.game.load.image('player1_icon', '/assets/player1_icon.png');
         this.game.load.image('lives_icon', '/assets/lives_icon.png');
         this.game.load.image('lives_X', '/assets/lives_X.png');
+
+        this.game.load.atlasJSONHash('upgradePresentor', '/assets/upgrade_presentor.png','/assets/upgrade_presentor.json');
+        this.game.load.image('upgradeCounterLeft', '/assets/upgrade_counter_left.png');
+        this.game.load.image('upgradeCounterRight', '/assets/upgrade_counter_right.png');
 
         this.game.load.audio('ship.blueExplosion', '/assets/audio/ship.blueExplosion.mp3');
         this.game.load.audio('ship.zidan', '/assets/audio/ship_zidan_sound.mp3');

@@ -7,10 +7,12 @@ import Upgrade from "./upgrades/upgrade";
 import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
 import Haimian from "./monsters/haimian";
+import UpgradeCoutner from "./gui/upgradeCounter";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
     gui:SinglePLayerGUI;
+    upgradeCounter:UpgradeCoutner;
     weapons:Weapon[];
     dayanguai:Dayanguai;
 
@@ -21,6 +23,7 @@ export default class GameLoop extends Phaser.State {
         upgrades.createMultiple(5, '');
 
         this.gui = new SinglePLayerGUI(this.game);
+        this.upgradeCounter = new UpgradeCoutner(this.game);
         
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -38,15 +41,16 @@ export default class GameLoop extends Phaser.State {
         
             monsters.add(new Haimian(this.game, y), false);
         }
-        let loop = this.game.add.sound('mission_1_loop', .5);
-        this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
-            loop.loopFull();
-        });
+        
+        // let loop = this.game.add.sound('mission_1_loop', .5);
+        // this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
+        //     loop.loopFull();
+        // });
 
         this.ship = new Ship(this.game);
         this.ship.onEnemyKilled.add(args => this.gui.addToScore(args.monster.getPoints()));
         this.ship.onDeath.add(() => this.gui.addToLives(-1));
-        this.ship.onUpgradePickup.add(ship => console.log("Picked up upgrade."));
+        this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
         this.ship.spawn();
     };
 }
