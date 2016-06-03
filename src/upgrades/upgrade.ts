@@ -36,6 +36,7 @@ export default class Upgrade extends Sprite {
     }
 
     kill(){
+        this.alive = false;
         this.pickedTween.start();
     }
 }
