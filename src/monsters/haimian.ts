@@ -33,7 +33,6 @@ export default class Haimian extends Monster {
 
     private initializeSprites(game:Game):void {
         game.world.addChild(this);
-        game.physics.arcade.enable(this);
         this.scale.set(.9, .9);
     }
 }

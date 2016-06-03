@@ -33,7 +33,6 @@ export default class Dayanguai extends Monster {
 
     private initializeSprites(game:Game, color:string):void {
         game.world.addChild(this);
-        game.physics.arcade.enable(this);
         this.scale.set(.9, .9);
         this.topShell = game.add.sprite(27, 0, 'monsters.dayanguai', `${color}Shell.png`);
         this.bottomShell = game.add.sprite(27, 59, 'monsters.dayanguai', `${color}Shell.png`);

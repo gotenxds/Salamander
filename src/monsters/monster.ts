@@ -14,6 +14,8 @@ export default class Monster extends Sprite {
 
     constructor(game:Game, x:number, y:number, key:string, points:number = 90, frame:string = undefined) {
         super(game, x, y, key, frame);
+        game.physics.arcade.enable(this);
+
         this.health = 1;
         this.maxHealth = 1;
         this.death = createGreen(game);
