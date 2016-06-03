@@ -32,14 +32,12 @@ export default class GameLoop extends Phaser.State {
                 var x = i * 100 + 700;
                 pathPoints.x.unshift(x);
                 pathPoints.y.unshift(y);
-        
+
                 monsters.add(new Dayanguai(this.game, x, y, pathPoints), false);
             }
         
             monsters.add(new Haimian(this.game, y), false);
         }
-
-
         let loop = this.game.add.sound('mission_1_loop', .5);
         this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
             loop.loopFull();
