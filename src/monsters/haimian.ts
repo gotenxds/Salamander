@@ -20,14 +20,16 @@ export default class Haimian extends Monster {
 
         this.initializeSprites(game);
 
-        this.animations.add('move', Phaser.Animation.generateFrameNames('haimian_', 1, 5, ".png"), 7, true);
+        this.animations.add('move', Phaser.Animation.generateFrameNames('haimian_', 1, 5, ".png"), 7, false);
     }
 
     update(){
         super.update();
 
         if (!this.animations.currentAnim.isPlaying){
-            this.animations.play('move');
+            this.animations.play('move').onComplete.addOnce(() => {
+                this.animations.currentAnim.reverseOnce().play();
+            });
         }
     }
 
