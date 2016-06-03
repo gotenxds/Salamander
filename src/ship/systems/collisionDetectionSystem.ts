@@ -14,6 +14,7 @@ export default class CollisionDetectionSystem {
 
     checkCollisions():void {
         this.game.world.getByName('monsters').forEachAlive(this.checkMonster.bind(this));
+        this.game.world.getByName('upgrades').forEachAlive(this.checkUpgrade.bind(this));
     };
 
     private checkMonster(monster) {
@@ -21,6 +22,12 @@ export default class CollisionDetectionSystem {
             if (!this.ship.isInvincible) {
                 this.ship.kill();
             }
+        }
+    }
+    
+    private checkUpgrade(upgrade) {
+        if (this.game.physics.arcade.collide(this.ship, upgrade)) {
+            upgrade.kill();
         }
     }
 }
