@@ -29,10 +29,16 @@ export default class Preloader extends Phaser.State {
         this.game.load.image('upgradeCounterRight', '/assets/upgrade_counter_right.png');
 
         this.game.load.audio('ship.blueExplosion', '/assets/audio/ship.blueExplosion.mp3');
-        this.game.load.audio('ship.pickupUpgrade', '/assets/audio/ship_pickup_upgrade.mp3');
         this.game.load.audio('ship.zidan', '/assets/audio/ship_zidan_sound.mp3');
         this.game.load.audio('mission_1_intro', '/assets/audio/sound-mission-1-intro.mp3');
         this.game.load.audio('mission_1_loop', '/assets/audio/sound-mission-1-loop.mp3');
+        this.game.load.audio('ship.pickupUpgrade', '/assets/audio/ship_pickup_upgrade.mp3');
+        this.game.load.audio('upgrade', '/assets/audio/upgrades/upgrade.mp3');
+        this.game.load.audio('upgrade_missile', '/assets/audio/upgrades/upgrade_missile.mp3');
+        this.game.load.audio('upgrade_ripple', '/assets/audio/upgrades/upgrade_ripple.mp3');
+        this.game.load.audio('upgrade_laser', '/assets/audio/upgrades/upgrade_laser.mp3');
+        this.game.load.audio('upgrade_option', '/assets/audio/upgrades/upgrade_option.mp3');
+        this.game.load.audio('upgrade_force', '/assets/audio/upgrades/upgrade_force.mp3');
 
         this.ready = true;
     };

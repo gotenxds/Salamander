@@ -3,17 +3,20 @@ import Game = Phaser.Game;
 import Image = Phaser.Image;
 import Text = Phaser.Text;
 import Ship from "../../ship/ship";
+import Sound = Phaser.Sound;
 abstract class UpgradePresentor extends Sprite {
     static WIDTH:number = 131;
-
-    text:Text;
-    level:number = 0;
-    maxLevel:number;
     
-    constructor(game:Game, x:number, y:number, name:string, maxLevel:number) {
+    private text:Text;
+    private sound:Sound;
+    private level:number = 0;
+    private maxLevel:number;
+    
+    constructor(game:Game, x:number, y:number, name:string, maxLevel:number, soundKey:string) {
         super(game, x, y, 'upgradePresentor', 'unselected');
         game.world.add(this);
         
+        this.sound = game.add.sound(`upgrade_${soundKey}`);
         this.maxLevel = maxLevel;
         this.text = this.game.add.text(this.width/2, this.height/2 + 3, name, {font: 'good_timesregular', fontSize :15, fill:'#FFFFFF', stroke:'#1391eb', strokeThickness:2});
         this.text.anchor.set(.5,.5);
@@ -30,6 +33,7 @@ abstract class UpgradePresentor extends Sprite {
     }
 
     upgrade(ship:Ship){
+        this.sound.play();
         this.level++;
         this.disableIfMaxedOut();
     }

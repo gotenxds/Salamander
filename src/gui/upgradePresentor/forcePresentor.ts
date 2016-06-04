@@ -6,7 +6,7 @@ import UpgradePresentor from "./upgradePresentor";
 import Ship from "../../ship/ship";
 export default class ForcePresentor extends UpgradePresentor {
     constructor(game:Game, x:number, y:number) {
-        super(game, x, y, 'FORCE', 2);
+        super(game, x, y, 'FORCE', 2, 'force');
     }
     
     upgrade(ship:Ship) {

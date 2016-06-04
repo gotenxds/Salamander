@@ -6,7 +6,7 @@ import UpgradePresentor from "./upgradePresentor";
 import Ship from "../../ship/ship";
 export default class LaserPresentor extends UpgradePresentor {
     constructor(game:Game, x:number, y:number) {
-        super(game, x, y, 'LASER', 2);
+        super(game, x, y, 'LASER', 2, 'laser');
     }
     
     upgrade(ship:Ship) {

@@ -6,7 +6,7 @@ import UpgradePresentor from "./upgradePresentor";
 import Ship from "../../ship/ship";
 export default class OptionPresentor extends UpgradePresentor {
     constructor(game:Game, x:number, y:number) {
-        super(game, x, y, 'OPTION', 2);
+        super(game, x, y, 'OPTION', 2, 'option');
     }
     
     upgrade(ship:Ship) {

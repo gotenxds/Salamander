@@ -9,17 +9,20 @@ import LaserPresentor from "./upgradePresentor/laserPresentor";
 import OptionPresentor from "./upgradePresentor/optionPresentor";
 import ForcePresentor from "./upgradePresentor/forcePresentor";
 import UpgradePresentor from "./upgradePresentor/upgradePresentor";
+import Sound = Phaser.Sound;
 export default class UpgradeCoutner extends Sprite {
 
     private presentors:UpgradePresentor[];
     private selectedIndex = -1;
     private upgradeKey = Keyboard.SHIFT;
     private ship:Ship;
+    private upgradeSound:Sound;
 
     constructor(game:Game, ship:Ship) {
         super(game, game.world.centerX, game.height - 40);
         game.world.add(this);
         this.ship = ship;
+        this.upgradeSound = game.add.sound('upgrade');
 
         this.addChild(new Image(game, -340, 0, 'upgradeCounterLeft'));
         this.addChild(new Image(game, 47, 0, 'upgradeCounterRight'));
@@ -46,6 +49,7 @@ export default class UpgradeCoutner extends Sprite {
             selected.upgrade(this.ship);
             selected.deSelect();
             
+            this.upgradeSound.play();
             this.reset();
         }
     }
