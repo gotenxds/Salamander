@@ -1,0 +1,194 @@
+{
+  "frames": {
+    "rocket_explosion_3": {
+      "frame": {
+        "x": 150,
+        "y": 70,
+        "w": 58,
+        "h": 72
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 58,
+        "h": 72
+      },
+      "sourceSize": {
+        "w": 58,
+        "h": 72
+      }
+    },
+    "rocket_explosion_4": {
+      "frame": {
+        "x": 150,
+        "y": 0,
+        "w": 76,
+        "h": 69
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 69
+      },
+      "sourceSize": {
+        "w": 76,
+        "h": 69
+      }
+    },
+    "rocket_explosion_5": {
+      "frame": {
+        "x": 145,
+        "y": 374,
+        "w": 80,
+        "h": 77
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 77
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 77
+      }
+    },
+    "ripple_explpsion_1": {
+      "frame": {
+        "x": 0,
+        "y": 231,
+        "w": 79,
+        "h": 255
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 79,
+        "h": 255
+      },
+      "sourceSize": {
+        "w": 79,
+        "h": 255
+      }
+    },
+    "ripple_explpsion_2": {
+      "frame": {
+        "x": 62,
+        "y": 0,
+        "w": 87,
+        "h": 230
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 87,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 87,
+        "h": 230
+      }
+    },
+    "ripple_explpsion_3": {
+      "frame": {
+        "x": 80,
+        "y": 231,
+        "w": 64,
+        "h": 250
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 250
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 250
+      }
+    },
+    "ripple_explpsion_4": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 61,
+        "h": 230
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 61,
+        "h": 230
+      },
+      "sourceSize": {
+        "w": 61,
+        "h": 230
+      }
+    },
+    "rocket_explosion_1": {
+      "frame": {
+        "x": 145,
+        "y": 231,
+        "w": 79,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 79,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 79,
+        "h": 75
+      }
+    },
+    "rocket_explosion_2": {
+      "frame": {
+        "x": 145,
+        "y": 307,
+        "w": 67,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 67,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 67,
+        "h": 66
+      }
+    }
+  },
+  "meta": {
+    "app": "https://www.leshylabs.com/apps/sstool/",
+    "version": "Leshy SpriteSheet Tool v0.8.4",
+    "image": "ship_weapons_explosions.png",
+    "size": {
+      "w": 226,
+      "h": 486
+    },
+    "scale": 1
+  }
+}

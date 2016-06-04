@@ -9,7 +9,7 @@ export default class RocketsLauncher extends Weapon{
     private projectileAngle:number = 45;
     
     constructor(game:Phaser.Game) {
-        super(game, 'rocketsLauncher', () => new Rocket(game, this.level), 10);
+        super(game, 'rocketsLauncher', () => new Rocket(game, this.level), 'ship.rocket', 10);
         this.projectileSpeed = 600;
         this.fireRate = 1500;
     }
@@ -27,10 +27,12 @@ export default class RocketsLauncher extends Weapon{
             if (this.game.time.time < this.nextFire) {
                 return;
             }
-
+            
+            this.sound.play();
+            
             var x = source.x + 40;
             var y = source.y + 30;
-
+            
             this.getFirstExists(false).fire(x, y, this.projectileAngle, this.projectileSpeed, 0, 0);
             this.getFirstExists(false).fire(x, y, -this.projectileAngle, this.projectileSpeed, 0, 0);
 

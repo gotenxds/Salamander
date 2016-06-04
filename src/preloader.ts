@@ -9,6 +9,7 @@ export default class Preloader extends Phaser.State {
         this.game.load.setPreloadSprite(this.asset);
         this.game.load.atlasJSONHash('ship', '/assets/ship.png', "/assets/ship.json");
         this.game.load.atlasJSONHash('ship.weapons', '/assets/ship.weapons.png', "/assets/ship.weapons.json");
+        this.game.load.atlasJSONHash('ship.weapons.explosions', '/assets/ship.weapons.explosions.png', "/assets/ship.weapons.explosions.json");
         this.game.load.atlasJSONHash('greenExplosion', '/assets/greenExplosion.png', "/assets/greenExplosion.json");
         this.game.load.atlasJSONHash('ship.blueExplosion', '/assets/ship.blueExplosion.png', "/assets/ship.blueExplosion.json");
         this.game.load.atlasJSONHash('monsters.dayanguai', '/assets/monster_dayanguai.png', "/assets/monster_dayanguai.json");
