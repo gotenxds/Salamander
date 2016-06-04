@@ -1,15 +1,18 @@
 import Sprite = Phaser.Sprite;
 import Game = Phaser.Game;
 import Tween = Phaser.Tween;
+import Sound = Phaser.Sound;
 export default class Upgrade extends Sprite {
 
     pickedTween:Tween;
+    pickupSound:Sound;
 
     constructor(game:Game) {
         super(game, 700, 700, 'upgrades', 'upgrade_1_center');
         game.world.add(this);
         game.world.getByName("upgrades").add(this);
         game.physics.arcade.enable(this);
+        this.pickupSound = game.add.sound('ship.pickupUpgrade');
 
         let leftSprite = new Sprite(game, -13, 23.5, 'upgrades', 'upgrade_1_left');
         let rightSprite = new Sprite(game, 73, 23.5, 'upgrades', 'upgrade_1_right');
@@ -36,7 +39,13 @@ export default class Upgrade extends Sprite {
     }
 
     kill(){
-        this.alive = false;
-        this.pickedTween.start();
+        if (this.inWorld){
+            this.alive = false;
+            this.pickedTween.start();
+            this.pickupSound.play();
+        }else{
+            super.kill();
+        }
+        
     }
 }
