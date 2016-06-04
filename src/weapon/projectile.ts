@@ -8,7 +8,7 @@ export default class Projectile extends Sprite {
     onEnemyKilled:Signal;
 
     constructor(game:Game, uri:string) {
-        super(game, 0, 0, 'ship.weapons', `${uri}.png`);
+        super(game, 0, 0, 'ship.weapons', uri);
         this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
         this.onEnemyKilled = new Phaser.Signal();
         this.anchor.set(0.5);

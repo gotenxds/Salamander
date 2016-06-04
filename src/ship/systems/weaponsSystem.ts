@@ -54,6 +54,6 @@ export default class WeaponsSystem {
     };
 
     private initializeAnimations():void {
-        this.sparkSprite.animations.add('fire', Phaser.Animation.generateFrameNames('fire_spark_', 1, 4, '.png'), 20);
+        this.sparkSprite.animations.add('fire', Phaser.Animation.generateFrameNames('fire_spark_', 1, 4), 20);
     };
 }
