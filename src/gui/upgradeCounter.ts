@@ -43,7 +43,7 @@ export default class UpgradeCoutner extends Sprite {
     }
 
     update():void {
-        if (this.game.input.keyboard.isDown(this.upgradeKey) && this.selectedIndex !== -1) {
+        if (this.viableForUpgrade()) {
             var selected = this.getSelected();
             
             selected.upgrade(this.ship);
@@ -52,6 +52,10 @@ export default class UpgradeCoutner extends Sprite {
             this.upgradeSound.play();
             this.reset();
         }
+    }
+
+    private viableForUpgrade() {
+        return this.game.input.keyboard.isDown(this.upgradeKey) && this.selectedIndex !== -1 && !this.getSelected().maxedOut();
     }
 
     private getSelected():UpgradePresentor {
