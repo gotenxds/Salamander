@@ -6,15 +6,18 @@ export default class Projectile extends Sprite {
 
     game:Game;
     onEnemyKilled:Signal;
+    
+    private damagePoints;
 
-    constructor(game:Game, uri:string) {
+    constructor(game:Game, uri:string, damagePoints:number = 1) {
         super(game, 0, 0, 'ship.weapons', uri);
         this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
         this.onEnemyKilled = new Phaser.Signal();
         this.anchor.set(0.5);
-        this.checkWorldBounds = true;
+        this.checkWorldBounds = true; 
         this.outOfBoundsKill = true;
         this.exists = false;
+        this.damagePoints = damagePoints; 
     }
 
     fire(x, y, angle, speed, gx, gy) : void{
@@ -24,7 +27,6 @@ export default class Projectile extends Sprite {
         gy = gy || 0;
 
         this.reset(x, y);
-        this.scale.set(1);
 
         this.game.physics.arcade.velocityFromAngle(angle, speed, body.velocity);
 
@@ -36,7 +38,7 @@ export default class Projectile extends Sprite {
     update():void{
         this.game.world.getByName('monsters').forEachAlive((monster) => {
             if (this.game.physics.arcade.collide(this, monster)){
-                (<Monster>monster).damage(1);
+                (<Monster>monster).damage(this.damagePoints);
 
                 if (!monster.alive){
                     this.onEnemyKilled.dispatch({monster:monster});

@@ -53,4 +53,8 @@ export default class GameLoop extends Phaser.State {
         this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
         this.ship.spawn();
     };
+
+    public update() {
+        this.game.debug.pointer(this.game.input.activePointer);
+    };
 }

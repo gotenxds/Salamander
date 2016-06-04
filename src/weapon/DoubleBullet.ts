@@ -1,6 +1,4 @@
 import Group = Phaser.Group;
-import projectile from "./projectile";
-import Projectile from "./projectile";
 import Sprite = Phaser.Sprite;
 import Weapon from "./Weapon";
 
@@ -9,13 +7,13 @@ export default class DoubleBullet extends Weapon{
         super(game, 'doubleBullet', 'simpleBullet', 30);
     }
 
-    fire(source:Sprite){
+    fire(source:{x:number, y:number}){
         if (this.game.time.time < this.nextFire) {
             return;
         }
 
-        var x = source.body.x + 140;
-        var y = source.body.y + 35;
+        var x = source.x + 140;
+        var y = source.y + 35;
 
         this.sound.play();
         this.getFirstExists(false).fire(x, y, 0, this.projectileSpeed, 0, 0);

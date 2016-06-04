@@ -4,6 +4,7 @@ import Weapon from "../../weapon/Weapon";
 import Sprite = Phaser.Sprite;
 import DoubleBullet from "../../weapon/DoubleBullet";
 import Signal = Phaser.Signal;
+import RocketsLauncher from "../../weapon/rocketsLauncher";
 export default class WeaponsSystem {
     private weapons;
     private game:Game;
@@ -11,11 +12,13 @@ export default class WeaponsSystem {
     private sparkSprite:Sprite;
     private keySchema:{fire:number};
     private weapon:Weapon;
+    private rocketsLauncher:RocketsLauncher;
     onEnemyKilled:Signal;
 
     constructor(game:Game, ship:Ship, sparkSprite:Sprite, keySchema:{fire:number}) {
         this.onEnemyKilled = new Signal();
-        this.weapons = [new Weapon(game, 'simpleBullet', 'simpleBullet'), new DoubleBullet(game)];
+        this.weapons = [new DoubleBullet(game)];
+        this.rocketsLauncher = new RocketsLauncher(game);
         this.weapon = this.weapons[0];
         this.game = game;
         this.ship = ship;
@@ -33,6 +36,8 @@ export default class WeaponsSystem {
         if (this.game.input.keyboard.isDown(this.keySchema.fire)) {
             this.fire();
         }
+        
+        this.rocketsLauncher.fire(this.getPosition());
     }
 
     private fire():void {
@@ -50,7 +55,7 @@ export default class WeaponsSystem {
     private getPosition():{x:number, y:number} {
         let shipSprite = <Phaser.Sprite>this.sparkSprite.parent;
 
-        return {x: shipSprite.body.x + 140, y: shipSprite.body.y + 35};
+        return {x: shipSprite.body.x, y: shipSprite.body.y};
     };
 
     private initializeAnimations():void {
