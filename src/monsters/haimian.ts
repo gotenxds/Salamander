@@ -9,7 +9,7 @@ export default class Haimian extends Monster {
     
     constructor(game:Game, y:number) {
         super(game, 9999, y, 'monsters.haimian', 120);
-        this.health = 1;
+        this.health = 2;
         this.maxHealth = 1;
 
         var width = this.game.width + 100;
