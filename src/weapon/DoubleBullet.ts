@@ -4,7 +4,7 @@ import Weapon from "./Weapon";
 
 export default class DoubleBullet extends Weapon{
     constructor(game:Phaser.Game) {
-        super(game, 'doubleBullet', 'simpleBullet', 30);
+        super(game, 'doubleBullet', 'simpleBullet', 'ship.zidan');
     }
 
     fire(source:{x:number, y:number}){

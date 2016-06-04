@@ -11,11 +11,11 @@ export default class Weapon extends Group {
     protected sound:Sound;
     onEnemyKilled:Signal;
 
-    constructor(game:Phaser.Game, name:string, key:string|Function, maxBullets: number = 30) {
+    constructor(game:Phaser.Game, name:string, key:string|Function, soundKey:string, maxBullets: number = 30) {
         super(game, game.world, name, false, true, Phaser.Physics.ARCADE);
         this.onEnemyKilled = new Signal();
 
-        this.sound = game.add.sound('ship.zidan');
+        this.sound = game.add.sound(soundKey);
 
         for (var i = 0; i < maxBullets; i++) {
             let projectile = typeof key == 'string' ? new Projectile(game, key) : key();
