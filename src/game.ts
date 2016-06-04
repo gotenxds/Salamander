@@ -21,9 +21,6 @@ export default class GameLoop extends Phaser.State {
         var upgrades = this.game.add.group(this.game.world, 'upgrades');
         upgrades.classType = Upgrade;
         upgrades.createMultiple(5, '');
-
-        this.gui = new SinglePLayerGUI(this.game);
-        this.upgradeCounter = new UpgradeCoutner(this.game);
         
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -52,6 +49,9 @@ export default class GameLoop extends Phaser.State {
         this.ship.onDeath.add(() => this.gui.addToLives(-1));
         this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
         this.ship.spawn();
+
+        this.gui = new SinglePLayerGUI(this.game);
+        this.upgradeCounter = new UpgradeCoutner(this.game, this.ship);
     };
 
     public update() {

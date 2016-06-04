@@ -39,6 +39,10 @@ export default class WeaponsSystem {
         
         this.rocketsLauncher.fire(this.getPosition());
     }
+    
+    upgradeRockets(){
+        this.rocketsLauncher.upgrade();
+    }
 
     private fire():void {
         this.animateSpark();

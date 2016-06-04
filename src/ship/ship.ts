@@ -86,6 +86,10 @@ export default class Ship extends Group {
             this.respawn();
         }
     }
+
+    upgradeRockets(){
+        this.weaponsSystem.upgradeRockets();
+    }
     
     get isInvincible():boolean{
         return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);

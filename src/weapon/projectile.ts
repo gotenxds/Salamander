@@ -47,4 +47,8 @@ export default class Projectile extends Sprite {
             }
         }, this);
     }
+    
+    setDamagePoints(damagePoints:number){
+        this.damagePoints = damagePoints;
+    }
 }

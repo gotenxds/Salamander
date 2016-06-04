@@ -1,31 +1,60 @@
 import Sprite = Phaser.Sprite;
 import Game = Phaser.Game;
 import Image = Phaser.Image;
-import UpgradePresentor from "./upgradePresentor";
+import Keyboard = Phaser.Keyboard;
+import Ship from "../ship/ship";
+import MissilePresentor from "./upgradePresentor/missilePresentor";
+import RipplePresentor from "./upgradePresentor/rippliePresentor";
+import LaserPresentor from "./upgradePresentor/laserPresentor";
+import OptionPresentor from "./upgradePresentor/optionPresentor";
+import ForcePresentor from "./upgradePresentor/forcePresentor";
+import UpgradePresentor from "./upgradePresentor/upgradePresentor";
 export default class UpgradeCoutner extends Sprite {
 
     private presentors:UpgradePresentor[];
     private selectedIndex = -1;
+    private upgradeKey = Keyboard.SHIFT;
+    private ship:Ship;
 
-    constructor(game:Game) {
+    constructor(game:Game, ship:Ship) {
         super(game, game.world.centerX, game.height - 40);
         game.world.add(this);
+        this.ship = ship;
 
         this.addChild(new Image(game, -340, 0, 'upgradeCounterLeft'));
         this.addChild(new Image(game, 47, 0, 'upgradeCounterRight'));
 
-        this.presentors = ['MISSILE', 'RIPPLE', 'LASER', 'OPTION', 'FORCE'].map((upgradeName, index) => {
-            return <UpgradePresentor>this.addChild(new UpgradePresentor(game, -315 + index * UpgradePresentor.WIDTH, -5, upgradeName));
+        this.presentors = [MissilePresentor, RipplePresentor, LaserPresentor, OptionPresentor, ForcePresentor].map((presentor, index) => {
+            return <UpgradePresentor>this.addChild(new presentor(game, -315 + index * UpgradePresentor.WIDTH, -5));
         });
     }
 
-    selectNext(){
-        if (this.selectedIndex != -1){
+    selectNext():void {
+        if (this.selectedIndex != -1) {
             this.presentors[this.selectedIndex].deSelect();
         }
-        
+
         this.selectedIndex = ++this.selectedIndex % this.presentors.length;
-        
+
         this.presentors[this.selectedIndex].select();
+    }
+
+    update():void {
+        if (this.game.input.keyboard.isDown(this.upgradeKey) && this.selectedIndex !== -1) {
+            var selected = this.getSelected();
+            
+            selected.upgrade(this.ship);
+            selected.deSelect();
+            
+            this.reset();
+        }
+    }
+
+    private getSelected():UpgradePresentor {
+        return this.presentors[this.selectedIndex];
+    }
+
+    private reset() {
+        this.selectedIndex = -1;
     }
 }
