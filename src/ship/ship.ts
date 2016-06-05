@@ -94,6 +94,10 @@ export default class Ship extends Group {
     upgradeRipple(){
         this.weaponsSystem.upgradeRipple();
     }
+
+    upgradeLaser(){
+        this.weaponsSystem.upgradeLaser();
+    }
     
     get isInvincible():boolean{
         return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);

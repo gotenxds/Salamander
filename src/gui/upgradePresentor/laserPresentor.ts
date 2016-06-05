@@ -10,5 +10,7 @@ export default class LaserPresentor extends UpgradePresentor {
     }
     
     upgrade(ship:Ship) {
+        super.upgrade(ship);
+        ship.upgradeLaser();
     }
 }
