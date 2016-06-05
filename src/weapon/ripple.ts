@@ -5,7 +5,7 @@ import Signal = Phaser.Signal;
 import WeaponExplosion from "../monsters/death/weaponExplostion";
 import Explosion from "../monsters/death/explostion";
 import Tween = Phaser.Tween;
-export default class Rocket extends Projectile {
+export default class Ripple extends Projectile {
 
     game:Game;
     onEnemyKilled:Signal;

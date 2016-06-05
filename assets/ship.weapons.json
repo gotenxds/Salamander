@@ -20,7 +20,7 @@
         "h": 29
       }
     },
-    "frame13": {
+    "laser_middle": {
       "frame": {
         "x": 69,
         "y": 68,
@@ -60,7 +60,7 @@
         "h": 26
       }
     },
-    "frame16": {
+    "laser_ends": {
       "frame": {
         "x": 69,
         "y": 159,
