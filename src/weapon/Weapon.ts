@@ -41,7 +41,7 @@ export default class Weapon extends Group {
 
     fire(source:{x:number, y:number}){
 
-        if (this.game.time.time < this.nextFire) {
+        if (!this.canFire()) {
             return;
         }
 
@@ -52,6 +52,10 @@ export default class Weapon extends Group {
         this.getFirstExists(false).fire(x, y, 0, this.projectileSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
+    }
+
+    canFire() {
+        return !(this.game.time.time < this.nextFire);
     }
 
     protected isActive() {

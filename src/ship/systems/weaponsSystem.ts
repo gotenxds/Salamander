@@ -52,8 +52,10 @@ export default class WeaponsSystem {
     }
 
     private fire():void {
-        this.animateSpark();
-        this.weapon.fire(this.getPosition());
+        if (this.weapon.canFire()){
+            this.animateSpark();
+            this.weapon.fire(this.getPosition());
+        }
     }
 
     private animateSpark():void {
