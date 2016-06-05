@@ -5,6 +5,7 @@ import Sprite = Phaser.Sprite;
 import DoubleBullet from "../../weapon/DoubleBullet";
 import Signal = Phaser.Signal;
 import RocketsLauncher from "../../weapon/rocketsLauncher";
+import RippleGun from "../../weapon/rippleGun";
 export default class WeaponsSystem {
     private weapons;
     private game:Game;
@@ -17,20 +18,19 @@ export default class WeaponsSystem {
 
     constructor(game:Game, ship:Ship, sparkSprite:Sprite, keySchema:{fire:number}) {
         this.onEnemyKilled = new Signal();
-        this.weapons = [new DoubleBullet(game)];
+        this.weapons = {doubleBullet:<DoubleBullet>new DoubleBullet(game), rippleGun:<RippleGun>new RippleGun(game)};
         this.rocketsLauncher = new RocketsLauncher(game);
-        this.weapon = this.weapons[0];
+        this.weapon = this.weapons.doubleBullet;
         this.game = game;
         this.ship = ship;
         this.sparkSprite = sparkSprite;
         this.keySchema = keySchema;
 
         this.initializeAnimations();
-        this.weapons.forEach(weapon => weapon.onEnemyKilled.add(args => {
-            args.ship = this.ship;
-            this.onEnemyKilled.dispatch(args);
-        }))
+        this.initializeOnEnemyKilledEvent();
     }
+
+    
 
     updateFire():void {
         if (this.game.input.keyboard.isDown(this.keySchema.fire)) {
@@ -43,11 +43,18 @@ export default class WeaponsSystem {
     upgradeRockets(){
         this.rocketsLauncher.upgrade();
     }
+    
+    upgradeRipple(){
+        let rippleGun = this.weapons.rippleGun;
+        rippleGun.upgrade();
+        
+        this.weapon = rippleGun;
+    }
 
     private fire():void {
         this.animateSpark();
         this.weapon.fire(this.getPosition());
-    };
+    }
 
     private animateSpark():void {
         if (!this.sparkSprite.animations.currentAnim.isPlaying) {
@@ -60,9 +67,18 @@ export default class WeaponsSystem {
         let shipSprite = <Phaser.Sprite>this.sparkSprite.parent;
 
         return {x: shipSprite.body.x, y: shipSprite.body.y};
-    };
+    }
 
     private initializeAnimations():void {
         this.sparkSprite.animations.add('fire', Phaser.Animation.generateFrameNames('fire_spark_', 1, 4), 20);
-    };
+    }
+
+    private initializeOnEnemyKilledEvent() :void {
+        for (let weapon of this.weapons) {
+            weapon.onEnemyKilled.add(args => {
+                args.ship = this.ship;
+                this.onEnemyKilled.dispatch(args);
+            });
+        }
+    }
 }

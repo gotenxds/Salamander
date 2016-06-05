@@ -5,10 +5,16 @@ import Sound = Phaser.Sound;
 import Signal = Phaser.Signal;
 
 export default class Weapon extends Group {
+
+    protected level :number = 0;
+    protected maxLevel:number = 2;
+
     protected nextFire:number = 0;
     protected projectileSpeed:number = 1200;
     protected fireRate:number = 300;
+    protected projectileAngle:number = 0;
     protected sound:Sound;
+
     onEnemyKilled:Signal;
 
     constructor(game:Phaser.Game, name:string, key:string|Function, soundKey:string, maxBullets: number = 30) {
@@ -25,6 +31,14 @@ export default class Weapon extends Group {
         }
     }
 
+    upgrade(){
+        if (this.level !== this.maxLevel){
+            this.level++;
+
+            this.forEach(rocket => rocket.setDamagePoints(this.level), this);
+        }
+    }
+
     fire(source:{x:number, y:number}){
 
         if (this.game.time.time < this.nextFire) {
@@ -38,5 +52,9 @@ export default class Weapon extends Group {
         this.getFirstExists(false).fire(x, y, 0, this.projectileSpeed, 0, 0);
 
         this.nextFire = this.game.time.time + this.fireRate;
+    }
+
+    protected isActive() {
+        return this.level > 0;
     }
 }

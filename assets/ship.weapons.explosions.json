@@ -60,7 +60,7 @@
         "h": 77
       }
     },
-    "ripple_explpsion_1": {
+    "ripple_explosion_1": {
       "frame": {
         "x": 0,
         "y": 231,
@@ -80,7 +80,7 @@
         "h": 255
       }
     },
-    "ripple_explpsion_2": {
+    "ripple_explosion_2": {
       "frame": {
         "x": 62,
         "y": 0,
@@ -100,7 +100,7 @@
         "h": 230
       }
     },
-    "ripple_explpsion_3": {
+    "ripple_explosion_3": {
       "frame": {
         "x": 80,
         "y": 231,
@@ -120,7 +120,7 @@
         "h": 250
       }
     },
-    "ripple_explpsion_4": {
+    "ripple_explosion_4": {
       "frame": {
         "x": 0,
         "y": 0,

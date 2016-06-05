@@ -1,15 +1,14 @@
 import Group = Phaser.Group;
 import Weapon from "./Weapon";
 import Sprite = Phaser.Sprite;
-import Rocket from "./rocket";
+import Ripple from "./ripple";
 
-export default class RocketsLauncher extends Weapon{
+export default class RippleGun extends Weapon{
     
     constructor(game:Phaser.Game) {
-        super(game, 'rocketsLauncher', () => new Rocket(game, this.level), 'ship.rocket', 10);
+        super(game, 'rippleGun', () => new Ripple(game, this.level), 'ship.ripple', 10);
         this.projectileSpeed = 600;
-        this.fireRate = 1500;
-        this.projectileAngle = 45;
+        this.fireRate = 1000;
         this.maxLevel = 2;
     }
     

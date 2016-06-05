@@ -10,5 +10,7 @@ export default class RipplePresentor extends UpgradePresentor {
     }
     
     upgrade(ship:Ship) {
+        super.upgrade(ship);
+        ship.upgradeRipple();
     }
 }

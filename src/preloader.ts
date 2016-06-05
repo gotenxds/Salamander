@@ -32,6 +32,7 @@ export default class Preloader extends Phaser.State {
         this.game.load.audio('ship.blueExplosion', '/assets/audio/ship.blueExplosion.mp3');
         this.game.load.audio('ship.zidan', '/assets/audio/ship_zidan_sound.mp3');
         this.game.load.audio('ship.rocket', '/assets/audio/ship_rocket_sound.mp3');
+        this.game.load.audio('ship.ripple', '/assets/audio/ship_ripple_sound.mp3');
         this.game.load.audio('mission_1_intro', '/assets/audio/sound-mission-1-intro.mp3');
         this.game.load.audio('mission_1_loop', '/assets/audio/sound-mission-1-loop.mp3');
         this.game.load.audio('ship.pickupUpgrade', '/assets/audio/ship_pickup_upgrade.mp3');
