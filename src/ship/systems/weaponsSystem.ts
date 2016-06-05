@@ -76,11 +76,15 @@ export default class WeaponsSystem {
     }
 
     private initializeOnEnemyKilledEvent() :void {
-        for (let weapon of this.weapons) {
-            weapon.onEnemyKilled.add(args => {
-                args.ship = this.ship;
-                this.onEnemyKilled.dispatch(args);
-            });
+        for (let weaponKey in this.weapons) {
+            if (this.weapons.hasOwnProperty(weaponKey)){
+                let weapon = this.weapons[weaponKey];
+
+                weapon.onEnemyKilled.add(args => {
+                    args.ship = this.ship;
+                    this.onEnemyKilled.dispatch(args);
+                });    
+            }
         }
     }
 }
