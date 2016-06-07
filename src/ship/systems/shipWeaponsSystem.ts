@@ -7,7 +7,7 @@ import Signal = Phaser.Signal;
 import RocketsLauncher from "../../weapon/rocketsLauncher";
 import RippleGun from "../../weapon/rippleGun";
 import LaserGun from "../../weapon/laserGun";
-export default class WeaponsSystem {
+export default class ShipWeaponsSystem {
     private weapons;
     private game:Game;
     private ship:Ship;

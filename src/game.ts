@@ -8,6 +8,9 @@ import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
 import Haimian from "./monsters/haimian";
 import UpgradeCoutner from "./gui/upgradeCounter";
+import Option from "./ship/option/option";
+import Point = Phaser.Point;
+
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
@@ -50,6 +53,8 @@ export default class GameLoop extends Phaser.State {
         this.ship.onDeath.add(() => this.gui.addToLives(-1));
         this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
         this.ship.spawn();
+
+        new Option(this.game, this.ship, new Point(20, 30));
 
         this.gui = new SinglePlayerGUI(this.game);
         this.upgradeCounter = new UpgradeCoutner(this.game, this.ship);
