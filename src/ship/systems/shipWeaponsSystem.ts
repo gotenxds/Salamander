@@ -7,22 +7,17 @@ import Signal = Phaser.Signal;
 import RocketsLauncher from "../../weapon/rocketsLauncher";
 import RippleGun from "../../weapon/rippleGun";
 import LaserGun from "../../weapon/laserGun";
-export default class ShipWeaponsSystem {
-    private weapons;
-    private game:Game;
+import WeaponsSystem from "./weaponsSystem";
+export default class ShipWeaponsSystem extends WeaponsSystem{
+
     private ship:Ship;
     private sparkSprite:Sprite;
     private keySchema:{fire:number};
-    private weapon:Weapon;
-    private rocketsLauncher:RocketsLauncher;
     onEnemyKilled:Signal;
 
     constructor(game:Game, ship:Ship, sparkSprite:Sprite, keySchema:{fire:number}) {
+        super(game);
         this.onEnemyKilled = new Signal();
-        this.weapons = {doubleBullet: <DoubleBullet>new DoubleBullet(game),rippleGun: <RippleGun>new RippleGun(game),laserGun: <LaserGun>new LaserGun(game)};
-        this.rocketsLauncher = new RocketsLauncher(game);
-        this.weapon = this.weapons.doubleBullet;
-        this.game = game;
         this.ship = ship;
         this.sparkSprite = sparkSprite;
         this.keySchema = keySchema;
@@ -39,28 +34,10 @@ export default class ShipWeaponsSystem {
         this.rocketsLauncher.fire(this.getPosition());
     }
 
-    upgradeRockets() {
-        this.rocketsLauncher.upgrade();
-    }
-
-    upgradeLaser() {
-        this.upgradeAndSet(this.weapons.laserGun);
-    }
-
-    upgradeRipple() {
-        this.upgradeAndSet(this.weapons.rippleGun);
-    }
-
-    private upgradeAndSet(rippleGun) {
-        rippleGun.upgrade();
-
-        this.weapon = rippleGun;
-    }
-
-    private fire():void {
+    protected fire():void {
         if (this.weapon.canFire()) {
             this.animateSpark();
-            this.weapon.fire(this.getPosition());
+            super.fire();
         }
     }
 
@@ -71,7 +48,7 @@ export default class ShipWeaponsSystem {
         }
     }
 
-    private getPosition():{x:number, y:number} {
+    protected getPosition():{x:number, y:number} {
         let shipSprite = <Phaser.Sprite>this.sparkSprite.parent;
 
         return {x: shipSprite.body.x, y: shipSprite.body.y};

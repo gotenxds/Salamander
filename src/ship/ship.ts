@@ -17,6 +17,7 @@ import Timer = Phaser.Timer;
 import MovementSystem from "./systems/movementSystems";
 import WeaponsSystem from "./systems/weaponsSystem";
 import CollisionDetectionSystem from "./systems/collisionDetectionSystem";
+import ShipWeaponsSystem from "./systems/shipWeaponsSystem";
 
 export default class Ship extends Group {
     private movementSystem:MovementSystem;
@@ -43,7 +44,7 @@ export default class Ship extends Group {
         this.explosion = createBlue(game);
         this.initializeSprites();
 
-        this.weaponsSystem = new WeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
+        this.weaponsSystem = new ShipWeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
         this.collisionSystem = new CollisionDetectionSystem(game, this);
         this.movementSystem = new MovementSystem(game, this, this.sprite, {
             up: Keyboard.W,
