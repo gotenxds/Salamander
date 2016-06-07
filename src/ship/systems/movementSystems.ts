@@ -4,6 +4,8 @@ import Keyboard = Phaser.Keyboard;
 import Sprite = Phaser.Sprite;
 import Game = Phaser.Game;
 import Animation = Phaser.Animation;
+import Signal = Phaser.Signal;
+import Point = Phaser.Point;
 export default class MovementSystem {
     private game:Game;
     private speed:number = 4;
@@ -12,7 +14,8 @@ export default class MovementSystem {
     private keys:Key[] = [];
     private keySchema:{up:number,down:number,right:number,left:number};
     private ship:Ship;
-    private shipSprite:Sprite;
+    private shipSprite:Sprite
+    onMove :Signal;
 
     constructor(game:Game, ship:Ship, shipSprite:Sprite, keySchema:{up:number,down:number,right:number,left:number}) {
         this.game = game;
@@ -23,21 +26,34 @@ export default class MovementSystem {
         this.initializeKeyToMovement(keySchema);
         this.initializeKeyEvents(keySchema);
         this.initializeAnimations();
+        this.onMove = new Signal();
     }
 
     updateMovement():void {
+        let curPosition = this.getCurrentPosition();
+        let moved = false;
+
         for (let pair of this.keyToMovement) {
             if (this.game.input.keyboard.isDown(pair.key)) {
+                moved = true;
                 pair.func();
             }
+        }
+
+        if (moved){
+            this.onMove.dispatch({curPosition:this.getCurrentPosition(), pastPosition:curPosition});
         }
     };
 
     moveWithSpin():void {
+        let curPosition = this.getCurrentPosition();
+
         if (!this.getCurrentAnimation().isPlaying) {
             this.spin();
         }
-        this.ship.x += this.speed * 3;
+        this.shipSprite.body.x += this.speed * 3;
+
+        this.onMove.dispatch({curPosition:this.getCurrentPosition(), pastPosition:curPosition});
     }
 
     spin():void {
@@ -56,7 +72,7 @@ export default class MovementSystem {
                 });
             })
         }
-    };
+    }
 
     private upPressed():void {
         this.animateMovement('moveUp', () => this.upPressed());
@@ -101,19 +117,19 @@ export default class MovementSystem {
 
 
     private moveUp():void {
-        this.shipSprite.y -= this.speed;
+        this.shipSprite.body.y -= this.speed;
     }
 
     private moveDown():void {
-        this.ship.y += this.speed;
+        this.shipSprite.body.y += this.speed;
     }
 
     private moveRight():void {
-        this.ship.x += this.speed;
+        this.shipSprite.body.x += this.speed;
     }
 
     private moveLeft():void {
-        this.ship.x -= this.speed;
+        this.shipSprite.body.x -= this.speed;
     }
 
     private initializeKeyToMovement(keySchema:{up:number,down:number,right:number,left:number}):void {
@@ -144,4 +160,8 @@ export default class MovementSystem {
         this.keys[keySchema.down].onUp.add(args => this.directionKeyReleased(args));
         this.keys[keySchema.down].onDown.add(() => this.downPressed());
     };
+
+    private getCurrentPosition():Point{
+        return new Point(this.shipSprite.body.x, this.shipSprite.body.y);
+    }
 }

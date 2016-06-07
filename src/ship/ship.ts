@@ -32,6 +32,7 @@ export default class Ship extends Group {
     onUpgradePickup:Signal;
     onEnemyKilled:Signal;
     onDeath:Signal;
+    onMove:Signal;
 
     constructor(game:Game) {
         super(game);
@@ -54,6 +55,7 @@ export default class Ship extends Group {
         this.onUpgradePickup = this.collisionSystem.onUpgradePickup;
         this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
         this.onDeath = this.sprite.events.onKilled;
+        this.onMove = this.movementSystem.onMove;
     }
 
     spawn():void {
@@ -98,7 +100,11 @@ export default class Ship extends Group {
     upgradeLaser(){
         this.weaponsSystem.upgradeLaser();
     }
-    
+
+    getSprite() : Sprite{
+        return this.sprite;
+    }
+
     get isInvincible():boolean{
         return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);
     }
@@ -119,7 +125,7 @@ export default class Ship extends Group {
     };
 
     private yetToReachSpawnPoint():boolean {
-        return this.x <= this.spawnEndPoint.x && this.y <= this.spawnEndPoint.y;
+        return this.sprite.x <= this.spawnEndPoint.x && this.sprite.y <= this.spawnEndPoint.y;
     };
 
     private initializeSprites():void {
