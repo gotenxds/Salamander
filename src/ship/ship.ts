@@ -151,7 +151,7 @@ export default class Ship extends Group {
         trail.anchor.set(1, .5);
 
         this.sprite.addChild(trail);
-        this.game.add.tween(trail.scale).to({x: .5, y: .2}, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
+        this.game.add.tween(trail).to({'scale.x': .5, 'scale.y': .2, alpha:.8}, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
         this.game.add.tween(trail).to({alpha: .8}, 250, Phaser.Easing.Exponential.InOut, true, 0, Infinity, true);
     };
 }

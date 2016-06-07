@@ -12,4 +12,9 @@ export default class LaserGun extends Weapon{
         this.fireRate = 500;
         this.maxLevel = 2;
     }
+
+
+    fire(source:{x: number, y: number}):undefined {
+        return super.fire({x:source.x + 170, y:source.y + 30});
+    }
 }

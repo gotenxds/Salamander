@@ -2,7 +2,7 @@ import Sprite = Phaser.Sprite;
 import Ship from "./ship/ship";
 import Weapon from "./weapon/Weapon";
 import Dayanguai from "./monsters/dayanguai";
-import SinglePLayerGUI from "./gui/singlePLayerGUI";
+import SinglePlayerGUI from "./gui/singlePLayerGUI";
 import Upgrade from "./upgrades/upgrade";
 import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
@@ -11,12 +11,13 @@ import UpgradeCoutner from "./gui/upgradeCounter";
 export default class GameLoop extends Phaser.State {
     ship:Ship;
     keys = {Key};
-    gui:SinglePLayerGUI;
+    gui:SinglePlayerGUI;
     upgradeCounter:UpgradeCoutner;
     weapons:Weapon[];
     dayanguai:Dayanguai;
 
     public create() {
+
         this.game.add.group(this.game.world, 'monsters');
         var upgrades = this.game.add.group(this.game.world, 'upgrades');
         upgrades.classType = Upgrade;
@@ -35,10 +36,10 @@ export default class GameLoop extends Phaser.State {
 
                 monsters.add(new Dayanguai(this.game, x, y, pathPoints), false);
             }
-        
+
             monsters.add(new Haimian(this.game, y), false);
         }
-        
+
         let loop = this.game.add.sound('mission_1_loop', .5);
         this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
             loop.loopFull();
@@ -50,7 +51,7 @@ export default class GameLoop extends Phaser.State {
         this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
         this.ship.spawn();
 
-        this.gui = new SinglePLayerGUI(this.game);
+        this.gui = new SinglePlayerGUI(this.game);
         this.upgradeCounter = new UpgradeCoutner(this.game, this.ship);
     };
 
