@@ -39,7 +39,7 @@ export default class Weapon extends Group {
         }
     }
 
-    fire(source:{x:number, y:number}){
+    fire(source:{x:number, y:number, width:number, height:number}){
 
         if (!this.canFire()) {
             return;

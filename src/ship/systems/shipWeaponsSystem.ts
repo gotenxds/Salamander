@@ -48,10 +48,10 @@ export default class ShipWeaponsSystem extends WeaponsSystem{
         }
     }
 
-    protected getPosition():{x:number, y:number} {
+    protected getSourceData():{x:number, y:number, width:number, height:number} {
         let shipSprite = <Phaser.Sprite>this.sparkSprite.parent;
 
-        return {x: shipSprite.body.x, y: shipSprite.body.y};
+        return {x: shipSprite.x + shipSprite.width/2, y: shipSprite.y + shipSprite.height/2, width: shipSprite.width, height: shipSprite.height};
     }
 
     private initializeAnimations():void {

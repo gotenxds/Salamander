@@ -14,7 +14,10 @@ export default class LaserGun extends Weapon{
     }
 
 
-    fire(source:{x: number, y: number}):undefined {
-        return super.fire({x:source.x + 170, y:source.y + 30});
+    fire(source:{x:number, y:number, width:number, height:number}):undefined {
+        source.x += source.width/2;
+        source.y -= source.height/2;
+
+        return super.fire(source);
     }
 }

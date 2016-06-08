@@ -12,7 +12,7 @@ export default class RippleGun extends Weapon{
         this.maxLevel = 2;
     }
     
-    fire(source:{x:number, y:number}){
+    fire(source:{x:number, y:number, width:number, height:number}){
         if (this.isActive()){
             if (this.game.time.time < this.nextFire) {
                 return;
@@ -20,8 +20,8 @@ export default class RippleGun extends Weapon{
             
             this.sound.play();
             
-            var x = source.x + 40;
-            var y = source.y + 30;
+            var x = source.x;
+            var y = source.y - source.height/2;
             
             this.getFirstExists(false).fire(x, y, this.projectileAngle, this.projectileSpeed, 0, 0);
             this.getFirstExists(false).fire(x, y, -this.projectileAngle, this.projectileSpeed, 0, 0);

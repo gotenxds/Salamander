@@ -19,8 +19,8 @@ export default class OptionWeaponsSystem extends WeaponsSystem{
         this.initializeOnEnemyKilledEvent();
     }
 
-    protected getPosition():{x:number, y:number}{
-        return {x: this.option.x - 100, y:this.option.y - 20};
+    protected getSourceData():{x:number, y:number, width:number, height:number}{
+        return {x: this.option.x + this.option.width/2, y:this.option.y + this.option.height/2, width:this.option.width, height:this.option.height};
     }
 
     fireWeapon(){

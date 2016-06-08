@@ -38,7 +38,7 @@ abstract class WeaponsSystem {
     }
 
     updateFire():void {
-        this.rocketsLauncher.fire(this.getPosition());
+        this.rocketsLauncher.fire(this.getSourceData());
     }
 
     exportData(){
@@ -75,12 +75,12 @@ abstract class WeaponsSystem {
 
     protected fire():void {
         if (this.weapon.canFire()) {
-            this.weapon.fire(this.getPosition());
+            this.weapon.fire(this.getSourceData());
             this.onFire.dispatch();
         }
     }
 
-    protected abstract getPosition():{x:number, y:number};
+    protected abstract getSourceData():{x:number, y:number, width:number, height:number};
 }
 
 export default WeaponsSystem;
