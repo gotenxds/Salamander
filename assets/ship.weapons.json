@@ -1,109 +1,9 @@
 {
   "frames": {
-    "force_2": {
-      "frame": {
-        "x": 120,
-        "y": 205,
-        "w": 138,
-        "h": 103
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 138,
-        "h": 103
-      },
-      "sourceSize": {
-        "w": 138,
-        "h": 103
-      }
-    },
-    "force_3": {
-      "frame": {
-        "x": 120,
-        "y": 108,
-        "w": 147,
-        "h": 96
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 147,
-        "h": 96
-      },
-      "sourceSize": {
-        "w": 147,
-        "h": 96
-      }
-    },
-    "frame10": {
-      "frame": {
-        "x": 69,
-        "y": 94,
-        "w": 46,
-        "h": 29
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 46,
-        "h": 29
-      },
-      "sourceSize": {
-        "w": 46,
-        "h": 29
-      }
-    },
-    "laser_ends": {
-      "frame": {
-        "x": 69,
-        "y": 263,
-        "w": 39,
-        "h": 21
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 39,
-        "h": 21
-      },
-      "sourceSize": {
-        "w": 39,
-        "h": 21
-      }
-    },
-    "laser_middle": {
-      "frame": {
-        "x": 69,
-        "y": 148,
-        "w": 33,
-        "h": 20
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 33,
-        "h": 20
-      },
-      "sourceSize": {
-        "w": 33,
-        "h": 20
-      }
-    },
     "option": {
       "frame": {
-        "x": 69,
-        "y": 124,
+        "x": 98,
+        "y": 0,
         "w": 48,
         "h": 23
       },
@@ -122,8 +22,8 @@
     },
     "ripple": {
       "frame": {
-        "x": 0,
-        "y": 66,
+        "x": 362,
+        "y": 0,
         "w": 68,
         "h": 246
       },
@@ -142,8 +42,8 @@
     },
     "rocket": {
       "frame": {
-        "x": 0,
-        "y": 39,
+        "x": 98,
+        "y": 98,
         "w": 36,
         "h": 26
       },
@@ -163,7 +63,7 @@
     "simpleBullet": {
       "frame": {
         "x": 0,
-        "y": 0,
+        "y": 91,
         "w": 81,
         "h": 38
       },
@@ -182,8 +82,8 @@
     },
     "fire_spark_1": {
       "frame": {
-        "x": 82,
-        "y": 0,
+        "x": 51,
+        "y": 30,
         "w": 37,
         "h": 57
       },
@@ -202,8 +102,8 @@
     },
     "fire_spark_2": {
       "frame": {
-        "x": 69,
-        "y": 169,
+        "x": 98,
+        "y": 24,
         "w": 45,
         "h": 51
       },
@@ -222,8 +122,8 @@
     },
     "fire_spark_3": {
       "frame": {
-        "x": 69,
-        "y": 221,
+        "x": 0,
+        "y": 49,
         "w": 43,
         "h": 41
       },
@@ -242,8 +142,8 @@
     },
     "fire_spark_4": {
       "frame": {
-        "x": 69,
-        "y": 66,
+        "x": 0,
+        "y": 21,
         "w": 50,
         "h": 27
       },
@@ -262,22 +162,122 @@
     },
     "force_1": {
       "frame": {
-        "x": 120,
+        "x": 181,
         "y": 0,
-        "w": 156,
-        "h": 107
+        "w": 180,
+        "h": 122
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 156,
-        "h": 107
+        "w": 180,
+        "h": 122
       },
       "sourceSize": {
-        "w": 156,
-        "h": 107
+        "w": 180,
+        "h": 122
+      }
+    },
+    "force_2": {
+      "frame": {
+        "x": 181,
+        "y": 123,
+        "w": 180,
+        "h": 122
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 180,
+        "h": 122
+      },
+      "sourceSize": {
+        "w": 180,
+        "h": 122
+      }
+    },
+    "force_3": {
+      "frame": {
+        "x": 0,
+        "y": 130,
+        "w": 180,
+        "h": 122
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 180,
+        "h": 122
+      },
+      "sourceSize": {
+        "w": 180,
+        "h": 122
+      }
+    },
+    "frame10": {
+      "frame": {
+        "x": 51,
+        "y": 0,
+        "w": 46,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 46,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 46,
+        "h": 29
+      }
+    },
+    "laser_ends": {
+      "frame": {
+        "x": 98,
+        "y": 76,
+        "w": 39,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 39,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 39,
+        "h": 21
+      }
+    },
+    "laser_middle": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 33,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 33,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 33,
+        "h": 20
       }
     }
   },
@@ -286,8 +286,8 @@
     "version": "Leshy SpriteSheet Tool v0.8.4",
     "image": "ship.weapons.png",
     "size": {
-      "w": 276,
-      "h": 312
+      "w": 430,
+      "h": 252
     },
     "scale": 1
   }

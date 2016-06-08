@@ -20,6 +20,7 @@ import ShipWeaponsSystem from "./systems/shipWeaponsSystem";
 import Option from "./option/option";
 import Point = Phaser.Point;
 import Sprite = Phaser.Sprite;
+import Force from "./force";
 
 export default class Ship extends Sprite {
     private movementSystem:MovementSystem;
@@ -32,6 +33,7 @@ export default class Ship extends Sprite {
     private invisibilityTimer:Timer;
     private invisibilityTween:Tween;
     private options:Option[] = [];
+    private force:Force;
     onUpgradePickup:Signal;
     onEnemyKilled:Signal;
     onDeath:Signal;
@@ -42,6 +44,7 @@ export default class Ship extends Sprite {
     constructor(game:Game) {
         super(game, 0, 0, 'ship', 'start.png');
         game.world.add(this);
+        this.maxHealth = 6;
 
         this.invisibilityTimer = game.time.create(false);
         this.invisibilityTimer.loop(3500, () => this.invisibilityPeriodOver());
@@ -64,6 +67,8 @@ export default class Ship extends Sprite {
         this.onDeath = this.events.onKilled;
         this.onMove = this.movementSystem.onMove;
         this.onFire = this.weaponsSystem.onFire;
+
+        this.force = new Force(game, this);
     }
 
     spawn():void {
@@ -80,6 +85,12 @@ export default class Ship extends Sprite {
         this.options = [];
 
         return super.kill();
+    }
+
+    damage(amount:number){
+        super.damage(amount);
+
+        this.onDamage.dispatch();
     }
 
     update():void {
@@ -124,6 +135,10 @@ export default class Ship extends Sprite {
         this.weaponsSystem.upgradeLaser();
 
         this.options.forEach(op => op.upgradeLaser());
+    }
+
+    activateForce(){
+        this.force.activate();
     }
 
     get isInvincible():boolean {

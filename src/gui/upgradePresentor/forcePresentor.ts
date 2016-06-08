@@ -10,5 +10,8 @@ export default class ForcePresentor extends UpgradePresentor {
     }
     
     upgrade(ship:Ship) {
+        super.upgrade(ship);
+
+        ship.activateForce();
     }
 }

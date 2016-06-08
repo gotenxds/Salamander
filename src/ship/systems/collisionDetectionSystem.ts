@@ -24,6 +24,10 @@ export default class CollisionDetectionSystem {
         if (this.game.physics.arcade.collide(this.ship, monster)) {
             if (!this.ship.isInvincible) {
                 this.ship.damage(1);
+
+                if(this.ship.alive){
+                    monster.kill();
+                }
             }
         }
     }
