@@ -1,4 +1,3 @@
-import Sprite = Phaser.Sprite;
 import Signal = Phaser.Signal;
 import AnimationManager = Phaser.AnimationManager;
 import Animation = Phaser.Animation;
@@ -20,12 +19,12 @@ import CollisionDetectionSystem from "./systems/collisionDetectionSystem";
 import ShipWeaponsSystem from "./systems/shipWeaponsSystem";
 import Option from "./option/option";
 import Point = Phaser.Point;
+import Sprite = Phaser.Sprite;
 
-export default class Ship extends Group {
+export default class Ship extends Sprite {
     private movementSystem:MovementSystem;
     private weaponsSystem:WeaponsSystem;
     private collisionSystem:CollisionDetectionSystem;
-    private sprite:Sprite;
     private sparkSprite:Sprite;
     private explosion:BlueExplosion;
     private spawnEndPoint:{x:number,y:number};
@@ -36,11 +35,13 @@ export default class Ship extends Group {
     onUpgradePickup:Signal;
     onEnemyKilled:Signal;
     onDeath:Signal;
+    onDamage:Signal;
     onMove:Signal;
     onFire:Signal;
 
     constructor(game:Game) {
-        super(game);
+        super(game, 0, 0, 'ship', 'start.png');
+        game.world.add(this);
 
         this.invisibilityTimer = game.time.create(false);
         this.invisibilityTimer.loop(3500, () => this.invisibilityPeriodOver());
@@ -50,16 +51,17 @@ export default class Ship extends Group {
 
         this.weaponsSystem = new ShipWeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
         this.collisionSystem = new CollisionDetectionSystem(game, this);
-        this.movementSystem = new MovementSystem(game, this, this.sprite, {
+        this.movementSystem = new MovementSystem(game, this, {
             up: Keyboard.W,
             down: Keyboard.S,
             right: Keyboard.D,
             left: Keyboard.A
         });
 
+        this.onDamage = new Signal();
         this.onUpgradePickup = this.collisionSystem.onUpgradePickup;
         this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
-        this.onDeath = this.sprite.events.onKilled;
+        this.onDeath = this.events.onKilled;
         this.onMove = this.movementSystem.onMove;
         this.onFire = this.weaponsSystem.onFire;
     }
@@ -70,14 +72,14 @@ export default class Ship extends Group {
         this.invisibilityTimer.start();
         this.invisibilityTween.start();
         this.invisibilityTween.resume();
-        this.sprite.revive(1);
+        this.revive(1);
     }
 
-    kill() {
-        this.sprite.kill();
-
+    kill() : Sprite{
         this.options.forEach(op => op.destroy(true));
         this.options = [];
+
+        return super.kill();
     }
 
     update():void {
@@ -88,7 +90,7 @@ export default class Ship extends Group {
                 this.isSpawning = false;
             }
         }
-        else if (this.sprite.alive) {
+        else if (this.alive) {
             this.collisionSystem.checkCollisions();
 
             this.weaponsSystem.updateFire();
@@ -102,8 +104,8 @@ export default class Ship extends Group {
         this.options.push(new Option(this.game, this, this.getNextFollowTarget(), this.weaponsSystem.exportData()));
     }
 
-    private getNextFollowTarget() {
-        return this.options.length == 0 ? this.sprite : this.options[this.options.length - 1];
+    private getNextFollowTarget() : Sprite|Option {
+        return this.options.length == 0 ? this : this.options[this.options.length - 1];
     }
 
     upgradeRockets() {
@@ -124,16 +126,12 @@ export default class Ship extends Group {
         this.options.forEach(op => op.upgradeLaser());
     }
 
-    getSprite():Sprite {
-        return this.sprite;
-    }
-
     get isInvincible():boolean {
         return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);
     }
 
     private resetToMiddleLeft():void {
-        this.sprite.position.set(0, this.game.world.centerY);
+        this.position.set(0, this.game.world.centerY);
     }
 
     private invisibilityPeriodOver():void {
@@ -143,12 +141,12 @@ export default class Ship extends Group {
     }
 
     private respawn():void {
-        this.explosion.play(this.sprite.body);
+        this.explosion.play(this.body);
         this.spawn();
     };
 
     private yetToReachSpawnPoint():boolean {
-        return this.sprite.x <= this.spawnEndPoint.x && this.sprite.y <= this.spawnEndPoint.y;
+        return this.x <= this.spawnEndPoint.x && this.y <= this.spawnEndPoint.y;
     };
 
     private initializeSprites():void {
@@ -158,15 +156,14 @@ export default class Ship extends Group {
     };
 
     private initializeShipSprite():void {
-        this.sprite = this.game.add.sprite(0, 0, 'ship', 'start.png', this);
-        this.game.physics.arcade.enable(this.sprite);
-        this.sprite.anchor.setTo(.5);
-        (<Phaser.Physics.Arcade.Body> this.sprite.body).collideWorldBounds = true;
+        this.game.physics.arcade.enable(this);
+        this.anchor.setTo(.5);
+        (<Phaser.Physics.Arcade.Body> this.body).collideWorldBounds = true;
     };
 
     private initializeSparkSprite():void {
         this.sparkSprite = this.game.add.sprite(60, 6, 'ship.weapons');
-        this.sprite.addChild(this.sparkSprite);
+        this.addChild(this.sparkSprite);
         this.sparkSprite.anchor.set(.5, .5);
         this.sparkSprite.scale.set(.95);
         this.sparkSprite.visible = false;
@@ -179,7 +176,7 @@ export default class Ship extends Group {
         trail.scale.set(.7);
         trail.anchor.set(1, .5);
 
-        this.sprite.addChild(trail);
+        this.addChild(trail);
         this.game.add.tween(trail).to({
             'scale.x': .5,
             'scale.y': .2,

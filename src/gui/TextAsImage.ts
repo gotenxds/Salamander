@@ -4,7 +4,7 @@ import Sprite = Phaser.Sprite;
 export default class TextAsImage extends Group {
     private tag:string;
     private maxChars:number;
-    private height:number;
+    private textHight:number;
     private text:string;
     private dirty:boolean = true;
 
@@ -18,7 +18,7 @@ export default class TextAsImage extends Group {
         this.y = y;
 
         if (height === -1) {
-            this.height = this.game.cache.getImage(tag).height;
+            this.textHight = this.game.cache.getImage(tag).height;
         }
     }
 

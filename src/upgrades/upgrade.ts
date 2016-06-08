@@ -38,14 +38,15 @@ export default class Upgrade extends Sprite {
         this.pickedTween.onComplete.add(super.kill, this);
     }
 
-    kill(){
+    kill() : Sprite{
         if (this.inWorld){
             this.alive = false;
             this.pickedTween.start();
             this.pickupSound.play();
+
+            return this;
         }else{
-            super.kill();
+            return super.kill();
         }
-        
     }
 }

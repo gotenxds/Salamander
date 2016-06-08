@@ -14,13 +14,11 @@ export default class MovementSystem {
     private keys:Key[] = [];
     private keySchema:{up:number,down:number,right:number,left:number};
     private ship:Ship;
-    private shipSprite:Sprite
     onMove :Signal;
 
-    constructor(game:Game, ship:Ship, shipSprite:Sprite, keySchema:{up:number,down:number,right:number,left:number}) {
+    constructor(game:Game, ship:Ship, keySchema:{up:number,down:number,right:number,left:number}) {
         this.game = game;
         this.ship = ship;
-        this.shipSprite = shipSprite;
         this.keySchema = keySchema;
 
         this.initializeKeyToMovement(keySchema);
@@ -51,22 +49,22 @@ export default class MovementSystem {
         if (!this.getCurrentAnimation().isPlaying) {
             this.spin();
         }
-        this.shipSprite.body.x += this.speed * 3;
+        this.ship.body.x += this.speed * 3;
 
         this.onMove.dispatch({curPosition:this.getCurrentPosition(), pastPosition:curPosition});
     }
 
     spin():void {
-        if (!this.shipSprite.animations.currentAnim.isPlaying) {
-            let moveUp = this.shipSprite.animations.getAnimation('moveUpFull');
-            let moveDown = this.shipSprite.animations.getAnimation('moveDownFull');
+        if (!this.ship.animations.currentAnim.isPlaying) {
+            let moveUp = this.ship.animations.getAnimation('moveUpFull');
+            let moveDown = this.ship.animations.getAnimation('moveDownFull');
             var spinFrameRate = this.frameRate * 3;
 
             moveUp.play(spinFrameRate, false).onComplete.addOnce(() => {
-                this.shipSprite.scale.setTo(1, -1);
+                this.ship.scale.setTo(1, -1);
                 moveUp.reverseOnce().play(spinFrameRate, false).onComplete.addOnce(() => {
                     moveDown.play(spinFrameRate, false).onComplete.addOnce(() => {
-                        this.shipSprite.scale.setTo(1, 1);
+                        this.ship.scale.setTo(1, 1);
                         moveDown.reverseOnce().play(spinFrameRate, false);
                     });
                 });
@@ -107,29 +105,29 @@ export default class MovementSystem {
         else if (currentAnimation.isPlaying) {
             currentAnimation.onComplete.addOnce(() => func())
         } else {
-            this.shipSprite.animations.play(animationName, this.frameRate, false);
+            this.ship.animations.play(animationName, this.frameRate, false);
         }
     }
 
     private getCurrentAnimation():Animation {
-        return this.shipSprite.animations.currentAnim;
+        return this.ship.animations.currentAnim;
     };
 
 
     private moveUp():void {
-        this.shipSprite.body.y -= this.speed;
+        this.ship.body.y -= this.speed;
     }
 
     private moveDown():void {
-        this.shipSprite.body.y += this.speed;
+        this.ship.body.y += this.speed;
     }
 
     private moveRight():void {
-        this.shipSprite.body.x += this.speed;
+        this.ship.body.x += this.speed;
     }
 
     private moveLeft():void {
-        this.shipSprite.body.x -= this.speed;
+        this.ship.body.x -= this.speed;
     }
 
     private initializeKeyToMovement(keySchema:{up:number,down:number,right:number,left:number}):void {
@@ -145,10 +143,10 @@ export default class MovementSystem {
         var upFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-up-', 1, 14, ".png", 2));
         var downFramesFull = ['start.png'].concat(Phaser.Animation.generateFrameNames('move-down-', 1, 16, ".png", 2));
 
-        this.shipSprite.animations.add('moveUp', upFrames, this.frameRate, true);
-        this.shipSprite.animations.add('moveUpFull', upFramesFull, this.frameRate, true);
-        this.shipSprite.animations.add('moveDown', downFrames, this.frameRate, true);
-        this.shipSprite.animations.add('moveDownFull', downFramesFull, this.frameRate, true);
+        this.ship.animations.add('moveUp', upFrames, this.frameRate, true);
+        this.ship.animations.add('moveUpFull', upFramesFull, this.frameRate, true);
+        this.ship.animations.add('moveDown', downFrames, this.frameRate, true);
+        this.ship.animations.add('moveDownFull', downFramesFull, this.frameRate, true);
     };
 
     private initializeKeyEvents(keySchema:{up:number, down:number}):void {
@@ -162,6 +160,6 @@ export default class MovementSystem {
     };
 
     private getCurrentPosition():Point{
-        return new Point(this.shipSprite.body.x, this.shipSprite.body.y);
+        return new Point(this.ship.body.x, this.ship.body.y);
     }
 }

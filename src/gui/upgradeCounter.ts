@@ -50,7 +50,7 @@ export default class UpgradeCoutner extends Sprite {
             selected.deSelect();
             
             this.upgradeSound.play();
-            this.reset();
+            this.resetCounter();
         }
     }
 
@@ -62,7 +62,7 @@ export default class UpgradeCoutner extends Sprite {
         return this.presentors[this.selectedIndex];
     }
 
-    private reset() {
+    resetCounter() {
         this.selectedIndex = -1;
     }
 }
