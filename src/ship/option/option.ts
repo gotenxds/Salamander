@@ -2,37 +2,79 @@ import Point = Phaser.Point;
 import Sprite = Phaser.Sprite;
 import Ship from "../ship";
 import Game = Phaser.Game;
+import OptionWeaponsSystem from "../systems/optionWeaponsSystem";
 export default class Option extends Sprite {
-    private static maxDistancePerAxis:number = 100;
+    private static distanceFromFollowTarget:number = 50;
 
-    private source:Ship;
-    private oldDistance;
+    private ship:Ship;
+    private followTarget: Sprite;
     private weapons:{};
+    private weaponSystem:OptionWeaponsSystem;
+    private path:Point[] = [];
 
-    constructor(game:Game, source:Ship, offset:Point) {
-        super(game, source.x + offset.x, source.y + offset.y, 'ship.weapons', 'option');
+    constructor(game:Game, ship:Ship, followTarget:Sprite, weaponData = {}) {
+        super(game, followTarget.x + 50, followTarget.y + 50, 'ship.weapons', 'option');
         game.world.add(this);
         this.anchor.set(.5);
 
-        this.source = source;
-        this.source.onMove.add(e => this.onShipMove(e));
+        this.weaponSystem = new OptionWeaponsSystem(game, this);
+        this.weaponSystem.importData(weaponData);
+
+        this.ship = ship;
+        this.followTarget = followTarget;
+
+        let onFireSignalBinding = this.ship.onFire.add(() => this.weaponSystem.fireWeapon());
+        let onEnemyKilledSignalBinding = this.weaponSystem.onEnemyKilled.add((args) => ship.onEnemyKilled.dispatch(args));
+
+        this.events.onDestroy.addOnce(() => {
+            onFireSignalBinding.detach();
+            onEnemyKilledSignalBinding.detach();
+        })
     }
 
-    private onShipMove(eventArgs) {
-        let diff = {
-            x: eventArgs.curPosition.x - eventArgs.pastPosition.x,
-            y: eventArgs.curPosition.y - eventArgs.pastPosition.y
-        };
+    update() {
+        this.weaponSystem.updateFire();
 
-        if (Option.maxDistancePerAxis > Math.abs(this.x - this.source.getSprite().body.x - 50)) {
-            this.x += diff.x * -1;
-        } else {
-            this.x += diff.x;
+        let distanceFromFollowTarget = Phaser.Math.distance(this.x, this.y, this.followTarget.x, this.followTarget.y);
+
+        if (distanceFromFollowTarget <= Option.distanceFromFollowTarget) {
+            this.path = [];
         }
-        if (Option.maxDistancePerAxis > Math.abs(this.y - this.source.getSprite().body.y - 50)) {
-            this.y += diff.y * -1;
-        } else {
-            this.y += diff.y;
+
+        if (this.path.length === 0 && distanceFromFollowTarget > Option.distanceFromFollowTarget) {
+            this.populatePath();
+        }
+
+        let newPoint = this.path.shift() || this.position;
+
+        this.x = newPoint.x;
+        this.y = newPoint.y;
+    }
+
+    upgradeRockets() {
+        this.weaponSystem.upgradeRockets();
+    }
+
+    upgradeRipple() {
+        this.weaponSystem.upgradeRipple();
+    }
+
+    upgradeLaser() {
+        this.weaponSystem.upgradeLaser();
+    }
+
+    getShip() {
+        return this.ship;
+    }
+
+    private populatePath() {
+        let pathPoints = {x: [this.x, this.followTarget.x], y: [this.y, this.followTarget.y]};
+        let w = 1 / 20;
+        for (let i = 0; i <= 1; i += w) {
+            let px = Phaser.Math.linearInterpolation(pathPoints.x, i);
+            let py = Phaser.Math.linearInterpolation(pathPoints.y, i);
+
+            this.path.push(new Point(px, py));
         }
     }
 }

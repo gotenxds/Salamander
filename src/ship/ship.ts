@@ -18,6 +18,8 @@ import MovementSystem from "./systems/movementSystems";
 import WeaponsSystem from "./systems/weaponsSystem";
 import CollisionDetectionSystem from "./systems/collisionDetectionSystem";
 import ShipWeaponsSystem from "./systems/shipWeaponsSystem";
+import Option from "./option/option";
+import Point = Phaser.Point;
 
 export default class Ship extends Group {
     private movementSystem:MovementSystem;
@@ -30,10 +32,12 @@ export default class Ship extends Group {
     private isSpawning:boolean = false;
     private invisibilityTimer:Timer;
     private invisibilityTween:Tween;
+    private options:Option[] = [];
     onUpgradePickup:Signal;
     onEnemyKilled:Signal;
     onDeath:Signal;
     onMove:Signal;
+    onFire:Signal;
 
     constructor(game:Game) {
         super(game);
@@ -52,11 +56,12 @@ export default class Ship extends Group {
             right: Keyboard.D,
             left: Keyboard.A
         });
-        
+
         this.onUpgradePickup = this.collisionSystem.onUpgradePickup;
         this.onEnemyKilled = this.weaponsSystem.onEnemyKilled;
         this.onDeath = this.sprite.events.onKilled;
         this.onMove = this.movementSystem.onMove;
+        this.onFire = this.weaponsSystem.onFire;
     }
 
     spawn():void {
@@ -70,6 +75,9 @@ export default class Ship extends Group {
 
     kill() {
         this.sprite.kill();
+
+        this.options.forEach(op => op.destroy(true));
+        this.options = [];
     }
 
     update():void {
@@ -90,28 +98,42 @@ export default class Ship extends Group {
         }
     }
 
-    upgradeRockets(){
+    addOption() {
+        this.options.push(new Option(this.game, this, this.getNextFollowTarget(), this.weaponsSystem.exportData()));
+    }
+
+    private getNextFollowTarget() {
+        return this.options.length == 0 ? this.sprite : this.options[this.options.length - 1];
+    }
+
+    upgradeRockets() {
         this.weaponsSystem.upgradeRockets();
+
+        this.options.forEach(op => op.upgradeRockets());
     }
 
-    upgradeRipple(){
+    upgradeRipple() {
         this.weaponsSystem.upgradeRipple();
+
+        this.options.forEach(op => op.upgradeRipple());
     }
 
-    upgradeLaser(){
+    upgradeLaser() {
         this.weaponsSystem.upgradeLaser();
+
+        this.options.forEach(op => op.upgradeLaser());
     }
 
-    getSprite() : Sprite{
+    getSprite():Sprite {
         return this.sprite;
     }
 
-    get isInvincible():boolean{
+    get isInvincible():boolean {
         return !(this.invisibilityTween.isPaused || !this.invisibilityTween.isRunning);
     }
 
-    private resetToMiddleLeft() :void{
-        this.position.set(0, this.game.world.centerY);
+    private resetToMiddleLeft():void {
+        this.sprite.position.set(0, this.game.world.centerY);
     }
 
     private invisibilityPeriodOver():void {
@@ -158,7 +180,11 @@ export default class Ship extends Group {
         trail.anchor.set(1, .5);
 
         this.sprite.addChild(trail);
-        this.game.add.tween(trail).to({'scale.x': .5, 'scale.y': .2, alpha:.8}, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
+        this.game.add.tween(trail).to({
+            'scale.x': .5,
+            'scale.y': .2,
+            alpha: .8
+        }, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
         this.game.add.tween(trail).to({alpha: .8}, 250, Phaser.Easing.Exponential.InOut, true, 0, Infinity, true);
     };
 }

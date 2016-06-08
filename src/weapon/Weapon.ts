@@ -58,6 +58,14 @@ export default class Weapon extends Group {
         return !(this.game.time.time < this.nextFire);
     }
 
+    getLevel():number{
+        return this.level;
+    }
+
+    setLevel(level:number){
+        this.level = level;
+    }
+
     protected isActive() {
         return this.level > 0;
     }

@@ -56,7 +56,7 @@ export default class Monster extends Sprite {
             this.death.play(this);
             this.playPoints();
             
-            if (Math.random() >= .75){
+            if (Math.random() >= .0){
                 let upgrade = this.game.world.getByName('upgrades').getFirstDead(true, this.x, this.y);
                 upgrade.revive();
             }

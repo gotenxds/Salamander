@@ -10,6 +10,7 @@ import LaserGun from "../../weapon/laserGun";
 abstract class WeaponsSystem {
     game:Game;
     onEnemyKilled:Signal;
+    onFire:Signal;
 
     protected weapons;
     protected weapon:Weapon;
@@ -17,9 +18,10 @@ abstract class WeaponsSystem {
 
     constructor(game:Game) {
         this.onEnemyKilled = new Signal();
-        this.weapons = {doubleBullet: <DoubleBullet>new DoubleBullet(game),rippleGun: <RippleGun>new RippleGun(game),laserGun: <LaserGun>new LaserGun(game)};
-        this.rocketsLauncher = new RocketsLauncher(game);
-        this.weapon = this.weapons.doubleBullet;
+        this.onFire = new Signal();
+        this.weapons = {defaultWeapon: <DoubleBullet>new DoubleBullet(game),rippleGun: <RippleGun>new RippleGun(game),laserGun: <LaserGun>new LaserGun(game), rocketLauncher: new RocketsLauncher(game)};
+        this.rocketsLauncher = this.weapons.rocketLauncher;
+        this.weapon = this.weapons.defaultWeapon;
         this.game = game;
     }
 
@@ -35,7 +37,35 @@ abstract class WeaponsSystem {
         this.upgradeAndSet(this.weapons.rippleGun);
     }
 
-    abstract updateFire():void;
+    updateFire():void {
+        this.rocketsLauncher.fire(this.getPosition());
+    }
+
+    exportData(){
+        let currentWeaponName = this.weapons['defaultWeapon'] === this.weapon ? 'defaultWeapon' : this.weapon.name;
+
+        let data = {currentWeapon:currentWeaponName , levels:{}};
+
+        for (let weaponKey in this.weapons) {
+            if (this.weapons.hasOwnProperty(weaponKey)) {
+                let weapon = this.weapons[weaponKey];
+
+                data.levels[weaponKey] = weapon.getLevel();
+            }
+        }
+
+        return data;
+    }
+
+    importData(data){
+        this.weapon = this.weapons[data.currentWeapon];
+
+        for (let weaponKey in data.levels) {
+            if (data.levels.hasOwnProperty(weaponKey)) {
+                this.weapons[weaponKey].setLevel(data.levels[weaponKey]);
+            }
+        }
+    }
 
     private upgradeAndSet(rippleGun) {
         rippleGun.upgrade();
@@ -46,6 +76,7 @@ abstract class WeaponsSystem {
     protected fire():void {
         if (this.weapon.canFire()) {
             this.weapon.fire(this.getPosition());
+            this.onFire.dispatch();
         }
     }
 

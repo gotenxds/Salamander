@@ -31,7 +31,7 @@ export default class ShipWeaponsSystem extends WeaponsSystem{
             this.fire();
         }
 
-        this.rocketsLauncher.fire(this.getPosition());
+        super.updateFire();
     }
 
     protected fire():void {

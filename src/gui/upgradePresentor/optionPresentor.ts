@@ -10,5 +10,8 @@ export default class OptionPresentor extends UpgradePresentor {
     }
     
     upgrade(ship:Ship) {
+        super.upgrade(ship);
+
+        ship.addOption();
     }
 }
