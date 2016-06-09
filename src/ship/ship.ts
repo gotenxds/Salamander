@@ -197,6 +197,7 @@ export default class Ship extends Sprite {
             'scale.y': .2,
             alpha: .8
         }, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
+        this.game.add.tween(trail.scale).to({y: .2}, 250, Phaser.Easing.Linear.None, true, 0, Infinity, true);
         this.game.add.tween(trail).to({alpha: .8}, 250, Phaser.Easing.Exponential.InOut, true, 0, Infinity, true);
     };
 }

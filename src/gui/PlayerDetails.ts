@@ -2,7 +2,7 @@ import NineImage from "../utils/NineImage";
 import Game = Phaser.Game;
 import Sprite = Phaser.Sprite;
 import TextAsImage from "./textAsImage";
-export default class SinglePLayerGUI extends Sprite {
+export default class PlayerDetails extends Sprite {
     private scoreText:TextAsImage;
     private livesText:TextAsImage;
     private score:number = 0;
@@ -13,9 +13,9 @@ export default class SinglePLayerGUI extends Sprite {
         game.world.add(this);
 
         let playerIcon = this.createPlayerIcon(game, 'player1_icon');
-        let playerIconBackground = SinglePLayerGUI.createPlayerIconBackground(game, 'playerIconBackground');
-        let livesIcon = SinglePLayerGUI.createLivesIconBackground(game, playerIcon, 'lives_icon');
-        let XIcon = SinglePLayerGUI.createXIconBackground(game, livesIcon, playerIcon, 'lives_X');
+        let playerIconBackground = PlayerDetails.createPlayerIconBackground(game, 'playerIconBackground');
+        let livesIcon = PlayerDetails.createLivesIconBackground(game, playerIcon, 'lives_icon');
+        let XIcon = PlayerDetails.createXIconBackground(game, livesIcon, playerIcon, 'lives_X');
         this.createTextAsImages(game, playerIcon, XIcon);
 
         this.addChild(playerIconBackground);
@@ -83,7 +83,7 @@ export default class SinglePLayerGUI extends Sprite {
         let score = this.score.toString();
         let formattedScore = '';
         for (let i = score.length - 1; i >= 0; i--) {
-            if (SinglePLayerGUI.thereShouldBeACommaHere(i, score)) {
+            if (PlayerDetails.thereShouldBeACommaHere(i, score)) {
                 formattedScore = `,${score[i] + formattedScore}`;
             } else {
                 formattedScore = score[i] + formattedScore;
