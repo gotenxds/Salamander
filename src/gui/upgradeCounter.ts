@@ -55,13 +55,14 @@ export default class UpgradeCoutner extends Sprite {
     }
 
     resetCounter() {
-        this.getSelected().deSelect();
-        this.selectedIndex = -1;
+        if (this.selectedIndex !== -1){
+            this.getSelected().deSelect();
+            this.selectedIndex = -1;
+        }
     }
 
     completeReset(){
         this.resetCounter();
-        this.selectNext();
 
         this.presentors.forEach(presentor => presentor.resetLevel());
     }

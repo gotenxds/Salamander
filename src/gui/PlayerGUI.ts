@@ -18,6 +18,22 @@ export default class PlayerGUI{
         this.ship.onDeath.add(() => this.shipDied());
     }
 
+    multiplayerMode(leftSide:boolean = true){
+        this.upgradeCounter.scale.set(.6);
+        this.upgradeCounter.y = this.playerDetails.height + 10;
+
+        if (leftSide){
+            this.playerDetails.x += 70;
+
+            this.upgradeCounter.x = 200;
+        }else{
+            this.playerDetails.scale.set(-1, 1);
+
+            this.playerDetails.x = this.ship.game.width  - 70;
+            this.upgradeCounter.x = this.ship.game.width -210;
+        }
+    }
+
     private shipDied(){
         this.upgradeCounter.completeReset();
         this.playerDetails.addToLives(-1);
