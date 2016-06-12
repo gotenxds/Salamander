@@ -54,15 +54,24 @@ export default class UpgradeCoutner extends Sprite {
         }
     }
 
+    resetCounter() {
+        if (this.selectedIndex !== -1){
+            this.getSelected().deSelect();
+            this.selectedIndex = -1;
+        }
+    }
+
+    completeReset(){
+        this.resetCounter();
+
+        this.presentors.forEach(presentor => presentor.resetLevel());
+    }
+
     private viableForUpgrade() {
         return this.game.input.keyboard.isDown(this.upgradeKey) && this.selectedIndex !== -1 && !this.getSelected().maxedOut();
     }
 
     private getSelected():UpgradePresentor {
         return this.presentors[this.selectedIndex];
-    }
-
-    resetCounter() {
-        this.selectedIndex = -1;
     }
 }

@@ -48,6 +48,10 @@ abstract class UpgradePresentor extends Sprite {
         return this.level === this.maxLevel;
     }
 
+    resetLevel(){
+        this.level = 0;
+    }
+
     private disableIfMaxedOut() {
         if (this.maxedOut()) {
             this.text.visible = false;
