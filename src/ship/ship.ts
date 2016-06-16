@@ -55,10 +55,10 @@ export default class Ship extends Sprite {
         this.weaponsSystem = new ShipWeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
         this.collisionSystem = new CollisionDetectionSystem(game, this);
         this.movementSystem = new MovementSystem(game, this, {
-            up: Keyboard.W,
-            down: Keyboard.S,
-            right: Keyboard.D,
-            left: Keyboard.A
+            up: [Keyboard.W, Keyboard.UP],
+            down: [Keyboard.S, Keyboard.DOWN],
+            right: [Keyboard.D, Keyboard.RIGHT],
+            left: [Keyboard.A, Keyboard.LEFT]
         });
 
         this.onDamage = new Signal();

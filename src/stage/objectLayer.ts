@@ -5,6 +5,11 @@ import Image = Phaser.Image;
 import TileSprite = Phaser.TileSprite;
 import BitmapData = Phaser.BitmapData;
 export default class ObjectLayer extends Group {
+    private static FLIPPED_HORIZONTALLY_FLAG:number = 0x80000000;
+    private static FLIPPED_VERTICALLY_FLAG:number = 0x40000000;
+    private static FLIPPED_DIAGONALLY_FLAG:number = 0x20000000;
+
+
     private id:string;
     private _xVelocity:number = 0;
     private _yVelocity:number = 0;
@@ -18,54 +23,48 @@ export default class ObjectLayer extends Group {
         this.game = game;
         this.map = map;
 
-        let imgGroups = {};
-
-        objects.forEach(obj => {
-            if (obj.type === 'image') {
-
-                if (obj.properties.repeat) {
-                    this.tileSprites.push(this.createTileSprite(obj));
-                }
-                else {
-                    this.images.push(this.createImage(obj));
-                }
-            } else if (obj.type === 'imgGroup') {
-                if (imgGroups[obj.properties.imgGroup]) {
-                    imgGroups[obj.properties.imgGroup].images.push(obj);
-                } else {
-                    imgGroups[obj.properties.imgGroup] = {images: [obj]};
-                }
-            } else if (obj.type === 'imgGroupData') {
-                if (imgGroups[obj.properties.imgGroup]) {
-                    imgGroups[obj.properties.imgGroup].data = obj;
-                } else {
-                    imgGroups[obj.properties.imgGroup] = {images: [], data: obj};
-                }
-            }
-        });
-
-        for (let imgGroupName in imgGroups) {
-            let imgGroup = imgGroups[imgGroupName];
-            let bitmapData = new BitmapData(this.game, imgGroup.data.name, imgGroup.data.width, imgGroup.data.height);
-            imgGroup.images.forEach(imgData =>{
-                this.createFrom(imgData, this.game.cache.getImage(imgData.properties.img, true), bitmapData, imgGroup);
-            });
-            
-            if (imgGroup.data.properties.repeat){
-                this.tileSprites.push(this.game.add.tileSprite(imgGroup.data.x, imgGroup.data.y, imgGroup.data.width, imgGroup.data.height, bitmapData, null, this));
-            }else{
-                this.images.push(this.game.add.image(imgGroup.data.x, imgGroup.data.y, bitmapData, null, this));
-            }
-        }
+        this.createObjects(objects);
     }
 
+    private createTileSprite(obj) {
+        let baseImage = this.game.cache.getImage(obj.properties.img, true);
+        let tileSprite = this.game.add.tileSprite(obj.x, obj.y, this.game.width, obj.height, this.createBitmapDataFrom(obj, baseImage), null, this);
+        tileSprite.anchor.set(.5, .5);
+
+        obj.width = this.game.width;
+        ObjectLayer.transformPositionFromTiledPosition(tileSprite, obj);
+
+        this.tileSprites.push(tileSprite);
+    }
+
+    private createImage(obj) {
+        let baseImage = this.game.cache.getImage(obj.properties.img, true);
+        let image = this.game.add.image(0, 0, this.createBitmapDataFrom(obj, baseImage), null, this);
+        image.anchor.set(.5, .5);
+
+        ObjectLayer.transformPositionFromTiledPosition(image, obj);
+
+        this.images.push(image);
+    }
+
+    private static drawImage(imgData, baseImage:HTMLImageElement, bitmapData:Phaser.BitmapData, boundingRect:any) {
+        let image = new PIXI.Sprite(new PIXI.Texture(baseImage.base));
+        image.anchor.set(.5, .5);
+
+        ObjectLayer.transformPositionFromTiledPosition(image, imgData);
+        ObjectLayer.applyFlipData(imgData, image);
+
+        bitmapData.draw(image, image.x - boundingRect.data.x + Math.abs(image.width), image.y - boundingRect.data.y, imgData.width, imgData.height);
+    }
+
+
     update() {
-        var yup = true;
+        let yup = true;
 
         this.tileSprites.forEach(tileSprite => {
-            if (tileSprite.worldPosition.x <= 0) {
+            if (tileSprite.worldPosition.x <= this.game.world.centerX) {
                 yup = false;
-                tileSprite.tilePosition.x += this.xVelocity / 2;
+                tileSprite.tilePosition.x += this.xVelocity;
             }
         });
 
@@ -96,88 +95,90 @@ export default class ObjectLayer extends Group {
         this._yVelocity = value;
     }
 
-    private createFrom(imgData, baseImage:HTMLImageElement, bitmapData:Phaser.BitmapData, boundingRect:any) {
+    private createObjects(objects) {
+        let imgGroups = {};
+
+        objects.forEach(obj => {
+            if (obj.type === 'image') {
+                if (obj.properties.repeat) {
+                    this.createTileSprite(obj);
+                }
+                else {
+                    this.createImage(obj);
+                }
+            } else if (obj.type === 'imgGroup') {
+                if (imgGroups[obj.properties.imgGroup]) {
+                    imgGroups[obj.properties.imgGroup].images.push(obj);
+                } else {
+                    imgGroups[obj.properties.imgGroup] = {images: [obj]};
+                }
+            } else if (obj.type === 'imgGroupData') {
+                if (imgGroups[obj.properties.imgGroup]) {
+                    imgGroups[obj.properties.imgGroup].data = obj;
+                } else {
+                    imgGroups[obj.properties.imgGroup] = {images: [], data: obj};
+                }
+            }
+        });
+
+        this.createImageGroups(imgGroups);
+    };
+
+    private createImageGroups(imgGroups) {
+        for (let imgGroupName in imgGroups) {
+            let imgGroup = imgGroups[imgGroupName];
+            let bitmapData = new BitmapData(this.game, imgGroup.data.name, imgGroup.data.width, imgGroup.data.height);
+            imgGroup.images.forEach(imgData => {
+                ObjectLayer.drawImage(imgData, this.game.cache.getImage(imgData.properties.img, true), bitmapData, imgGroup);
+            });
+
+            if (imgGroup.data.properties.repeat) {
+                let tileSprite = this.game.add.tileSprite(imgGroup.data.x + imgGroup.data.width, imgGroup.data.y + imgGroup.data.height / 2, imgGroup.data.width, imgGroup.data.height, bitmapData, null, this);
+                tileSprite.anchor.set(.5, .5);
+
+                this.tileSprites.push(tileSprite);
+            } else {
+                let image = this.game.add.image(imgGroup.data.x + imgGroup.data.width, imgGroup.data.y + imgGroup.data.height / 2, bitmapData, null, this);
+                image.anchor.set(.5, .5);
+
+                this.images.push(image);
+            }
+        }
+    };
+
+    private createBitmapDataFrom(imgData, baseImage:HTMLImageElement):BitmapData {
         let image = new PIXI.Sprite(new PIXI.Texture(baseImage.base));
-
-        ObjectLayer.transformFromTiledData(image, imgData);
-
-        bitmapData.draw(image, imgData.x - (boundingRect.data.x || 0), imgData.y - (boundingRect.data.y  || 0) - imgData.height, imgData.width, imgData.height);
-    }
-
-    private createTileSprite(obj) {
-        var tileSprite = this.game.add.tileSprite(obj.x, obj.y, this.game.width, 500, obj.properties.img, null, this);
-        tileSprite.anchor.set(0, 1);
-
-        this.tileSprites.push(tileSprite);
-
-        tileSprite.angle = obj.rotation || 0;
-
-
-        if (obj.properties.horizontalFlip) {
-            tileSprite.scale.set(-1, 1);
-            tileSprite.y += tileSprite.height / 2;
-        }
-        if (obj.properties.verticalFlip) {
-            tileSprite.anchor.set(0, -1);
-            tileSprite.scale.set(1, -1);
-
-            // Because of tiled wired behavior.
-            tileSprite.y += tileSprite.height;
-        }
-
-        return tileSprite;
-    }
-
-    private createImage(obj) {
-        let bitmapData = new BitmapData(this.game, obj.name, obj.width, obj.height);
-
-        this.createFrom(obj, this.game.cache.getImage(obj.properties.img, true), bitmapData, {data:{x:0, y:0}});
-
-        this.images.push(this.game.add.image(0, 0, bitmapData, null, this));
-    }
-
-    private static applyDataOnImage(image:Phaser.Image, obj) {
-        image.anchor.set(0, 1);
-
-        image.angle = obj.rotation || 0;
-
-        if (obj.properties.horizontalFlip) {
-            image.scale.set(-1, 1);
-            image.x += Math.abs(image.width);
-            image.y += image.height / 2;
-        }
-        if (obj.properties.verticalFlip) {
-            image.scale.set(1, -1);
-
-            // Because of tiled wired behavior.
-            image.y -= Math.abs(image.height);
-        }
-    }
-
-    private static transformFromTiledData(image, imgData) {
-        imgData.rotation = Phaser.Math.degToRad(imgData.rotation || 0);
         image.anchor.set(.5, .5);
 
+        ObjectLayer.applyFlipData(imgData, image);
 
-        let centerX = imgData.width /2 ;
-        let centerY = imgData.height /2 ;
+        return new BitmapData(this.game, imgData.name, imgData.width, imgData.height)
+            .draw(image, imgData.width / 2, imgData.height / 2, imgData.width, imgData.height);
+    }
+
+    private static applyFlipData(imgData, image) {
+        if (imgData.gid & ObjectLayer.FLIPPED_HORIZONTALLY_FLAG) {
+            image.rotation *= -1;
+            image.scale.x = -1;
+        }
+        if (imgData.gid & ObjectLayer.FLIPPED_VERTICALLY_FLAG) {
+            image.scale.y = -1;
+        }
+    };
+
+    private static transformPositionFromTiledPosition(image:Phaser.Image | PIXI.Sprite, imgData:any) {
+        image.rotation = Phaser.Math.degToRad(imgData.rotation || 0);
+
+        let centerX = imgData.width / 2;
+        let centerY = -imgData.height / 2;
 
         let cosRotation = Math.cos(image.rotation);
         let sinRotation = Math.sin(image.rotation);
 
-        imgData.x += centerX * cosRotation - centerY * sinRotation;
-        imgData.y += centerX * sinRotation + centerY * cosRotation;
+        image.x = centerX * cosRotation - centerY * sinRotation;
+        image.y = centerX * sinRotation + centerY * cosRotation;
 
-        if (imgData.properties.horizontalFlip) {
-            image.scale.x = -1;
-         //   image.x += Math.abs(image.width);
-            //image.y += image.height / 2;
-        }
-        if (imgData.properties.verticalFlip) {
-            image.scale.y = -1;
-
-            // Because of tiled wired behavior.
-           // image.y -= Math.abs(image.height);
-        }
+        image.x += imgData.x;
+        image.y += imgData.y;
     }
 }

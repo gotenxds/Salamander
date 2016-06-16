@@ -11,6 +11,7 @@ import UpgradeCoutner from "./gui/upgradeCounter";
 import Option from "./ship/option/option";
 import Point = Phaser.Point;
 import ObjectLayer from "./stage/objectLayer";
+import PlayerGUI from "./gui/PlayerGUI";
 
 export default class GameLoop extends Phaser.State {
     ship:Ship;
@@ -36,8 +37,7 @@ export default class GameLoop extends Phaser.State {
             .forEach(layer => {
                 var objectLayer = new ObjectLayer(this.game, layer.name, layer.objects, map);
                 objectLayer.xVelocity = -x;
-                objectLayer.resizeWorld();
-                x += .5;
+                x += 2;
             });
 
         upgrades.classType = Upgrade;
@@ -66,9 +66,7 @@ export default class GameLoop extends Phaser.State {
         //});
 
         this.ship = new Ship(this.game);
-        this.ship.onEnemyKilled.add(args => this.gui.addToScore(args.monster.getPoints()));
-        this.ship.onDeath.add(() => this.gui.addToLives(-1));
-        this.ship.onUpgradePickup.add(ship => this.upgradeCounter.selectNext());
+        new PlayerGUI(this.game, this.ship);
         this.ship.spawn();
             this.ship.addOption();
             this.ship.addOption();
