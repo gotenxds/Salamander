@@ -1,0 +1,674 @@
+{
+  "frames": {
+    "roubi1_9": {
+      "frame": {
+        "x": 117,
+        "y": 475,
+        "w": 127,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 127,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 127,
+        "h": 136
+      }
+    },
+    "roubi1_10": {
+      "frame": {
+        "x": 132,
+        "y": 0,
+        "w": 125,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 125,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 125,
+        "h": 136
+      }
+    },
+    "roubi1_11": {
+      "frame": {
+        "x": 649,
+        "y": 139,
+        "w": 124,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 124,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 124,
+        "h": 136
+      }
+    },
+    "roubi1_12": {
+      "frame": {
+        "x": 649,
+        "y": 514,
+        "w": 122,
+        "h": 135
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 122,
+        "h": 135
+      },
+      "sourceSize": {
+        "w": 122,
+        "h": 135
+      }
+    },
+    "roubi1_13": {
+      "frame": {
+        "x": 132,
+        "y": 276,
+        "w": 120,
+        "h": 134
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 134
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 134
+      }
+    },
+    "roubi1_14": {
+      "frame": {
+        "x": 518,
+        "y": 463,
+        "w": 118,
+        "h": 135
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 118,
+        "h": 135
+      },
+      "sourceSize": {
+        "w": 118,
+        "h": 135
+      }
+    },
+    "roubi1_15": {
+      "frame": {
+        "x": 518,
+        "y": 235,
+        "w": 116,
+        "h": 137
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 116,
+        "h": 137
+      },
+      "sourceSize": {
+        "w": 116,
+        "h": 137
+      }
+    },
+    "roubi1_1": {
+      "frame": {
+        "x": 0,
+        "y": 475,
+        "w": 116,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 116,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 116,
+        "h": 136
+      }
+    },
+    "roubi1_2": {
+      "frame": {
+        "x": 258,
+        "y": 101,
+        "w": 118,
+        "h": 138
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 118,
+        "h": 138
+      },
+      "sourceSize": {
+        "w": 118,
+        "h": 138
+      }
+    },
+    "roubi1_3": {
+      "frame": {
+        "x": 132,
+        "y": 137,
+        "w": 120,
+        "h": 138
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 138
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 138
+      }
+    },
+    "roubi1_4": {
+      "frame": {
+        "x": 258,
+        "y": 240,
+        "w": 123,
+        "h": 138
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 123,
+        "h": 138
+      },
+      "sourceSize": {
+        "w": 123,
+        "h": 138
+      }
+    },
+    "roubi1_5": {
+      "frame": {
+        "x": 649,
+        "y": 375,
+        "w": 124,
+        "h": 138
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 124,
+        "h": 138
+      },
+      "sourceSize": {
+        "w": 124,
+        "h": 138
+      }
+    },
+    "roubi1_6": {
+      "frame": {
+        "x": 385,
+        "y": 287,
+        "w": 127,
+        "h": 139
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 127,
+        "h": 139
+      },
+      "sourceSize": {
+        "w": 127,
+        "h": 139
+      }
+    },
+    "roubi1_7": {
+      "frame": {
+        "x": 649,
+        "y": 0,
+        "w": 128,
+        "h": 138
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 138
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 138
+      }
+    },
+    "roubi1_8": {
+      "frame": {
+        "x": 518,
+        "y": 0,
+        "w": 130,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 130,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 136
+      }
+    },
+    "roubi2_1": {
+      "frame": {
+        "x": 127,
+        "y": 612,
+        "w": 129,
+        "h": 103
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 129,
+        "h": 103
+      },
+      "sourceSize": {
+        "w": 129,
+        "h": 103
+      }
+    },
+    "roubi2_2": {
+      "frame": {
+        "x": 385,
+        "y": 187,
+        "w": 128,
+        "h": 99
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 99
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 99
+      }
+    },
+    "roubi2_3": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 98
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 98
+      },
+      "sourceSize": {
+        "w": 131,
+        "h": 98
+      }
+    },
+    "roubi2_4": {
+      "frame": {
+        "x": 513,
+        "y": 612,
+        "w": 131,
+        "h": 95
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 95
+      },
+      "sourceSize": {
+        "w": 131,
+        "h": 95
+      }
+    },
+    "roubi2_5": {
+      "frame": {
+        "x": 385,
+        "y": 0,
+        "w": 132,
+        "h": 95
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 132,
+        "h": 95
+      },
+      "sourceSize": {
+        "w": 132,
+        "h": 95
+      }
+    },
+    "roubi2_6": {
+      "frame": {
+        "x": 245,
+        "y": 475,
+        "w": 133,
+        "h": 94
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 133,
+        "h": 94
+      },
+      "sourceSize": {
+        "w": 133,
+        "h": 94
+      }
+    },
+    "roubi2_7": {
+      "frame": {
+        "x": 385,
+        "y": 96,
+        "w": 130,
+        "h": 90
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 130,
+        "h": 90
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 90
+      }
+    },
+    "roubi2_8": {
+      "frame": {
+        "x": 518,
+        "y": 373,
+        "w": 130,
+        "h": 89
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 130,
+        "h": 89
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 89
+      }
+    },
+    "roubi2_9": {
+      "frame": {
+        "x": 379,
+        "y": 475,
+        "w": 130,
+        "h": 93
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 130,
+        "h": 93
+      },
+      "sourceSize": {
+        "w": 130,
+        "h": 93
+      }
+    },
+    "roubi2_10": {
+      "frame": {
+        "x": 518,
+        "y": 137,
+        "w": 127,
+        "h": 97
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 127,
+        "h": 97
+      },
+      "sourceSize": {
+        "w": 127,
+        "h": 97
+      }
+    },
+    "roubi2_11": {
+      "frame": {
+        "x": 386,
+        "y": 612,
+        "w": 126,
+        "h": 95
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 95
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 95
+      }
+    },
+    "roubi2_12": {
+      "frame": {
+        "x": 649,
+        "y": 276,
+        "w": 125,
+        "h": 98
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 125,
+        "h": 98
+      },
+      "sourceSize": {
+        "w": 125,
+        "h": 98
+      }
+    },
+    "roubi2_13": {
+      "frame": {
+        "x": 258,
+        "y": 0,
+        "w": 126,
+        "h": 100
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 100
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 100
+      }
+    },
+    "roubi2_14": {
+      "frame": {
+        "x": 0,
+        "y": 612,
+        "w": 126,
+        "h": 105
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 105
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 105
+      }
+    },
+    "roubi2_15": {
+      "frame": {
+        "x": 257,
+        "y": 612,
+        "w": 128,
+        "h": 103
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 103
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 103
+      }
+    },
+    "horn_down": {
+      "frame": {
+        "x": 0,
+        "y": 414,
+        "w": 140,
+        "h": 60
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 140,
+        "h": 60
+      },
+      "sourceSize": {
+        "w": 140,
+        "h": 60
+      }
+    },
+    "horn_up": {
+      "frame": {
+        "x": 141,
+        "y": 414,
+        "w": 144,
+        "h": 60
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 144,
+        "h": 60
+      },
+      "sourceSize": {
+        "w": 144,
+        "h": 60
+      }
+    },
+    "horn": {
+      "frame": {
+        "x": 0,
+        "y": 99,
+        "w": 105,
+        "h": 314
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 105,
+        "h": 314
+      },
+      "sourceSize": {
+        "w": 105,
+        "h": 314
+      }
+    }
+  },
+  "meta": {
+    "app": "https://www.leshylabs.com/apps/sstool/",
+    "version": "Leshy SpriteSheet Tool v0.8.4",
+    "image": "stage1_roubi.png",
+    "size": {
+      "w": 777,
+      "h": 717
+    },
+    "scale": 1
+  }
+}

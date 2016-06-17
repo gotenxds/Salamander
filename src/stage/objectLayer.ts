@@ -4,18 +4,47 @@ import Tilemap = Phaser.Tilemap;
 import Image = Phaser.Image;
 import TileSprite = Phaser.TileSprite;
 import BitmapData = Phaser.BitmapData;
+import Sprite = Phaser.Sprite;
+import Sprite = Phaser.Sprite;
 export default class ObjectLayer extends Group {
     private static FLIPPED_HORIZONTALLY_FLAG:number = 0x80000000;
     private static FLIPPED_VERTICALLY_FLAG:number = 0x40000000;
     private static FLIPPED_DIAGONALLY_FLAG:number = 0x20000000;
-
+    private objectFactory = {
+        image: obj => {
+            if (obj.properties.repeat) {
+                this.createTileSprite(obj);
+            }
+            else {
+                this.createImage(obj);
+            }
+        },
+        imgGroup: (obj, imgGroups) => {
+            if (imgGroups[obj.properties.imgGroup]) {
+                imgGroups[obj.properties.imgGroup].images.push(obj);
+            } else {
+                imgGroups[obj.properties.imgGroup] = {images: [obj]};
+            }
+        },
+        imgGroupData: (obj, imgGroups) => {
+            if (imgGroups[obj.properties.imgGroup]) {
+                imgGroups[obj.properties.imgGroup].data = obj;
+            } else {
+                imgGroups[obj.properties.imgGroup] = {images: [], data: obj};
+            }
+        },
+        object: (obj) => {
+            this.objects.push(obj)
+        }
+    };
 
     private id:string;
     private _xVelocity:number = 0;
     private _yVelocity:number = 0;
     private map:Tilemap;
-    private images:[Image] = [];
+    private images:Image[] = [];
     private tileSprites:[TileSprite] = [];
+    private objects:any[] = [];
 
     constructor(game:Game, id:string, objects:[any], map:Tilemap) {
         super(game);
@@ -25,6 +54,16 @@ export default class ObjectLayer extends Group {
 
         this.createObjects(objects);
     }
+
+    private createObjects(objects) {
+        let imgGroups = {};
+
+        objects.forEach(obj => {
+            this.objectFactory[obj.type || 'object'](obj, imgGroups);
+        });
+
+        this.createImageGroups(imgGroups);
+    };
 
     private createTileSprite(obj) {
         let baseImage = this.game.cache.getImage(obj.properties.img, true);
@@ -57,7 +96,6 @@ export default class ObjectLayer extends Group {
         bitmapData.draw(image, image.x - boundingRect.data.x + Math.abs(image.width), image.y - boundingRect.data.y, imgData.width, imgData.height);
     }
 
-
     update() {
         let yup = true;
 
@@ -74,9 +112,7 @@ export default class ObjectLayer extends Group {
     }
 
     resizeWorld() {
-
         this.game.world.setBounds(0, 0, this.map.widthInPixels * this.scale.x, this.map.heightInPixels * this.scale.y);
-
     };
 
     get xVelocity() {
@@ -95,34 +131,19 @@ export default class ObjectLayer extends Group {
         this._yVelocity = value;
     }
 
-    private createObjects(objects) {
-        let imgGroups = {};
-
-        objects.forEach(obj => {
-            if (obj.type === 'image') {
-                if (obj.properties.repeat) {
-                    this.createTileSprite(obj);
-                }
-                else {
-                    this.createImage(obj);
-                }
-            } else if (obj.type === 'imgGroup') {
-                if (imgGroups[obj.properties.imgGroup]) {
-                    imgGroups[obj.properties.imgGroup].images.push(obj);
-                } else {
-                    imgGroups[obj.properties.imgGroup] = {images: [obj]};
-                }
-            } else if (obj.type === 'imgGroupData') {
-                if (imgGroups[obj.properties.imgGroup]) {
-                    imgGroups[obj.properties.imgGroup].data = obj;
-                } else {
-                    imgGroups[obj.properties.imgGroup] = {images: [], data: obj};
-                }
+    createFromObjects(name:string, createFunction:(obj) => Sprite) {
+        this.objects.forEach(object => {
+            if (object.name === name) {
+                let sprite = createFunction(object);
+                
+                sprite.anchor.set(.5, .5);
+                ObjectLayer.applyFlipData(object, sprite);
+                ObjectLayer.transformPositionFromTiledPosition(sprite, object);
+                
+                this.add(sprite);
             }
         });
-
-        this.createImageGroups(imgGroups);
-    };
+    }
 
     private createImageGroups(imgGroups) {
         for (let imgGroupName in imgGroups) {
@@ -133,12 +154,12 @@ export default class ObjectLayer extends Group {
             });
 
             if (imgGroup.data.properties.repeat) {
-                let tileSprite = this.game.add.tileSprite(imgGroup.data.x + imgGroup.data.width, imgGroup.data.y + imgGroup.data.height / 2, imgGroup.data.width, imgGroup.data.height, bitmapData, null, this);
+                let tileSprite = this.game.add.tileSprite(imgGroup.data.x + imgGroup.data.width / 2, imgGroup.data.y + imgGroup.data.height / 2, imgGroup.data.width, imgGroup.data.height, bitmapData, null, this);
                 tileSprite.anchor.set(.5, .5);
 
                 this.tileSprites.push(tileSprite);
             } else {
-                let image = this.game.add.image(imgGroup.data.x + imgGroup.data.width, imgGroup.data.y + imgGroup.data.height / 2, bitmapData, null, this);
+                let image = this.game.add.image(imgGroup.data.x + imgGroup.data.width / 2, imgGroup.data.y + imgGroup.data.height / 2, bitmapData, null, this);
                 image.anchor.set(.5, .5);
 
                 this.images.push(image);
@@ -182,3 +203,4 @@ export default class ObjectLayer extends Group {
         image.y += imgData.y;
     }
 }
+

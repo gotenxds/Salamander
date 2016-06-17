@@ -1,11 +1,12 @@
 import Tilemap = Phaser.Tilemap;
 export default class Stage extends Phaser.State {
 
-    private mapId:String;
+    private mapId:string;
     private assetsLocation:string;
     private map:Tilemap;
 
     constructor(mapId:string, assetsLocation:string){
+        super();
         this.mapId = mapId;
         this.assetsLocation = assetsLocation;
     }

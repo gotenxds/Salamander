@@ -51,6 +51,7 @@ export default class Preloader extends Phaser.State {
         }
 
         this.game.load.tilemap('map1', '/assets/stages/1/map.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.atlasJSONHash('stage1Environment', '/assets/stages/1/stage1_roubi.png','/assets/stages/1/stage1_roubi.json');
 
         this.ready = true;
     };

@@ -12,6 +12,7 @@ import Option from "./ship/option/option";
 import Point = Phaser.Point;
 import ObjectLayer from "./stage/objectLayer";
 import PlayerGUI from "./gui/PlayerGUI";
+import EnvironmentObstacle from "./stage/enviromentObstacle";
 
 export default class GameLoop extends Phaser.State {
     ship:Ship;
@@ -20,8 +21,7 @@ export default class GameLoop extends Phaser.State {
     upgradeCounter:UpgradeCoutner;
     weapons:Weapon[];
     dayanguai:Dayanguai;
-    
-    ol:ObjectLayer;
+    objectLayers:{[key:string]:ObjectLayer} = {};
 
     public create() {
         
@@ -35,10 +35,16 @@ export default class GameLoop extends Phaser.State {
         map1Json.layers
             .filter(layer => layer.type === 'objectgroup')
             .forEach(layer => {
-                var objectLayer = new ObjectLayer(this.game, layer.name, layer.objects, map);
-                objectLayer.xVelocity = -x;
-                x += 2;
+                this.objectLayers[layer.name] = new ObjectLayer(this.game, layer.name, layer.objects, map);
+                this.objectLayers[layer.name].xVelocity = -x;
             });
+
+        this.objectLayers['foreground'].createFromObjects('redAllgy1', allgy =>
+           new EnvironmentObstacle(this.game, allgy, 'stage1Environment', 'roubi1_', 15));
+
+        this.objectLayers['foreground'].createFromObjects('redAllgy2', allgy =>
+           new EnvironmentObstacle(this.game, allgy, 'stage1Environment', 'roubi2_', 15));
+
 
         upgrades.classType = Upgrade;
         // upgrades.createMultiple(5, '');
