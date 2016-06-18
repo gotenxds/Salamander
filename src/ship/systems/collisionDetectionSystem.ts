@@ -10,7 +10,7 @@ export default class CollisionDetectionSystem {
     constructor(game:Game, ship:Ship) {
         this.game = game;
         this.ship = ship;
-        
+
         this.onUpgradePickup = new Signal();
     }
 
@@ -18,6 +18,7 @@ export default class CollisionDetectionSystem {
     checkCollisions():void {
         this.game.world.getByName('monsters').forEachAlive(this.checkMonster.bind(this));
         this.game.world.getByName('upgrades').forEachAlive(this.checkUpgrade.bind(this));
+        this.game.world.getByName('foreground').forEachAlive(this.checkObstacle.bind(this));
     };
 
     private checkMonster(monster) {
@@ -25,18 +26,26 @@ export default class CollisionDetectionSystem {
             if (!this.ship.isInvincible) {
                 this.ship.damage(1);
 
-                if(this.ship.alive){
+                if (this.ship.alive) {
                     monster.kill();
                 }
             }
         }
     }
-    
+
     private checkUpgrade(upgrade) {
         if (this.game.physics.arcade.collide(this.ship, upgrade)) {
             upgrade.kill();
-            
+
             this.onUpgradePickup.dispatch(this.ship);
+        }
+    }
+
+    private checkObstacle(obstacle) {
+        if (this.game.physics.arcade.collide(this.ship, obstacle)) {
+            if (!this.ship.isInvincible) {
+                this.ship.kill();
+            }
         }
     }
 }

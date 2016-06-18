@@ -13,8 +13,9 @@ import Point = Phaser.Point;
 import ObjectLayer from "./stage/objectLayer";
 import PlayerGUI from "./gui/PlayerGUI";
 import EnvironmentObstacle from "./stage/enviromentObstacle";
+import Stage from "./stage/stage";
 
-export default class GameLoop extends Phaser.State {
+export default class GameLoop extends Stage {
     ship:Ship;
     keys = {Key};
     gui:SinglePlayerGUI;
@@ -24,11 +25,9 @@ export default class GameLoop extends Phaser.State {
     objectLayers:{[key:string]:ObjectLayer} = {};
 
     public create() {
-        
         var map = this.game.add.tilemap('map1');
         var map1Json = this.cache.getJSON('map1Data');
 
-        this.game.add.group(this.game.world, 'monsters');
         var upgrades = this.game.add.group(this.game.world, 'upgrades');
 
         var x =5;
@@ -38,6 +37,7 @@ export default class GameLoop extends Phaser.State {
                 this.objectLayers[layer.name] = new ObjectLayer(this.game, layer.name, layer.objects, map);
                 this.objectLayers[layer.name].xVelocity = -x;
             });
+        this.game.add.group(this.game.world, 'monsters');
 
         this.objectLayers['foreground'].createFromObjects('redAllgy1', allgy =>
            new EnvironmentObstacle(this.game, allgy, 'stage1Environment', 'roubi1_', 15));
@@ -46,30 +46,29 @@ export default class GameLoop extends Phaser.State {
            new EnvironmentObstacle(this.game, allgy, 'stage1Environment', 'roubi2_', 15));
 
 
-        upgrades.classType = Upgrade;
-        // upgrades.createMultiple(5, '');
-        //
-        // this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        //
-        // let monsters = this.game.world.getByName('monsters');
-        // var y = 700;
-        // for (let yy = 0; yy < 3; yy++, y -= 300) {
-        //     var pathPoints = Dayanguai.generatePathPoints(700, y);
-        //     for (var i = 1; i < 5; i++) {
-        //         var x = i * 100 + 700;
-        //         pathPoints.x.unshift(x);
-        //         pathPoints.y.unshift(y);
-        //
-        //         monsters.add(new Dayanguai(this.game, x, y, pathPoints), false);
-        //     }
-        //
-        //     monsters.add(new Haimian(this.game, y), false);
-        // }
+        this.objectLayers['foreground']
+            .getObjectsByName('dayanguai')
+            .forEach(mobData => {
+               this.addEvent(() => this.objectLayers['foreground'].inBounds(mobData.x, mobData.y), 
+                   () =>{
+                       let pathPoints = Dayanguai.generatePathPoints(700, mobData.y);
+                       pathPoints.x.unshift(this.game.world.width);
+                       pathPoints.y.unshift(mobData.y);
+                       let dayanguai2 = new Dayanguai(this.game, this.game.world.centerX, this.game.world.centerY, pathPoints);
+                       this.game.world.getByName('monsters').add(dayanguai2, false);
+                   })
+            });
 
-        //let loop = this.game.add.sound('mission_1_loop', .5);
-        //this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
+
+        upgrades.classType = Upgrade;
+        upgrades.createMultiple(5, '');
+        
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // let loop = this.game.add.sound('mission_1_loop', .5);
+        // this.game.add.sound('mission_1_intro', .5).play().onStop.addOnce(() => {
         //    loop.loopFull();
-        //});
+        // });
 
         this.ship = new Ship(this.game);
         new PlayerGUI(this.game, this.ship);
@@ -83,5 +82,6 @@ export default class GameLoop extends Phaser.State {
     };
 
     public update() {
+        super.update();
     };
 }

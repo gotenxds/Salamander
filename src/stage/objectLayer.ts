@@ -47,7 +47,7 @@ export default class ObjectLayer extends Group {
     private objects:any[] = [];
 
     constructor(game:Game, id:string, objects:[any], map:Tilemap) {
-        super(game);
+        super(game, game.world, id);
         this.id = id;
         this.game = game;
         this.map = map;
@@ -131,18 +131,31 @@ export default class ObjectLayer extends Group {
         this._yVelocity = value;
     }
 
+    getObjectsByName(name:string):[any] {
+        return this.objects.filter(obj => obj.name === name);
+    }
+
     createFromObjects(name:string, createFunction:(obj) => Sprite) {
         this.objects.forEach(object => {
             if (object.name === name) {
                 let sprite = createFunction(object);
-                
+
                 sprite.anchor.set(.5, .5);
                 ObjectLayer.applyFlipData(object, sprite);
                 ObjectLayer.transformPositionFromTiledPosition(sprite, object);
-                
+
                 this.add(sprite);
             }
         });
+    }
+
+    inBounds(x:number, y:number):boolean{
+        let startX = Math.abs(this.position.x);
+        let endX = startX + this.game.width;
+        let startY = Math.abs(this.position.y);
+        let endY = startY + this.game.height;
+
+        return x >= startX && x <= endX && y >= startY && y <= endY;
     }
 
     private createImageGroups(imgGroups) {
