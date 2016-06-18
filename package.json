@@ -1,6 +1,6 @@
 {
   "name": "salamander",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "start": "budo src/main.js:bundle.js --live",

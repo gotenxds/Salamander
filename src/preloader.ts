@@ -43,12 +43,6 @@ export default class Preloader extends Phaser.State {
         this.game.load.audio('upgrade_laser', '/assets/audio/upgrades/upgrade_laser.mp3');
         this.game.load.audio('upgrade_option', '/assets/audio/upgrades/upgrade_option.mp3');
         this.game.load.audio('upgrade_force', '/assets/audio/upgrades/upgrade_force.mp3');
-        
-        var map1Data = this.game.cache.getJSON('map1Data');
-        for (var imgIndex in map1Data.tilesets[0].tiles){
-            var name = map1Data.tilesets[0].tiles[imgIndex].image;
-            this.game.load.image(name, `/assets/stages/1/${name}`);
-        }
 
         this.game.load.tilemap('map1', '/assets/stages/1/map.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.atlasJSONHash('stage1Environment', '/assets/stages/1/stage1_roubi.png','/assets/stages/1/stage1_roubi.json');
@@ -65,12 +59,9 @@ export default class Preloader extends Phaser.State {
     };
 
     public update() {
-        // if (!!this.ready) {
         this.game.state.start('menu');
-        // }
     };
 
     public onLoadComplete() {
-        // this.ready = true;
     }
 }

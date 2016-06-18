@@ -16,7 +16,7 @@ export default class MovementSystem {
     private ship:Ship;
     onMove :Signal;
 
-    constructor(game:Game, ship:Ship, keySchema:{up:[number],down:[number],right:[number],left:[number]}) {
+    constructor(game:Game, ship:Ship, keySchema:{up:number,down:number,right:number,left:number}) {
         this.game = game;
         this.ship = ship;
         this.keySchema = keySchema;
@@ -130,23 +130,7 @@ export default class MovementSystem {
         this.ship.body.x -= this.speed;
     }
 
-    private initializeKeyToMovement(keySchema:{up:[number],down:[number],right:[number],left:[number]}):void {
-        let keyTypes = [
-            { name: 'up', func: () => this.moveUp() },
-            { name: 'down', func: () => this.moveDown() },
-            { name: 'right', func: () => this.moveRight() },
-            { name: 'left', func: () => this.moveLeft() },
-        ];
-
-        for (let keyType of keyTypes) {
-            let keys = keySchema[keyType.name];
-
-            for (let key of keys) {
-                this.keyToMovement.push({ key, func: keyType.func });
-            }
-        }
-
-
+    private initializeKeyToMovement(keySchema:{up:number,down:number,right:number,left:number}):void {
         this.keyToMovement.push({key: keySchema.up, func: () => this.moveUp()});
         this.keyToMovement.push({key: keySchema.down, func: () => this.moveDown()});
         this.keyToMovement.push({key: keySchema.right, func: () => this.moveRight()});

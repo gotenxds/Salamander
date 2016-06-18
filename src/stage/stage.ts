@@ -1,29 +1,59 @@
 import Tilemap = Phaser.Tilemap;
-export default class Stage extends Phaser.State {
+import Group = Phaser.Group;
+import Upgrade from "../upgrades/upgrade";
+import ObjectLayer from "./objectLayer";
+import PlayerGUI from "../gui/PlayerGUI";
+import Ship from "../ship/ship";
+abstract class Stage extends Phaser.State {
 
     private mapId:string;
     private assetsLocation:string;
-    private map:Tilemap;
-    protected onEvents:StageEvent[] = [];
 
-    // constructor(mapId:string, assetsLocation:string){
-    //     super();
-    //     this.mapId = mapId;
-    //     this.assetsLocation = assetsLocation;
-    // }
+    protected mapData;
+    protected map:Tilemap;
+    protected onEvents:StageEvent[] = [];
+    protected monsters:Group;
+    protected upgrades:Group;
+    protected objectLayers:{[key:string]:ObjectLayer} = {};
+    protected playerGUI:PlayerGUI;
+    protected ship:Ship;
+
+
+    constructor(mapId:string, assetsLocation:string){
+        super();
+        this.mapId = mapId;
+        this.assetsLocation = assetsLocation;
+    }
 
     preload() {
-        // var mapData = this.game.cache.getJSON('map1Data');
-        //
-        // for (let imgIndex in mapData.tilesets[0].tiles){
-        //     let name = mapData.tilesets[0].tiles[imgIndex].image;
-        //     this.game.load.image(name, `${this.assetsLocation}/${name}`);
-        // }
+        this.mapData = this.game.cache.getJSON(`${this.mapId}Data`);
+        
+        for (let imgIndex in this.mapData.tilesets[0].tiles){
+            let name = this.mapData.tilesets[0].tiles[imgIndex].image;
+            this.game.load.image(name, `${this.assetsLocation}/${name}`);
+        }
     }
 
     create() {
-        // this.game.add.group(this.game.world, 'environmentObstacles');
-        // this.map = this.game.add.tilemap(this.mapId);
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        this.monsters = this.game.add.group(this.game.world, 'monsters');
+        this.upgrades = this.game.add.group(this.game.world, 'upgrades');
+        this.map = this.game.add.tilemap(this.mapId);
+
+        this.upgrades.classType = Upgrade;
+        this.upgrades.createMultiple(5, '');
+
+        this.createObjectLayers();
+        this.createEnvironment();
+        this.createMonsters();
+        this.playStageMusic();
+        
+        this.game.world.bringToTop(this.monsters);
+        this.game.world.bringToTop(this.upgrades);
+
+        this.ship = new Ship(this.game);
+        this.playerGUI = new PlayerGUI(this.game, this.ship);
     };
 
     update() {
@@ -50,9 +80,21 @@ export default class Stage extends Phaser.State {
         this.onEvents.push(new StageEvent(predicate, call, once))
     }
 
-    onInputDown() {
-        this.game.state.start('game');
-    };
+    protected createObjectLayers() {
+        var x = 5;
+        this.mapData.layers
+            .filter(layer => layer.type === 'objectgroup')
+            .forEach(layer => {
+                this.objectLayers[layer.name] = new ObjectLayer(this.game, layer.name, layer.objects, this.map);
+                this.objectLayers[layer.name].xVelocity = -x;
+            });
+    }
+
+    protected abstract createMonsters();
+
+    protected abstract createEnvironment();
+
+    protected abstract playStageMusic();
 }
 
 class StageEvent {
@@ -66,3 +108,5 @@ class StageEvent {
         this.once = once;
     }
 }
+
+export default Stage;

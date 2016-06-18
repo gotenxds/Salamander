@@ -7,20 +7,17 @@ import Key = Phaser.Key;
 import Group = Phaser.Group;
 import Game = Phaser.Game;
 import Tween = Phaser.Tween;
-import Weapon from "../weapon/Weapon";
-import DoubleBullet from "../weapon/DoubleBullet";
-import Dayanguai from "../monsters/dayanguai";
 import BlueExplosion from "../monsters/death/blueExplosion";
 import {createBlue} from "../monsters/death/explostions";
-import Timer = Phaser.Timer;
 import MovementSystem from "./systems/movementSystems";
 import WeaponsSystem from "./systems/weaponsSystem";
 import CollisionDetectionSystem from "./systems/collisionDetectionSystem";
 import ShipWeaponsSystem from "./systems/shipWeaponsSystem";
 import Option from "./option/option";
+import Force from "./force";
+import Timer = Phaser.Timer;
 import Point = Phaser.Point;
 import Sprite = Phaser.Sprite;
-import Force from "./force";
 
 export default class Ship extends Sprite {
     private movementSystem:MovementSystem;
@@ -55,10 +52,10 @@ export default class Ship extends Sprite {
         this.weaponsSystem = new ShipWeaponsSystem(game, this, this.sparkSprite, {fire: Keyboard.SPACEBAR});
         this.collisionSystem = new CollisionDetectionSystem(game, this);
         this.movementSystem = new MovementSystem(game, this, {
-            up: [Keyboard.W, Keyboard.UP],
-            down: [Keyboard.S, Keyboard.DOWN],
-            right: [Keyboard.D, Keyboard.RIGHT],
-            left: [Keyboard.A, Keyboard.LEFT]
+            up: Keyboard.W,
+            down: Keyboard.S,
+            right: Keyboard.D,
+            left: Keyboard.A
         });
 
         this.onDamage = new Signal();

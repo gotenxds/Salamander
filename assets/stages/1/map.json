@@ -3346,6 +3346,28 @@
                  "width":88,
                  "x":2912,
                  "y":536
+                }, 
+                {
+                 "height":88,
+                 "id":487,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":3536,
+                 "y":432
+                }, 
+                {
+                 "height":88,
+                 "id":488,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":3536,
+                 "y":152
                 }],
          "offsetx":-16,
          "offsety":0,
@@ -3356,7 +3378,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":487,
+ "nextobjectid":489,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tileheight":32,
