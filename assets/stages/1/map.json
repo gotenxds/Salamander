@@ -3356,7 +3356,7 @@
                  "visible":true,
                  "width":88,
                  "x":3536,
-                 "y":432
+                 "y":431
                 }, 
                 {
                  "height":88,
@@ -3368,6 +3368,50 @@
                  "width":88,
                  "x":3536,
                  "y":152
+                }, 
+                {
+                 "height":88,
+                 "id":489,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":4264,
+                 "y":639
+                }, 
+                {
+                 "height":88,
+                 "id":490,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":4264,
+                 "y":360
+                }, 
+                {
+                 "height":88,
+                 "id":491,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":4800,
+                 "y":447
+                }, 
+                {
+                 "height":88,
+                 "id":492,
+                 "name":"haimian",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":88,
+                 "x":4800,
+                 "y":168
                 }],
          "offsetx":-16,
          "offsety":0,
@@ -3378,7 +3422,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":489,
+ "nextobjectid":493,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tileheight":32,
