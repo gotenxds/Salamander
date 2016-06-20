@@ -9,9 +9,9 @@ export default class Upgrade extends Sprite {
 
     constructor(game:Game) {
         super(game, 700, 700, 'upgrades', 'upgrade_1_center');
+        game.physics.arcade.enable(this);
         game.world.add(this);
         game.world.getByName("upgrades").add(this);
-        game.physics.arcade.enable(this);
         this.pickupSound = game.add.sound('ship.pickupUpgrade');
 
         let leftSprite = new Sprite(game, -13, 23.5, 'upgrades', 'upgrade_1_left');
@@ -36,6 +36,10 @@ export default class Upgrade extends Sprite {
         
         this.pickedTween = this.game.add.tween(this.scale).to({'x':0, y:0}, 200, Phaser.Easing.Linear.None, false, 0);
         this.pickedTween.onComplete.add(super.kill, this);
+    }
+
+    update(){
+        this.x -= 2;
     }
 
     kill() : Sprite{
