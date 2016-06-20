@@ -6,6 +6,7 @@ import TextAsImage from "../gui/TextAsImage";
 import Tween = Phaser.Tween;
 export default class Monster extends Sprite {
     protected path:{x:number,y:number}[] = [];
+    protected dropRate:number = .75;
     private pathIndex:number = 0;
     private death:Explosion;
     private pointsDisplay:TextAsImage;
@@ -25,13 +26,13 @@ export default class Monster extends Sprite {
         this.points = points;
 
         this.checkWorldBounds = true;
-        this.outOfBoundsKill = true;
-        
+        this.outOfBoundsKill = false;
+
         this.events.onKilled.add(() => this.killed())
     }
 
     update():void {
-        if (this.alive) {
+        if (this.alive && this.hasWhereToGo()) {
             this.x = this.path[this.pathIndex].x;
             this.y = this.path[this.pathIndex].y;
 
@@ -44,19 +45,35 @@ export default class Monster extends Sprite {
         return this.points;
     }
 
+    setPath(path:{x:number,y:number}[]) {
+        this.path = path;
+        this.pathIndex = 0;
+    }
+    getPath() {
+        return this.path;
+    }
+
+    hasWhereToGo():boolean {
+        return this.path.length > this.pathIndex;
+    }
+
+    getRemainingPath():{x:number,y:number}[] {
+        return this.path.slice(this.pathIndex - 1, this.path.length - 1);
+    }
+
     private playPoints() {
         this.pointsDisplay.alpha = 1;
         this.pointsDisplay.position.set(this.x, this.y);
-        this.pointsTween.updateTweenData('vEnd', <any>{alpha : 0, 'y': this.y - 20});
+        this.pointsTween.updateTweenData('vEnd', <any>{alpha: 0, 'y': this.y - 20});
         this.pointsTween.start();
     }
 
     private killed() {
-        if (this.inWorld){
+        if (this.inWorld) {
             this.death.play(this);
             this.playPoints();
-            
-            if (Math.random() >= .75){
+
+            if (Math.random() >= this.dropRate) {
                 let upgrade = this.game.world.getByName('upgrades').getFirstDead(true, this.x, this.y);
                 upgrade.revive();
             }

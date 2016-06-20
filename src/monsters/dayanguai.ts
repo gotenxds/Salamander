@@ -4,28 +4,42 @@ import Math = Phaser.Math;
 import Monster from "./monster";
 
 export default class Dayanguai extends Monster {
-    static movementStatesX:number[] = [-230, 150];
-    static movementStatesY:number[] = [0, -150];
+    static movementStatesX:number[] = [-1000, 300];
+    static movementStatesY:number[] = [0, -300];
 
     private topShell:Image;
     private bottomShell:Image;
+    private _pathPoints:{x:number[],y:number[]};
 
     constructor(game:Game, x:number, y:number, pathPoints:{x:number[],y:number[]}, color:string = 'red') {
         super(game, x, y, 'monsters.dayanguai', 90, `${color}Eye.png`);
+        this.dropRate = 100;
+        this.pathPoints = pathPoints;
 
         this.initializeSprites(game, color);
-        this.initializePath(game, pathPoints);
     }
 
-    static generatePathPoints(x:number, y:number): {x:number[],y:number[]}{
+    get pathPoints():{x: number[], y: number[]} {
+        return this._pathPoints;
+    }
+
+    set pathPoints(pathPoints:{x: number[], y: number[]}) {
+        this._pathPoints = pathPoints;
+
+        this.populatePath();
+    }
+
+    static generatePathPoints(startX:number, startY:number, centerY:number): {x:number[],y:number[]}{
         let points = {x:[], y:[]};
 
         for(let i = 0; i < 15; i++){
-            points.x.push(x);
-            points.y.push(y);
+            points.x.push(startX);
+            points.y.push(startY);
 
-            x += this.movementStatesX[i % this.movementStatesX.length];
-            y += this.movementStatesY[i % this.movementStatesY.length];
+            let movementY = this.movementStatesY[i % this.movementStatesY.length];
+
+            startX += this.movementStatesX[i % this.movementStatesX.length];
+            startY += this.aboveCenter(startY, centerY) ? movementY : -movementY;
         }
 
         return points;
@@ -49,13 +63,21 @@ export default class Dayanguai extends Monster {
         game.add.tween(this.bottomShell).to({y: 64}, 500, Phaser.Easing.Bounce.InOut, true, 0, Infinity, true);
     }
 
-    private initializePath(game, pathPoints) {
-        let w = 1 / game.width;
-        for (let i = 0; i <= 1; i += w) {
-            let px = Math.linearInterpolation(pathPoints.x, i);
-            let py = Math.linearInterpolation(pathPoints.y, i);
+    private populatePath() {
+        if (this._pathPoints){
+            this.setPath([]);
 
-            this.path.push({x: px, y: py});
+            let w = 1 / this.game.width;
+            for (let i = 0; i <= 1; i += w) {
+                let px = Math.linearInterpolation(this._pathPoints.x, i);
+                let py = Math.linearInterpolation(this._pathPoints.y, i);
+
+                this.path.push({x: px, y: py});
+            }
         }
     };
+
+    private static aboveCenter(y:number, centerY:number):boolean {
+        return y < centerY;
+    }
 }

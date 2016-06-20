@@ -8,6 +8,7 @@ import Stage from "./stage/stage";
 import Keyboard = Phaser.Keyboard;
 import Key = Phaser.Key;
 import Point = Phaser.Point;
+import DayanguaiGroup from "./monsters/dayanguaiGroup";
 
 export default class FirstStage extends Stage {
     
@@ -27,13 +28,7 @@ export default class FirstStage extends Stage {
             .getObjectsByName('dayanguai')
             .forEach(mobData => {
                 this.addEvent(() => this.objectLayers['foreground'].inBounds(mobData.x, mobData.y),
-                    () => {
-                        let pathPoints = Dayanguai.generatePathPoints(700, mobData.y);
-                        pathPoints.x.unshift(this.game.world.width);
-                        pathPoints.y.unshift(mobData.y);
-                        let dayanguai2 = new Dayanguai(this.game, this.game.world.centerX, this.game.world.centerY, pathPoints);
-                        this.game.world.getByName('monsters').add(dayanguai2, false);
-                    })
+                    () => new DayanguaiGroup(this.game, mobData.y))
             });
         this.objectLayers['foreground']
             .getObjectsByName('haimian')

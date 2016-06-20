@@ -81,7 +81,7 @@ abstract class Stage extends Phaser.State {
     }
 
     protected createObjectLayers() {
-        var x = 5;
+        var x = 1.3;
         this.mapData.layers
             .filter(layer => layer.type === 'objectgroup')
             .forEach(layer => {

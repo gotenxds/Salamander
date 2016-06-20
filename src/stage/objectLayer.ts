@@ -10,6 +10,15 @@ export default class ObjectLayer extends Group {
     private static FLIPPED_HORIZONTALLY_FLAG:number = 0x80000000;
     private static FLIPPED_VERTICALLY_FLAG:number = 0x40000000;
     private static FLIPPED_DIAGONALLY_FLAG:number = 0x20000000;
+
+    private id:string;
+    private _xVelocity:number = 0;
+    private _yVelocity:number = 0;
+    private map:Tilemap;
+    private images:Image[] = [];
+    private tileSprites:[TileSprite] = [];
+    private objects:any[] = [];
+
     private objectFactory = {
         image: obj => {
             if (obj.properties.repeat) {
@@ -37,14 +46,6 @@ export default class ObjectLayer extends Group {
             this.objects.push(obj)
         }
     };
-
-    private id:string;
-    private _xVelocity:number = 0;
-    private _yVelocity:number = 0;
-    private map:Tilemap;
-    private images:Image[] = [];
-    private tileSprites:[TileSprite] = [];
-    private objects:any[] = [];
 
     constructor(game:Game, id:string, objects:[any], map:Tilemap) {
         super(game, game.world, id);
