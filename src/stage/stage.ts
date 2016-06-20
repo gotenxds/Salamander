@@ -18,7 +18,6 @@ abstract class Stage extends Phaser.State {
     protected playerGUI:PlayerGUI;
     protected ship:Ship;
 
-
     constructor(mapId:string, assetsLocation:string){
         super();
         this.mapId = mapId;
@@ -48,6 +47,8 @@ abstract class Stage extends Phaser.State {
         this.createEnvironment();
         this.createMonsters();
         this.playStageMusic();
+
+        this.objectLayers['foreground'].resizeWorld();
         
         this.game.world.bringToTop(this.monsters);
         this.game.world.bringToTop(this.upgrades);

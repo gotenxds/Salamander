@@ -26,7 +26,7 @@ export default class Monster extends Sprite {
         this.points = points;
 
         this.checkWorldBounds = true;
-        this.outOfBoundsKill = false;
+        this.outOfBoundsKill = true;
 
         this.events.onKilled.add(() => this.killed())
     }
@@ -39,7 +39,6 @@ export default class Monster extends Sprite {
             this.pathIndex++;
         }
     }
-
 
     getPoints():number {
         return this.points;
